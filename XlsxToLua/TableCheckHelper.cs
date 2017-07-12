@@ -2069,9 +2069,10 @@ public class TableCheckHelper
                     #region 多表多字段情况 ref:table[entry_item.item_id,entry_item_weapon.weapon_id,entry_partner.entry_id](except{0})
 
                     const string START_STRING2 = "table[";
+                    int rightBracketIndex2 = temp.LastIndexOf(']');
                     if (temp.StartsWith(START_STRING2, StringComparison.CurrentCultureIgnoreCase))//如果是以 ref:table开头则
                     {
-                        temp = temp.Substring(START_STRING2.Length,temp.Length-7).Trim();//提交[]内的表名和字段
+                        temp = temp.Substring(START_STRING2.Length,rightBracketIndex2-9).Trim();//提交[]内的表名和字段
                         if (string.IsNullOrEmpty(temp))
                         {
                             errorString = string.Format("值引用检查规则声明错误，\"{0}\"的后面必须跟[表格名.字段名,表格名.字段名]\n", START_STRING2);
