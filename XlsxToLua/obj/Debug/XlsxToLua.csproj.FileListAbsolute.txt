@@ -4,3 +4,4 @@ E:\my\Source\Code\xlsxtolua\XlsxToLua\bin\Debug\LitJson.dll
 E:\my\Source\Code\xlsxtolua\XlsxToLua\bin\Debug\MySql.Data.dll
 E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.exe
 E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.pdb
+E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.csprojResolveAssemblyReference.cache
