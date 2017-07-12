@@ -30,7 +30,7 @@ public class Program
     ///    -exportJson（后面在英文小括号内声明本次要额外导出json文件的Excel文件名，用|分隔，或者用$all表示全部。注意如果-part参数中未指定本次要导出某个Excel表，即便声明要导出json文件也不会生效）
     ///    -exportJsonParam（可声明导出json文件的参数）
     /// </summary>
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         // 检查第1个参数（Excel表格所在目录）是否正确
         if (args.Length < 1)
@@ -42,11 +42,11 @@ public class Program
         Utils.Log(string.Format("选择的Excel所在路径：{0}", AppValues.ExcelFolderPath));
 
         // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
-        List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"));
+        List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"));//完整路径和文件名
         List<string> existExcelFileNames = new List<string>();
         foreach (string filePath in existExcelFilePaths)
-            existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath));
-
+            existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath));//不带扩展名的文件名称，如item
+        #region 检查第2参数
         // 检查第2个参数（存放导出lua文件的目录）是否正确
         if (args.Length < 2)
             Utils.LogErrorAndExit("错误：未输入要将生成lua文件存放的路径");
@@ -92,6 +92,9 @@ public class Program
         }
         else
             Utils.LogErrorAndExit(string.Format("错误：输入的lang文件不存在，路径为{0}", args[3]));
+
+        #endregion
+        #region 检查其他参数
 
         // 检查其他参数
         for (int i = 4; i < args.Length; ++i)
@@ -550,6 +553,8 @@ public class Program
                 Utils.LogErrorAndExit(string.Format("错误：未知的指令参数{0}", param));
         }
 
+        #endregion 检查其他参数
+
         // 如果设置了部分导出，则检查是否对同一个表格既声明了-part又声明了-except
         if (AppValues.ExportTableNames.Count > 0)
         {
@@ -620,7 +625,7 @@ public class Program
         }
         else
             Utils.LogWarning(string.Format("警告：找不到本工具所在路径下的{0}配置文件，请确定是否真的不需要自定义配置", AppValues.CONFIG_FILE_NAME));
-
+        #region 读取部分配置项并进行检查
         // 读取部分配置项并进行检查
         const string ERROR_STRING_FORMAT = "配置项\"{0}\"所设置的值\"{1}\"非法：{2}\n";
         StringBuilder errorStringBuilder = new StringBuilder();
@@ -668,7 +673,7 @@ public class Program
             errorConfigString = string.Concat("配置文件中存在以下错误，请修正后重试\n", errorConfigString);
             Utils.LogErrorAndExit(errorConfigString);
         }
-
+        #endregion
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
         Utils.Log("开始解析Excel所在目录下的所有Excel文件：");
         Stopwatch stopwatch = new Stopwatch();
