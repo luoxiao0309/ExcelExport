@@ -1,0 +1,7 @@
+E:\my\Source\Code\xlsxtolua\TableStringChecker\bin\Debug\TableStringChecker.exe
+E:\my\Source\Code\xlsxtolua\TableStringChecker\bin\Debug\TableStringChecker.pdb
+E:\my\Source\Code\xlsxtolua\TableStringChecker\obj\Debug\TableStringChecker.MainForm.resources
+E:\my\Source\Code\xlsxtolua\TableStringChecker\obj\Debug\TableStringChecker.Properties.Resources.resources
+E:\my\Source\Code\xlsxtolua\TableStringChecker\obj\Debug\TableStringChecker.csproj.GenerateResource.Cache
+E:\my\Source\Code\xlsxtolua\TableStringChecker\obj\Debug\TableStringChecker.exe
+E:\my\Source\Code\xlsxtolua\TableStringChecker\obj\Debug\TableStringChecker.pdb

@@ -1,0 +1,9 @@
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\obj\Debug\Interop.VBIDE.dll
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\obj\Debug\MySQLToExcel.csproj.ResolveComReference.cache
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\bin\Debug\MySQLToExcel.exe
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\bin\Debug\MySQLToExcel.pdb
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\bin\Debug\MySql.Data.dll
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\bin\Debug\Interop.VBIDE.dll
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\obj\Debug\MySQLToExcel.csprojResolveAssemblyReference.cache
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\obj\Debug\MySQLToExcel.exe
+E:\my\Source\Code\xlsxtolua\MySQLToExcel\obj\Debug\MySQLToExcel.pdb
