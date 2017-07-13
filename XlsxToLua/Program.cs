@@ -39,12 +39,33 @@ public class Program
 
         // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
          // List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"));//完整路径和文件名
-        existExcelFilePaths = XlsxToLua.DirectoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath));
+        existExcelFilePaths = XlsxToLua.DirectoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xlsx");
 
         //foreach(string filePath in existExcelFilePaths)
         //    existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath));//不带扩展名的文件名称，如item
+       
+        Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
         foreach (var filePath in existExcelFilePaths)
-            existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath.FileName));//不带扩展名的文件名称，如item
+        {
+            string strP = Path.GetFileNameWithoutExtension(filePath.FileName);
+            if(dic.ContainsKey(strP))//存在该key
+            {
+                dic[strP].Add(filePath.FilePath);
+            }
+            else
+            {
+                dic.Add(strP, new List<string> { filePath.FilePath });
+            }
+            existExcelFileNames.Add(strP);//不带扩展名的文件名称，如item
+            //dic.Add(strP, filePath.FilePath);
+        }
+        foreach(KeyValuePair<string,List<string>>kvp in dic)
+        {
+           if( kvp.Value.Count>1)
+            {
+
+            }
+        }
 
         Program.chek2(args);
 

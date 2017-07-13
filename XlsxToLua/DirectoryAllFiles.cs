@@ -23,5 +23,20 @@ namespace XlsxToLua
             }
             return FileList;
         }
+
+        public static List<FileInformation> GetAllFiles(DirectoryInfo dir,string str)
+        {
+            FileInfo[] allFile = dir.GetFiles(str);
+            foreach (FileInfo fi in allFile)
+            {
+                FileList.Add(new FileInformation { FileName = fi.Name, FilePath = fi.FullName });
+            }
+            DirectoryInfo[] allDir = dir.GetDirectories();
+            foreach (DirectoryInfo d in allDir)
+            {
+                GetAllFiles(d,str);
+            }
+            return FileList;
+        }
     }
 }
