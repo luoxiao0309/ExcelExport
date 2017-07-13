@@ -1,1 +1,1 @@
-XlsxToLua.exe TestExcel ExportLua ClientVirtual lang.txt -columnInfo -allowedNullNumber -printEmptyStringWhenLangNotMatching
+"XlsxToLua.exe" "TestExcel" "ExportLua" "ClientVirtual" "-noLang" "-columnInfo" "-allowedNullNumber" 
