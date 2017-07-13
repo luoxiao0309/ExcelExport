@@ -10,7 +10,7 @@ using System.Text;
 
 public class Program
 {
-
+   static List<XlsxToLua.FileInformation> existExcelFilePaths;
    static List<string> existExcelFileNames = new List<string>();
     /// <summary>
     /// 传入参数中，第1个必须为Excel表格所在目录，第2个必须为存放导出lua文件的目录，第3个参数为项目Client目录的路径（无需文件存在型检查规则则填-noClient），第4个参数为必须为lang文件路径（没有填-noLang）
@@ -39,7 +39,7 @@ public class Program
 
         // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
          // List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"));//完整路径和文件名
-        List<XlsxToLua.FileInformation> existExcelFilePaths = XlsxToLua.DirectoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath));
+        existExcelFilePaths = XlsxToLua.DirectoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath));
 
         //foreach(string filePath in existExcelFilePaths)
         //    existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath));//不带扩展名的文件名称，如item
@@ -221,9 +221,12 @@ public class Program
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
         Utils.Log("开始解析Excel所在目录下的所有Excel文件：");
         Stopwatch stopwatch = new Stopwatch();
-        foreach (string filePath in Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"))
-        {
-            string fileName = Path.GetFileNameWithoutExtension(filePath);
+        //foreach (string filePath in Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"))
+        //{
+            foreach (var filePath in existExcelFilePaths)
+            { 
+                //string fileName = Path.GetFileNameWithoutExtension(filePath);
+            string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);//不带扩展名的文件名称，如item
             if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
                 continue;
 
@@ -232,14 +235,14 @@ public class Program
             stopwatch.Start();
 
             string errorString = null;
-            DataSet ds = XlsxReader.ReadXlsxFile(filePath, out errorString);
+            DataSet ds = XlsxReader.ReadXlsxFile(filePath.FilePath, out errorString);
             stopwatch.Stop();
             Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
             if (string.IsNullOrEmpty(errorString))
             {
                 TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName, out errorString);
                 if (errorString != null)
-                    Utils.LogErrorAndExit(string.Format("错误：解析{0}失败\n{1}", filePath, errorString));
+                    Utils.LogErrorAndExit(string.Format("错误：解析{0}失败\n{1}", filePath.FilePath, errorString));
                 else
                 {
                     // 如果有表格配置进行解析
@@ -254,7 +257,7 @@ public class Program
                 }
             }
             else
-                Utils.LogErrorAndExit(string.Format("错误：读取{0}失败\n{1}", filePath, errorString));
+                Utils.LogErrorAndExit(string.Format("错误：读取{0}失败\n{1}", filePath.FilePath, errorString));
         }
         #endregion
 
@@ -417,14 +420,23 @@ public class Program
         // 如果未指定导出部分Excel文件，则全部导出，但要排除设置了进行忽略的
         if (AppValues.ExportTableNames.Count == 0)
         {
-            foreach (string filePath in Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"))
+            //foreach (string filePath in Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"))
+            //{
+            //    string fileName = Path.GetFileNameWithoutExtension(filePath);
+            //    if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
+            //        Utils.LogWarning(string.Format("目录中的{0}文件为Excel自动生成的临时文件，将被忽略处理", filePath));
+            //    else if (!AppValues.ExceptExportTableNames.Contains(fileName))
+            //        AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath));
+            //}
+            foreach (var filePath in existExcelFilePaths)
             {
-                string fileName = Path.GetFileNameWithoutExtension(filePath);
+                string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);//不带扩展名的文件名称，如item
                 if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
-                    Utils.LogWarning(string.Format("目录中的{0}文件为Excel自动生成的临时文件，将被忽略处理", filePath));
+                    Utils.LogWarning(string.Format("目录中的{0}文件为Excel自动生成的临时文件，将被忽略处理", filePath.FilePath));
                 else if (!AppValues.ExceptExportTableNames.Contains(fileName))
-                    AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath));
+                    AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath.FilePath));
             }
+
         }
     }
     

@@ -2,12 +2,14 @@ programPath:XlsxToLua.exe
 excelFolderPath:TestExcel
 exportLuaFolderPath:ExportLua
 clientFolderPath:ClientVirtual
-langFilePath:-noLang
+langFilePath:lang.txt
+-except:TestChecker
 -exportCsvParam_extension:csv
 -exportCsvParam_splitString:,
 -exportJsonParam_extension:txt
 -columnInfo:true
 -allowedNullNumber:true
+isCheckedExcept:true
 -exportCsvParam_isExportColumnName:true
 -exportCsvParam_isExportColumnDataType:true
 isCheckedUseRelativePath:true
