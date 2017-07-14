@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;//先导入这个使用正则表达式
 
 /// <summary>
 /// 该类定义那些复杂非通用的检查条件所需要手工编写的检查函数
@@ -9,6 +10,45 @@ using System.Text;
 /// </summary>
 public static class MyCheckFunction
 {
+    public static bool CheckIsChinese(FieldInfo fieldInfo, out string errorString)
+    {
+        errorString = null;
+        if(fieldInfo.DataType==DataType.String)
+        {
+            // 存储检查出的空值对应的行号
+            List<int> ChineseDataLines = new List<int>();
+            Regex reg = new Regex(@"[\uFE30-\uFFA0]");//(@"[\u4e00-\u9fa5]");//正则表达式
+            for(int i=0; i<fieldInfo.Data.Count; ++i)
+            {
+                if (reg.IsMatch(fieldInfo.Data[i].ToString()))
+                {
+                    ChineseDataLines.Add(i);
+                }
+            }
+            if (ChineseDataLines.Count > 0)
+            {
+                StringBuilder errorStringBuild = new StringBuilder();
+                errorStringBuild.Append("存在以下中文标点数据，行号分别为：");
+                string separator = ", ";
+                foreach (int lineNum in ChineseDataLines)
+                    errorStringBuild.AppendFormat("{0}{1}", lineNum + AppValues.DATA_FIELD_DATA_START_INDEX + 1, separator);
+
+                // 去掉末尾多余的", "
+                errorStringBuild.Remove(errorStringBuild.Length - separator.Length, separator.Length);
+
+                errorStringBuild.Append("\n");
+                errorString = errorStringBuild.ToString();
+
+                return false;
+            }
+        }
+        else
+        {
+            errorString = string.Format("自定义函数CheckIsChinese只能检查string类型，{0}中{1}列{2}不是string类型",fieldInfo.TableName,fieldInfo.ColumnSeq,fieldInfo.ChildField);
+            return false;
+        }
+        return true;
+    }
     /// <summary>
     /// 检查奖励列表字段是否配置正确，要求字段的数据结构必须为array[dict[3]:n]，定义一种奖励类型的三个int型字段分别叫type、id、count，每个奖励项的类型必须存在，除道具类型之外不允许奖励同一种类型，奖励数量必须大于0，如果是道具类型则道具id在道具表中要存在
     /// </summary>
