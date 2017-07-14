@@ -59,13 +59,33 @@ public class Program
             existExcelFileNames.Add(strP);//不带扩展名的文件名称，如item
             //dic.Add(strP, filePath.FilePath);
         }
-        foreach(KeyValuePair<string,List<string>>kvp in dic)
+        Utils.Log("\n开始检查Excel中是否有同名文件：");
+        bool bl = true;
+        foreach (KeyValuePair<string,List<string>>kvp in dic)
         {
            if( kvp.Value.Count>1)
             {
-
+                bl = false;
+                
+                Utils.LogError("\n存在同名Excel文件："+kvp.Key+"，位置如下：");
+               // Utils.Log(kvp.Key);
+                foreach (string  st in kvp.Value)
+                {
+                    Utils.LogError(st);
+                }
             }
         }
+        if(bl)
+        {
+            Utils.Log("\nExcel同名检查完毕，没有发现同名文件\n");
+        }
+        else
+        {
+            Utils.LogError("\nExcel同名检查完毕，但存在上面所列同名文件，必须全部修正后才可以进行表格导出\n");
+            // 将错误信息全部输出保存到txt文件中
+            Utils.SaveErrorInfoToFile();
+            Utils.LogErrorAndExit("\n按任意键退出本工具");
+    }
 
         Program.chek2(args);
 
