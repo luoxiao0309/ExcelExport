@@ -8,13 +8,16 @@ namespace XlsxToLua
 {
     public class DirectoryAllFiles
     {
-        static List<FileInformation> FileList = new List<FileInformation>();
-        public static List<FileInformation> GetAllFiles(DirectoryInfo dir)
+
+      public  List<FileInformation> FileList = new List<FileInformation>();
+        
+        public  List<FileInformation> GetAllFiles(DirectoryInfo dir)
         {
             FileInfo[] allFile = dir.GetFiles();
             foreach (FileInfo fi in allFile)
             {
-                FileList.Add(new FileInformation { FileName = fi.Name, FilePath = fi.FullName });
+               
+               FileList.Add(new FileInformation { FileName = fi.Name, FilePath = fi.FullName });
             }
             DirectoryInfo[] allDir = dir.GetDirectories();
             foreach (DirectoryInfo d in allDir)
@@ -24,7 +27,7 @@ namespace XlsxToLua
             return FileList;
         }
 
-        public static List<FileInformation> GetAllFiles(DirectoryInfo dir,string str)
+        public  List<FileInformation> GetAllFiles(DirectoryInfo dir,string str)
         {
             FileInfo[] allFile = dir.GetFiles(str);
             foreach (FileInfo fi in allFile)

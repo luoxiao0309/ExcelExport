@@ -10,7 +10,9 @@ using System.Text;
 
 public class Program
 {
-   static List<XlsxToLua.FileInformation> existExcelFilePaths;
+
+    //List<FileInformation>
+    static List<XlsxToLua.FileInformation> existExcelFilePaths=new List<XlsxToLua.FileInformation>();
    static List<string> existExcelFileNames = new List<string>();
     /// <summary>
     /// 传入参数中，第1个必须为Excel表格所在目录，第2个必须为存放导出lua文件的目录，第3个参数为项目Client目录的路径（无需文件存在型检查规则则填-noClient），第4个参数为必须为lang文件路径（没有填-noLang）
@@ -38,8 +40,9 @@ public class Program
         Program.chek1(args);
 
         // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
-         // List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"));//完整路径和文件名
-        existExcelFilePaths = XlsxToLua.DirectoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xls");
+        // List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"));//完整路径和文件名
+        XlsxToLua.DirectoryAllFiles directoryAllFiles = new XlsxToLua.DirectoryAllFiles();
+        existExcelFilePaths =directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xls");
 
         //foreach(string filePath in existExcelFilePaths)
         //    existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath));//不带扩展名的文件名称，如item
@@ -150,6 +153,10 @@ public class Program
             {
                 AppValues.IsAllowedNullNumber = true;
                 Utils.LogWarning("警告：你选择了允许int、long、float字段中存在空值，建议为逻辑上不允许为空的数值型字段声明使用notEmpty检查规则");
+            }
+            else if(param.StartsWith(AppValues.CHECK_PNG,StringComparison.CurrentCultureIgnoreCase))
+            {
+                Program.chek8(args, param);
             }
             else
                 Utils.LogErrorAndExit(string.Format("错误：未知的指令参数{0}", param));
@@ -985,4 +992,84 @@ public class Program
         }
     }
 
+    private static void chek8(string[] args,string param)
+    {
+
+        string pngPath = null;
+        int leftBracketIndex = param.IndexOf('(');
+        int rightBracketIndex = param.LastIndexOf(')');
+        if (leftBracketIndex == -1 || rightBracketIndex == -1 || leftBracketIndex > rightBracketIndex)
+        {
+            Utils.LogErrorAndExit(string.Format("错误：声明检查png同名文件的参数{0}后必须在英文小括号内声明png路径", AppValues.CHECK_PNG));
+        }
+        else
+        {
+            string paramString = param.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
+            string[] keyAndValue = paramString.Split(new char[] { '=' });
+            if (keyAndValue.Length != 2)
+            {
+                Utils.LogErrorAndExit(string.Format("声明的{0}参数下属的参数字符串{1}错误，参数名和配置值之间应用=分隔", AppValues.CHECK_PNG, paramString));
+            }
+            else
+            {
+                string key = keyAndValue[0].Trim();
+                string value = keyAndValue[1];
+                if (AppValues.CHECK_PNG_PATH.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // 检查导出路径是否存在
+                    if (!Directory.Exists(value))
+                        Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的路径不存在", AppValues.CHECK_PNG, AppValues.CHECK_PNG_PATH));
+                    else
+                        pngPath = value;
+                }
+            }
+        }
+      
+        List<XlsxToLua.FileInformation> existPngFilePaths=new List<XlsxToLua.FileInformation>();
+        List<string> existPngFileNames = new List<string>();
+        XlsxToLua.DirectoryAllFiles directoryAllFiles2 = new XlsxToLua.DirectoryAllFiles();
+        existPngFilePaths =directoryAllFiles2.GetAllFiles(new System.IO.DirectoryInfo(pngPath), "*.png");
+
+        Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+        foreach (var filePath in existPngFilePaths)
+        {
+            string strP = Path.GetFileNameWithoutExtension(filePath.FileName);
+            if (dic.ContainsKey(strP))//存在该key
+            {
+                dic[strP].Add(filePath.FilePath);
+            }
+            else
+            {
+                dic.Add(strP, new List<string> { filePath.FilePath });
+            }
+            existPngFileNames.Add(strP);//不带扩展名的文件名称，如item
+        }
+        Utils.Log("\n开始检查指定路径中中是否有同名png文件");
+        bool bl = true;
+        foreach (KeyValuePair<string, List<string>> kvp in dic)
+        {
+            if (kvp.Value.Count > 1)
+            {
+                bl = false;
+
+                Utils.LogError("\n存在同名Png文件：" + kvp.Key + "，位置如下：");
+                // Utils.Log(kvp.Key);
+                foreach (string st in kvp.Value)
+                {
+                    Utils.LogError(st);
+                }
+            }
+        }
+        if (bl)
+        {
+            Utils.Log(string.Format("Png同名检查完毕，没有发现同名文件\n"), ConsoleColor.Green);
+        }
+        else
+        {
+            Utils.LogError("\n检查Png同名完毕，但存在上面所列同名png文件，必须全部修正后才可以进行表格导出\n");
+            // 将错误信息全部输出保存到txt文件中
+            Utils.SaveErrorInfoToFile();
+            Utils.LogErrorAndExit("\n按任意键退出本工具");
+        }
+    }
 }

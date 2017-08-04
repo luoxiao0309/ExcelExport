@@ -176,6 +176,14 @@ public class AppValues
     /// 配置文件（配置自定义的检查规则）的文件名
     /// </summary>
     public const string CONFIG_FILE_NAME = "config.txt";
+    /// <summary>
+    /// 检查png文件是否存在重复
+    /// </summary>
+    public const string CHECK_PNG = "-checkPng";
+    /// <summary>
+    /// 检查png文件是否存在重复,png文件路径
+    /// </summary>
+    public const string CHECK_PNG_PATH= "chekPath";
 
     // 每张数据表前五行分别声明字段描述、字段变量名、字段数据类型、字段检查规则、导出到数据库中的字段名及类型（行编号从0开始）
     public const int DATA_FIELD_DESC_INDEX = 0;
