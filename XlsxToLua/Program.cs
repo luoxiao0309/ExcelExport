@@ -87,7 +87,7 @@ public class Program
             Utils.LogError("\n检查Excel同名完毕，但存在上面所列同名文件，必须全部修正后才可以进行表格导出\n");
             // 将错误信息全部输出保存到txt文件中
             Utils.SaveErrorInfoToFile();
-            Utils.LogErrorAndExit("\n按任意键退出本工具");
+            Utils.LogErrorAndExit("\n按任意键继续");
     }
 
         Program.chek2(args);
@@ -443,7 +443,7 @@ public class Program
             Utils.SaveErrorInfoToFile();
         }
         #endregion
-        Utils.Log("\n按任意键退出本工具");
+        Utils.Log("\n按任意键继续");
         Console.ReadKey();
     }
     /// <summary>
@@ -1069,7 +1069,7 @@ public class Program
             Utils.LogError("\n检查Png同名完毕，但存在上面所列同名png文件，必须全部修正后才可以进行表格导出\n");
             // 将错误信息全部输出保存到txt文件中
             Utils.SaveErrorInfoToFile();
-            Utils.LogErrorAndExit("\n按任意键退出本工具");
+            Utils.LogErrorAndExit("\n按任意键继续");
         }
     }
 }
