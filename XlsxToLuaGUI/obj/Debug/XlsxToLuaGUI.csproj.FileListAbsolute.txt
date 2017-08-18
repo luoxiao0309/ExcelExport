@@ -5,3 +5,4 @@ E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.Properties.Resou
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csproj.GenerateResource.Cache
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.exe
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.pdb
+E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csprojResolveAssemblyReference.cache

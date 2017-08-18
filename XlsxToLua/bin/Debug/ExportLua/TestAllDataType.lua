@@ -64,7 +64,7 @@
 return {
 	[100001] = {
 		testBool = false,
-		testLang = nil,
+		testLang = "",
 		testLong = -1,
 		testSimpleDict = nil,
 		testDictIncludeArray = nil,
@@ -115,8 +115,8 @@ return {
 		testFloat = 1,
 		testString = "1",
 		testSimpleArray = {
-			[1] = nil,
-			[2] = nil,
+			[1] = "",
+			[2] = "",
 		},
 		testSimpleArray2 = {
 			[1] = "中号经验药水",
@@ -170,7 +170,7 @@ return {
 		testLong = -1467331200000,
 		testSimpleDict = {
 			dictChildString = "1",
-			dictChildLang = nil,
+			dictChildLang = "",
 			dictChildLang2 = "使用增加英雄经验500点",
 		},
 		testDictIncludeArray = {
@@ -187,7 +187,7 @@ return {
 		testString = "a",
 		testSimpleArray = {
 			[1] = "使用增加英雄经验100点",
-			[2] = nil,
+			[2] = "",
 		},
 		testSimpleArray2 = {
 			[1] = "大号经验药水",
@@ -217,7 +217,7 @@ return {
 		},
 		testDictIncludeDict = {
 			dictInDict = {
-				dictLang = nil,
+				dictLang = "",
 				dictFloat = 2,
 			},
 			floatInDict = 2,

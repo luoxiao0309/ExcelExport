@@ -1,6 +1,5 @@
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\bin\Release\XlsxToLuaGUI.exe
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\bin\Release\XlsxToLuaGUI.pdb
-E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.csprojResolveAssemblyReference.cache
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.MainForm.resources
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.Properties.Resources.resources
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.csproj.GenerateResource.Cache
