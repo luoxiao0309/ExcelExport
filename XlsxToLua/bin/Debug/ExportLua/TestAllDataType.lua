@@ -72,8 +72,8 @@ return {
 		testString = "",
 		testSimpleArray = nil,
 		testSimpleArray2 = {
-			[1] = "小号经验药水",
-			[2] = "小号经验药水",
+			[1] = "",
+			[2] = "",
 		},
 		testTableString1 = nil,
 		testArrayIncludeArray = nil,
@@ -98,12 +98,12 @@ return {
 	},
 	[100002] = {
 		testBool = true,
-		testLang = "使用增加英雄经验100点",
+		testLang = "",
 		testLong = 0,
 		testSimpleDict = {
 			dictChildString = "",
-			dictChildLang = "使用增加英雄经验200点",
-			dictChildLang2 = "使用增加英雄经验200点",
+			dictChildLang = "",
+			dictChildLang2 = "",
 		},
 		testDictIncludeArray = {
 			arrayInDict1 = {
@@ -119,8 +119,8 @@ return {
 			[2] = "",
 		},
 		testSimpleArray2 = {
-			[1] = "中号经验药水",
-			[2] = "中号经验药水",
+			[1] = "",
+			[2] = "",
 		},
 		testTableString1 = {
 			[10001] = true,
@@ -166,12 +166,12 @@ return {
 	},
 	[100003] = {
 		testBool = true,
-		testLang = "使用增加英雄经验200点",
+		testLang = "",
 		testLong = -1467331200000,
 		testSimpleDict = {
 			dictChildString = "1",
 			dictChildLang = "",
-			dictChildLang2 = "使用增加英雄经验500点",
+			dictChildLang2 = "",
 		},
 		testDictIncludeArray = {
 			arrayInDict1 = {
@@ -186,12 +186,12 @@ return {
 		testFloat = 1.5,
 		testString = "a",
 		testSimpleArray = {
-			[1] = "使用增加英雄经验100点",
+			[1] = "",
 			[2] = "",
 		},
 		testSimpleArray2 = {
-			[1] = "大号经验药水",
-			[2] = "大号经验药水",
+			[1] = "",
+			[2] = "",
 		},
 		testTableString1 = {
 			[10002] = true,
@@ -247,12 +247,12 @@ return {
 	},
 	[100004] = {
 		testBool = false,
-		testLang = "使用增加英雄经验500点",
+		testLang = "",
 		testLong = 1467331200000,
 		testSimpleDict = {
 			dictChildString = "2",
-			dictChildLang = "使用增加英雄经验1000点",
-			dictChildLang2 = "使用增加英雄经验1000点",
+			dictChildLang = "",
+			dictChildLang2 = "",
 		},
 		testDictIncludeArray = {
 			arrayInDict1 = {
@@ -267,12 +267,12 @@ return {
 		testFloat = 1.25,
 		testString = "ab",
 		testSimpleArray = {
-			[1] = "使用增加英雄经验200点",
-			[2] = "使用增加英雄经验500点",
+			[1] = "",
+			[2] = "",
 		},
 		testSimpleArray2 = {
-			[1] = "超级经验药水",
-			[2] = "超级经验药水",
+			[1] = "",
+			[2] = "",
 		},
 		testTableString1 = {
 			[10001] = true,
@@ -310,7 +310,7 @@ return {
 		},
 		testDictIncludeDict = {
 			dictInDict = {
-				dictLang = "使用增加英雄经验100点",
+				dictLang = "",
 				dictFloat = 1.5,
 			},
 			floatInDict = 2.5,

@@ -9,7 +9,7 @@
 return {
 	[1] = {
 		heroId = 1,
-		name = "英雄法师",
+		name = "",
 		rare = 11,
 		type = 1,
 		defaultStar = 1,
@@ -48,7 +48,7 @@ return {
 	},
 	[2] = {
 		heroId = 2,
-		name = "英雄战士",
+		name = "",
 		rare = 11,
 		type = 2,
 		defaultStar = 1,
@@ -57,7 +57,7 @@ return {
 	},
 	[3] = {
 		heroId = 3,
-		name = "英雄牧师",
+		name = "",
 		rare = 11,
 		type = 3,
 		defaultStar = 1,
@@ -66,7 +66,7 @@ return {
 	},
 	[4] = {
 		heroId = 4,
-		name = "英雄勇士",
+		name = "",
 		rare = 11,
 		type = 4,
 		defaultStar = 1,

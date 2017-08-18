@@ -5,3 +5,11 @@ E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.Properties.Res
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.csproj.GenerateResource.Cache
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.exe
 E:\my\Source\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.pdb
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.exe
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.pdb
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\bin\Release\XlsxToLuaGUI.exe
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\bin\Release\XlsxToLuaGUI.pdb
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.csprojResolveAssemblyReference.cache
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.MainForm.resources
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.Properties.Resources.resources
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.csproj.GenerateResource.Cache

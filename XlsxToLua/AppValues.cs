@@ -213,6 +213,16 @@ public class AppValues
     public const string EXPORT_JSON_PARAM_IS_FORMAT_PARAM_STRING = "isFormat";
 
     /// <summary>
+    /// 导出json文件参数下属的具体参数，用于配置是否生成为各行数据对应的json object包含在一个json array的形式
+    /// </summary>
+    public const string EXPORT_JSON_PARAM_IS_EXPORT_JSON_ARRAY_FORMAT_PARAM_STRING = "isExportJsonArrayFormat";
+
+    /// <summary>
+    /// 导出json文件参数下属的具体参数，用于配置若生成包含在一个json object的形式，是否使每行字段信息对应的json object中包含主键列对应的键值对
+    /// </summary>
+    public const string EXPORT_JSON_PARAM_IS_MAP_INCLUDE_KEY_COLUMN_VALUE_PARAM_STRING = "isMapIncludeKeyColumnValue";
+
+    /// <summary>
     /// 导出csv对应C#类文件的扩展名（不含点号）
     /// </summary>
     public static string EXPORT_CS_CLASS_FILE_EXTENSION = "cs";
@@ -233,8 +243,7 @@ public class AppValues
     /// <summary>
     /// 检查png文件是否存在重复,png文件路径
     /// </summary>
-    public const string CHECK_PNG_PATH= "chekPath";
-
+    public const string CHECK_PNG_PATH = "chekPath";
     // 每张数据表前五行分别声明字段描述、字段变量名、字段数据类型、字段检查规则、导出到数据库中的字段名及类型（行编号从0开始）
     public const int DATA_FIELD_DESC_INDEX = 0;
     public const int DATA_FIELD_NAME_INDEX = 1;
@@ -532,6 +541,16 @@ public class AppValues
     /// 导出的json文件中是否将json字符串整理为带缩进格式的形式，默认为否
     /// </summary>
     public static bool ExportJsonIsFormat = false;
+
+    /// <summary>
+    /// 导出的json文件是否生成为各行数据对应的json object包含在一个json array的形式，默认为是
+    /// </summary>
+    public static bool ExportJsonIsExportJsonArrayFormat = true;
+
+    /// <summary>
+    /// 导出的json文件，若生成包含在一个json object的形式，是否使每行字段信息对应的json object中包含主键列对应的键值对，默认为是
+    /// </summary>
+    public static bool ExportJsonIsExportJsonMapIncludeKeyColumnValue = true;
 
     /// <summary>
     /// 存储运行时打印的所有信息，在程序运行完毕后输出为txt文件，从而解决如果输出内容过多控制台无法显示全部信息的问题

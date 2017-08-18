@@ -17,20 +17,20 @@
 
 return {
 	[1] = {
-		systemName = "普通关卡",
-		help = "通过普通关卡可以获得一定几率掉落的道具和英雄经验，快来让你的英雄挑战吧！",
+		systemName = "",
+		help = "",
 		openCondition = nil,
 		openRewards = nil,
 	},
 	[2] = {
-		systemName = "精英关卡",
-		help = "通过精英关卡可以获得一定几率掉落的稀有英雄碎片用于英雄升阶，每天挑战次数有限哦！",
+		systemName = "",
+		help = "",
 		openCondition = nil,
 		openRewards = nil,
 	},
 	[3] = {
-		systemName = "竞技场",
-		help = "这里是各位英雄彼此切磋较量的场所，有丰富的奖励给予强大的英雄",
+		systemName = "",
+		help = "",
 		openCondition = {
 			rankLimit = 25,
 			vipLimit = -1,
@@ -46,8 +46,8 @@ return {
 		},
 	},
 	[4] = {
-		systemName = "商店",
-		help = "在这里你可以花费金币或者钻石来兑换你想要的道具，商店会在每天9点、15点、21点进货新的一批商品哟，欢迎客官前来购买",
+		systemName = "",
+		help = "",
 		openCondition = {
 			rankLimit = 15,
 			vipLimit = -1,

@@ -5,3 +5,6 @@ E:\my\Source\Code\xlsxtolua\XlsxToLua\bin\Release\LitJson.dll
 E:\my\Source\Code\xlsxtolua\XlsxToLua\bin\Release\MySql.Data.dll
 E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Release\XlsxToLua.exe
 E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Release\XlsxToLua.pdb
+D:\my\Code\xlsxtolua\XlsxToLua\bin\Release\XlsxToLua.exe.config
+D:\my\Code\xlsxtolua\XlsxToLua\obj\Release\XlsxToLua.exe
+D:\my\Code\xlsxtolua\XlsxToLua\obj\Release\XlsxToLua.pdb

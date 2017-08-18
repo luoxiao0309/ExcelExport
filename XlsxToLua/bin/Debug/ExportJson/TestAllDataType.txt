@@ -10,8 +10,8 @@
 		"testString":"",
 		"testSimpleArray":null,
 		"testSimpleArray2":[
-			"小号经验药水",
-			"小号经验药水"
+			"",
+			""
 		],
 		"testTableString1":null,
 		"testArrayIncludeArray":null,
@@ -37,12 +37,12 @@
 	{
 		"id":100002,
 		"testBool":true,
-		"testLang":"使用增加英雄经验100点",
+		"testLang":"",
 		"testLong":0,
 		"testSimpleDict":{
 			"dictChildString":"",
-			"dictChildLang":"使用增加英雄经验200点",
-			"dictChildLang2":"使用增加英雄经验200点"
+			"dictChildLang":"",
+			"dictChildLang2":""
 		},
 		"testDictIncludeArray":{
 			"arrayInDict1":[
@@ -58,8 +58,8 @@
 			""
 		],
 		"testSimpleArray2":[
-			"中号经验药水",
-			"中号经验药水"
+			"",
+			""
 		],
 		"testTableString1":{
 			"10001":true
@@ -105,12 +105,12 @@
 	{
 		"id":100003,
 		"testBool":true,
-		"testLang":"使用增加英雄经验200点",
+		"testLang":"",
 		"testLong":-1467331200000,
 		"testSimpleDict":{
 			"dictChildString":"1",
 			"dictChildLang":"",
-			"dictChildLang2":"使用增加英雄经验500点"
+			"dictChildLang2":""
 		},
 		"testDictIncludeArray":{
 			"arrayInDict1":[
@@ -125,12 +125,12 @@
 		"testFloat":1.5,
 		"testString":"a",
 		"testSimpleArray":[
-			"使用增加英雄经验100点",
+			"",
 			""
 		],
 		"testSimpleArray2":[
-			"大号经验药水",
-			"大号经验药水"
+			"",
+			""
 		],
 		"testTableString1":{
 			"10002":true
@@ -185,12 +185,12 @@
 	{
 		"id":100004,
 		"testBool":false,
-		"testLang":"使用增加英雄经验500点",
+		"testLang":"",
 		"testLong":1467331200000,
 		"testSimpleDict":{
 			"dictChildString":"2",
-			"dictChildLang":"使用增加英雄经验1000点",
-			"dictChildLang2":"使用增加英雄经验1000点"
+			"dictChildLang":"",
+			"dictChildLang2":""
 		},
 		"testDictIncludeArray":{
 			"arrayInDict1":[
@@ -205,12 +205,12 @@
 		"testFloat":1.25,
 		"testString":"ab",
 		"testSimpleArray":[
-			"使用增加英雄经验200点",
-			"使用增加英雄经验500点"
+			"",
+			""
 		],
 		"testSimpleArray2":[
-			"超级经验药水",
-			"超级经验药水"
+			"",
+			""
 		],
 		"testTableString1":{
 			"10001":true,
@@ -248,7 +248,7 @@
 		],
 		"testDictIncludeDict":{
 			"dictInDict":{
-				"dictLang":"使用增加英雄经验100点",
+				"dictLang":"",
 				"dictFloat":1.5
 			},
 			"floatInDict":2.5,
