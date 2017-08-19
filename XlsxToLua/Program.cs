@@ -10,9 +10,14 @@ using System.Text;
 
 public class Program
 {
-
-    //List<FileInformation>
+    /// <summary>
+    /// 文件名及完整路径，如：
+    /// 
+    /// </summary>
     static List<XlsxToLua.FileInformation> existExcelFilePaths = new List<XlsxToLua.FileInformation>();
+    /// <summary>
+    /// 不带扩展名的文件名称，如item
+    /// </summary>
     static List<string> existExcelFileNames = new List<string>();
     /// <summary>
     /// 传入参数中，第1个必须为Excel表格所在目录，第2个必须为存放导出lua文件的目录，第3个参数为项目Client目录的路径（无需文件存在型检查规则则填-noClient），第4个参数为必须为lang文件路径（没有填-noLang）
@@ -40,56 +45,14 @@ public class Program
     /// </summary>
     private static void Main(string[] args)
     {
+        Program.args1ExcelFolderPath(args);
 
-        Program.chek1(args);
+        Program.args2ExportLuaFilePath(args);
 
-        // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
-        XlsxToLua.DirectoryAllFiles directoryAllFiles = new XlsxToLua.DirectoryAllFiles();
-        existExcelFilePaths = directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xls");
+        Program.args3ClientPath(args);
 
-        Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-        foreach (var filePath in existExcelFilePaths)
-        {
-            string strP = Path.GetFileNameWithoutExtension(filePath.FileName);
-            if (dic.ContainsKey(strP))//存在该key
-            {
-                dic[strP].Add(filePath.FilePath);
-            }
-            else
-            {
-                dic.Add(strP, new List<string> { filePath.FilePath });
-            }
-            existExcelFileNames.Add(strP);//不带扩展名的文件名称，如item
-        }
-        Utils.Log("\n开始检查Excel中是否有同名文件");
-        bool bl = true;
-        foreach (KeyValuePair<string, List<string>> kvp in dic)
-        {
-            if (kvp.Value.Count > 1)
-            {
-                bl = false;
-
-                Utils.LogError("\n存在同名Excel文件：" + kvp.Key + "，位置如下：");
-                foreach (string st in kvp.Value)
-                {
-                    Utils.LogError(st);
-                }
-            }
-        }
-        if (bl)
-        {
-            Utils.Log(string.Format("Excel同名检查完毕，没有发现同名文件\n"), ConsoleColor.Green);
-        }
-        else
-        {
-            Utils.LogError("\n检查Excel同名完毕，但存在上面所列同名文件，必须全部修正后才可以进行表格导出\n");
-            // 将错误信息全部输出保存到txt文件中
-            Utils.SaveErrorInfoToFile();
-            Utils.LogErrorAndExit("\n按任意键继续");
-        }
-
-        Program.chek2(args);
-
+        Program.args4LangFilePath(args);
+        #region 其他参数（第4个参数后）检查
         for (int i = 4; i < args.Length; ++i)
         {
             string param = args[i];
@@ -101,7 +64,7 @@ public class Program
             }
             else if (param.StartsWith(AppValues.CHECK_PNG, StringComparison.CurrentCultureIgnoreCase))
             {
-                Program.chek8(args, param);
+                Program.argsXpng(args, param);
             }
             else if (param.Equals(AppValues.NEED_COLUMN_INFO_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
             {
@@ -761,13 +724,13 @@ public class Program
         // 如果未指定导出部分Excel文件，则全部导出，但要排除设置了进行忽略的
         if (AppValues.ExportTableNames.Count == 0)
         {
-            foreach (string filePath in Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"))
+            foreach (var filePath in existExcelFilePaths)
             {
-                string fileName = Path.GetFileNameWithoutExtension(filePath);
+                string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
                 if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
                     Utils.LogWarning(string.Format("目录中的{0}文件为Excel自动生成的临时文件，将被忽略处理", filePath));
                 else if (!AppValues.ExceptExportTableNames.Contains(fileName))
-                    AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath));
+                    AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath.FileName));
             }
         }
 
@@ -866,9 +829,9 @@ public class Program
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
         Utils.Log("开始解析Excel所在目录下的所有Excel文件：");
         Stopwatch stopwatch = new Stopwatch();
-        foreach (string filePath in Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx"))
+        foreach (var filePath in existExcelFilePaths)
         {
-            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
             if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
                 continue;
 
@@ -877,7 +840,7 @@ public class Program
             stopwatch.Start();
 
             string errorString = null;
-            DataSet ds = XlsxReader.ReadXlsxFile(filePath, out errorString);
+            DataSet ds = XlsxReader.ReadXlsxFile(filePath.FilePath, out errorString);
             stopwatch.Stop();
             Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
             if (string.IsNullOrEmpty(errorString))
@@ -1038,13 +1001,16 @@ public class Program
 
         Utils.Log("\n按任意键退出本工具");
         Console.ReadKey();
+        #endregion
     }
 
     /// <summary>
-    /// 检查第1个参数（Excel表格所在目录）是否正确
+    /// 处理第1个参数（Excel表格所在目录）；
+    /// 目录是否正确；
+    /// 目录及子目录是否存在同名文件；
     /// </summary>
     /// <param name="args">args传入值</param>
-    private static void chek1(string[] args)
+    private static void args1ExcelFolderPath(string[] args)
     {
         // 检查第1个参数（Excel表格所在目录）是否正确
         if (args.Length < 1)
@@ -1054,12 +1020,58 @@ public class Program
 
         AppValues.ExcelFolderPath = Path.GetFullPath(args[0]);
         Utils.Log(string.Format("选择的Excel所在路径：{0}", AppValues.ExcelFolderPath));
+
+
+        // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
+        XlsxToLua.DirectoryAllFiles directoryAllFiles = new XlsxToLua.DirectoryAllFiles();
+        existExcelFilePaths = directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xlsx");
+
+        Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
+        foreach (var filePath in existExcelFilePaths)
+        {
+            string strP = Path.GetFileNameWithoutExtension(filePath.FilePath);
+            if (dic.ContainsKey(strP))//存在该key
+            {
+                dic[strP].Add(filePath.FilePath);
+            }
+            else
+            {
+                dic.Add(strP, new List<string> { filePath.FilePath });
+            }
+            existExcelFileNames.Add(strP);//不带扩展名的文件名称，如item
+        }
+        Utils.Log("\n开始检查Excel中是否有同名文件");
+        bool bl = true;
+        foreach (KeyValuePair<string, List<string>> kvp in dic)
+        {
+            if (kvp.Value.Count > 1)
+            {
+                bl = false;
+
+                Utils.LogError("\n存在同名Excel文件：" + kvp.Key + "，位置如下：");
+                foreach (string st in kvp.Value)
+                {
+                    Utils.LogError(st);
+                }
+            }
+        }
+        if (bl)
+        {
+            Utils.Log(string.Format("Excel同名检查完毕，没有发现同名文件\n"), ConsoleColor.Green);
+        }
+        else
+        {
+            Utils.LogError("\n检查Excel同名完毕，但存在上面所列同名文件，必须全部修正后才可以进行表格导出\n");
+            // 将错误信息全部输出保存到txt文件中
+            Utils.SaveErrorInfoToFile();
+            Utils.LogErrorAndExit("\n按任意键继续");
+        }
     }
     /// <summary>
     /// 检查第2个参数（存放导出lua文件的目录）是否正确
     /// </summary>
     /// <param name="args"></param>
-    private static void chek2(string[] args)
+    private static void args2ExportLuaFilePath(string[] args)
     {
         // 检查第2个参数（存放导出lua文件的目录）是否正确
         if (args.Length < 2)
@@ -1069,6 +1081,13 @@ public class Program
 
         AppValues.ExportLuaFilePath = Path.GetFullPath(args[1]);
         Utils.Log(string.Format("选择的lua文件导出路径：{0}", AppValues.ExportLuaFilePath));
+    }
+    /// <summary>
+    /// 检查第3个参数（项目Client目录的路径）是否正确
+    /// </summary>
+    /// <param name="args"></param>
+    private static void args3ClientPath(string[] args)
+    {
         // 检查第3个参数（项目Client目录的路径）是否正确
         if (args.Length < 3)
             Utils.LogErrorAndExit("错误：未输入项目Client目录的路径，如果不需要请输入参数-noClient");
@@ -1084,7 +1103,13 @@ public class Program
         }
         else
             Utils.LogErrorAndExit(string.Format("错误：请检查输入的Client路径是否正确{0}", args[2]));
-
+    }
+    /// <summary>
+    /// 检查第4个参数（lang文件路径）是否正确
+    /// </summary>
+    /// <param name="args"></param>
+    private static void args4LangFilePath(string[] args)
+    {
         // 检查第4个参数（lang文件路径）是否正确
         if (args.Length < 4)
             Utils.LogErrorAndExit("错误：未输入lang文件路径或未声明不含lang文件（使用-noLang）");
@@ -1106,10 +1131,13 @@ public class Program
         }
         else
             Utils.LogErrorAndExit(string.Format("错误：输入的lang文件不存在，路径为{0}", args[3]));
-
     }
- 
-    private static void chek8(string[] args, string param)
+    /// <summary>
+    /// 检查指定路径中中是否有同名png文件
+    /// </summary>
+    /// <param name="args"></param>
+    /// <param name="param"></param>
+    private static void argsXpng(string[] args, string param)
     {
 
         string pngPath = null;
