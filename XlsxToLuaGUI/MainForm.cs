@@ -29,6 +29,7 @@ namespace XlsxToLuaGUI
 
         private void btnChooseExcelFolderPath_Click(object sender, EventArgs e)
         {
+
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "请选择Excel文件所在目录";
             dialog.ShowNewFolderButton = false;
@@ -682,11 +683,17 @@ namespace XlsxToLuaGUI
                 }
             }
 
+
+
             // 为方便检查部分导出Excel表格、额外导出为csv或json文件功能所指定的Excel表是否存在（注意不能直接用File.Exists判断是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异），这里查找并记录Excel文件所在目录下的所有表格
-            List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(excelFolderPath, "*.xlsx"));
+            // List<string> existExcelFilePaths = new List<string>(Directory.GetFiles(excelFolderPath, "*.xlsx"));
+            List<XlsxToLuaGUI.FileInformation> existExcelFilePaths = new List<FileInformation>();
             List<string> existExcelFileNames = new List<string>();
-            foreach (string filePath in existExcelFilePaths)
-                existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath));
+            XlsxToLuaGUI.DirectoryAllFiles directoryAllFiles = new XlsxToLuaGUI.DirectoryAllFiles();
+            existExcelFilePaths = directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(excelFolderPath), "*.xlsx");
+
+            foreach (var filePath in existExcelFilePaths)
+                existExcelFileNames.Add(Path.GetFileNameWithoutExtension(filePath.FilePath));
 
             // 若设置导出部分Excel文件，检查文件名声明是否正确
             List<string> exportTableNames = new List<string>();

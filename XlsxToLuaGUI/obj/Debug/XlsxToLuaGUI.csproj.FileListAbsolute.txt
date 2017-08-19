@@ -10,7 +10,7 @@ D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.exe
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.pdb
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\bin\Debug\XlsxToLuaGUI.exe
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\bin\Debug\XlsxToLuaGUI.pdb
-D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csprojResolveAssemblyReference.cache
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.MainForm.resources
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.Properties.Resources.resources
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csproj.GenerateResource.Cache
+D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csprojResolveAssemblyReference.cache
