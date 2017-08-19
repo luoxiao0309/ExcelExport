@@ -29,7 +29,6 @@ namespace XlsxToLua
 
         public  List<FileInformation> GetAllFiles(DirectoryInfo dir,string str)
         {
-           Directory.GetFiles(AppValues.ExcelFolderPath, "*.xlsx");
             FileInfo[] allFile = dir.GetFiles(str);
             foreach (FileInfo fi in allFile)
             {
