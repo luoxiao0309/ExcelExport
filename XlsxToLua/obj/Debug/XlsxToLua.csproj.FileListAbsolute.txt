@@ -5,7 +5,6 @@ E:\my\Source\Code\xlsxtolua\XlsxToLua\bin\Debug\MySql.Data.dll
 E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.exe
 E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.pdb
 E:\my\Source\Code\xlsxtolua\XlsxToLua\bin\Debug\XlsxToLua.exe.config
-E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.csprojResolveAssemblyReference.cache
 D:\my\Code\xlsxtolua\XlsxToLua\bin\Debug\XlsxToLua.exe.config
 D:\my\Code\xlsxtolua\XlsxToLua\bin\Debug\XlsxToLua.exe
 D:\my\Code\xlsxtolua\XlsxToLua\bin\Debug\XlsxToLua.pdb
@@ -14,3 +13,4 @@ D:\my\Code\xlsxtolua\XlsxToLua\bin\Debug\MySql.Data.dll
 D:\my\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.exe
 D:\my\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.pdb
 D:\my\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.csprojResolveAssemblyReference.cache
+E:\my\Source\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.csprojResolveAssemblyReference.cache

@@ -60,6 +60,7 @@
     <Compile Include="TableExportToJsonHelper.cs" />
     <Compile Include="TableExportToMySQLHelper.cs" />
     <Compile Include="TableExportToLuaHelper.cs" />
+    <Compile Include="TableExportToTxtHelper.cs" />
     <Compile Include="TableInfo.cs" />
     <Compile Include="TxtConfigReader.cs" />
     <Compile Include="Utils.cs" />

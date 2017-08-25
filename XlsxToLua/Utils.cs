@@ -453,7 +453,25 @@ public class Utils
             return false;
         }
     }
+    public static bool SaveTxtFile(string tableName, List<StringBuilder> rowContentList)
+    {
+        try
+        {
+            string fileName = string.Concat(tableName, ".", AppValues.ExportTxtExtension);
+            string savePath = Utils.CombinePath(AppValues.ExportTxtPath, fileName);
+            StreamWriter writer = new StreamWriter(savePath, false, new UTF8Encoding(false));
+            foreach (StringBuilder stringBuilder in rowContentList)
+                writer.WriteLine(stringBuilder);
 
+            writer.Flush();
+            writer.Close();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
     public static bool SaveCsClassFile(string className, string content)
     {
         try
