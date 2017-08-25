@@ -7,9 +7,10 @@ using System.Text;
 
 public class TableAnalyzeHelper
 {
-    public static TableInfo AnalyzeTable(DataTable dt, string tableName, out string errorString)
+    public static TableInfo AnalyzeTable(DataTable dt, string tableName, string filePath, out string errorString)
     {
         TableInfo tableInfo = new TableInfo();
+        tableInfo.ExcelFilePath = filePath;
         tableInfo.TableName = tableName;
 
         // 当前解析到的列号

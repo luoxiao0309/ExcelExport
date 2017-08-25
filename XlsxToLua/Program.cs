@@ -1321,7 +1321,7 @@ public class Program
     {
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
         Utils.Log("开始解析Excel所在目录下的所有Excel文件：");
-        Stopwatch stopwatch = new Stopwatch();
+        Stopwatch stopwatch = new Stopwatch();//计算运行时间
         foreach (var filePath in existExcelFilePaths)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
@@ -1329,7 +1329,7 @@ public class Program
                 continue;
 
             Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
-            stopwatch.Reset();
+            stopwatch.Reset();//时间重置
             stopwatch.Start();
 
             string errorString = null;
@@ -1338,7 +1338,7 @@ public class Program
             Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
             if (string.IsNullOrEmpty(errorString))
             {
-                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName, out errorString);
+                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName,filePath.FilePath, out errorString);
                 if (errorString != null)
                     Utils.LogErrorAndExit(string.Format("错误：解析{0}失败\n{1}", filePath, errorString));
                 else
@@ -1400,7 +1400,7 @@ public class Program
                 Utils.Log(string.Format("导出表格\"{0}\"：", tableInfo.TableName), ConsoleColor.Green);
                 bool isNeedExportOriginalTable = true;
 
-                #region 判断是否设置了特殊导出规则,若有并进行特殊导出
+                #region 判断是否设置了特殊导出Lua规则,若有并进行特殊导出
                 // 判断是否设置了特殊导出规则
                 if (tableInfo.TableConfig != null && tableInfo.TableConfig.ContainsKey(AppValues.CONFIG_NAME_EXPORT))
                 {
@@ -1450,6 +1450,35 @@ public class Program
                         Utils.LogErrorAndExit(errorString);
                     else
                         Utils.Log("额外导出为csv文件成功");
+                }
+                #endregion
+
+                #region 判断是否设置了特殊导出Txt规则,若有并进行特殊导出
+                // 判断是否设置了特殊导出规则
+                if (tableInfo.TableConfig != null && tableInfo.TableConfig.ContainsKey(AppValues.CONFIG_NAME_EXPORTTXT))
+                {
+                    List<string> inputParams = tableInfo.TableConfig[AppValues.CONFIG_NAME_EXPORTTXT];
+                    if (inputParams.Contains(AppValues.CONFIG_PARAM_NOT_EXPORTTXT_ORIGINAL_TABLE))
+                    {
+                        isNeedExportOriginalTable = false;
+                        if (inputParams.Count == 1)
+                            Utils.LogWarning(string.Format("警告：你设置了不对表格\"{0}\"按默认方式进行导出，而又没有指定任何其他自定义导出规则，本工具对此表格不进行任何导出，请确认是否真要如此", tableInfo.TableName));
+                        else
+                            Utils.Log("你设置了不对此表进行默认规则导出");
+                    }
+                    // 执行设置的特殊导出规则
+                    foreach (string param in inputParams)
+                    {
+                        if (!AppValues.CONFIG_PARAM_NOT_EXPORTTXT_ORIGINAL_TABLE.Equals(param, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            Utils.Log(string.Format("对此表格按\"{0}\"自定义规则进行导出Txt：", param));
+                            TableExportToTxtHelper.SpecialExportTableTxt(tableInfo, param, out errorString);
+                            if (errorString != null)
+                                Utils.LogErrorAndExit(string.Format("导出失败：\n{0}\n", errorString));
+                            else
+                                Utils.Log("成功");
+                        }
+                    }
                 }
                 #endregion
                 #region 判断是否要额外导出为txt文件,若有则导出

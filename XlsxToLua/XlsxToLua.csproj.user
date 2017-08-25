@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"TestExcel" "ExportLua" "-noClient" "-noLang" "-columnInfo" "-unchecked" "-printEmptyStringWhenLangNotMatching" "-allowedNullNumber"</StartArguments>
+    <StartArguments>"TestExcel" "ExportLua" "ClientVirtual/Assert" "-noLang" "-unchecked" "-allowedNullNumber" "-exportTxt%28%24all%29" "-exportTxtParam%28exportPath=ExportTxt|extension=txt|isExportColumnName=true|isExportColumnDataType=true%29" "-exportCsv%28%24all%29" "-exportCsvParam%28exportPath=ExportCsv|extension=txt|splitString=,|isExportColumnName=true|isExportColumnDataType=true%29"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartArguments>"TestExcel" "ExportLua" "ClientVirtual" "lang.txt" "-columnInfo" "-allowedNullNumber" "-except%28TestChecker%29" "-exportCsv%28%24all%29" "-exportCsParam%28exportPath=ExportCsv|extension=csv|splitString=,|isExportColumnName=true|isExportColumnDataType=true%29" "-autoNameCsClassParam%28classNamePrefix=TableData|classNamePostfix=abc%29" "-exportCsClass%28%24all%29" "-exportCsClassParam%28exportPath=ExportCsClass|namespace=XZCsClass|using=System,System.Collections.Generic%29" "-exportJavaClass%28%24all%29" "-exportJavaClassParam%28exportPath=ExportJavaClass|package=org.xlsxtolua.pojo|import=java.util.ArrayList,java.util.HashMap|isUseDate=false|isGenerateConstructorWithoutFields=false|isGenerateConstructorWithAllFields=false%29" "-exportJson%28%24all%29" "-exportJsonParam%28exportPath=ExportJson|extension=txt|isFormat=true%29"</StartArguments>

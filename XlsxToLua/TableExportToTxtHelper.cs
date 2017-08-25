@@ -4,6 +4,89 @@ using System.Text;
 
 public class TableExportToTxtHelper
 {
+    /// <summary>
+    /// txt特殊方式导出
+    /// tableExportTxtConfig
+    /// System:extension=hrl|-define(|{systemName}|,|{systemId}|).|    %%|{txet}
+    /// </summary>
+    /// <param name="tableInfo"></param>
+    /// <param name="exportRule"></param>
+    /// <param name="errorString"></param>
+    /// <returns></returns>
+    public static bool SpecialExportTableTxt(TableInfo tableInfo, string exportRule, out string errorString)
+    {
+        exportRule = exportRule.Trim();
+        // 解析按这种方式导出后的txt文件名
+        int colonIndex = exportRule.IndexOf(':');
+        if (colonIndex == -1)
+        {
+            errorString = string.Format("导出配置\"{0}\"定义错误，必须在开头声明导出txt文件名\n", exportRule);
+            return false;
+        }
+        string fileName = exportRule.Substring(0, colonIndex).Trim();
+
+        // 解析依次作为索引的字段名
+        string indexFieldNameString = exportRule.Substring(colonIndex + 1);
+
+        string[] indexFieldDefine = indexFieldNameString.Split(new char[] { '|' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        // 用于索引的字段列表
+        List<FieldInfo> indexField = new List<FieldInfo>();
+        // 索引字段对应的完整性检查规则
+        List<string> integrityCheckRules = new List<string>();
+        if (indexFieldDefine.Length < 1)
+        {
+            errorString = string.Format("导出配置\"{0}\"定义错误，用于索引的字段不能为空，请按fileName:indexFieldName1-indexFieldName2{otherFieldName1,otherFieldName2}的格式配置\n", exportRule);
+            return false;
+        }
+        // 存储每一行数据生成的txt文件内容
+        List<StringBuilder> rowContentList = new List<StringBuilder>();
+
+        string[] extension=null;
+        // 生成主键列的同时，对每行的StringBuilder进行初始化，主键列只能为int、long或string型，且值不允许为空，直接转为字符串即可
+        FieldInfo keyColumnFieldInfo = tableInfo.GetKeyColumnFieldInfo();
+        int rowCount = keyColumnFieldInfo.Data.Count;
+        for (int row = 0; row < rowCount; ++row)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            // 检查字段是否存在且为int、float、string或lang型
+            foreach (string fieldDefine in indexFieldDefine)
+            {
+                if(fieldDefine.StartsWith("extension="))
+                {
+                    extension = fieldDefine.Split(new char[] { '=' });
+                    continue;
+                }
+                if ( fieldDefine.StartsWith("{") && fieldDefine.EndsWith("}"))
+                {
+                    string fieldName = fieldDefine.Substring(1, fieldDefine.Length - 2);
+                    FieldInfo fieldInfo = tableInfo.GetFieldInfoByFieldName(fieldName);
+                    stringBuilder.Append(fieldInfo.Data[row]);
+                }
+                else
+                {
+                    stringBuilder.Append(fieldDefine);
+                }
+            }
+            rowContentList.Add(stringBuilder);
+        }
+
+        string OldExportTxtExtension = AppValues.ExportTxtExtension;
+        AppValues.ExportTxtExtension = extension[1];
+        // 保存为txt文件
+        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList))
+        {
+            errorString = null;
+            AppValues.ExportTxtExtension = OldExportTxtExtension;
+            return true;
+        }
+        else
+        {
+            errorString = string.Format("保存为{0}文件失败\n", AppValues.ExportTxtExtension);
+            AppValues.ExportTxtExtension = OldExportTxtExtension;
+            return false;
+        }
+    }
     public static bool ExportTableToTxt(TableInfo tableInfo, out string errorString)
     {
         // 存储每一行数据生成的txt文件内容
@@ -73,7 +156,7 @@ public class TableExportToTxtHelper
         }
 
         // 保存为txt文件
-        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList))
+        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList,tableInfo.ExcelDirectoryName))
         {
             errorString = null;
             return true;

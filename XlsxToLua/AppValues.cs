@@ -280,8 +280,10 @@ public class AppValues
 
     // 声明整表检查的配置参数名
     public const string CONFIG_NAME_CHECK_TABLE = "tableCheckRule";
-    // 声明对某张表格设置特殊导出规则的配置参数名
+    // 声明对某张表格设置特殊导出Lua规则的配置参数名
     public const string CONFIG_NAME_EXPORT = "tableExportConfig";
+    // 声明对某张表格设置特殊导出Txt规则的配置参数名
+    public const string CONFIG_NAME_EXPORTTXT = "tableExportTxtConfig";
     // 声明某张表格导出到数据库中的表名
     public const string CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME = "exportDatabaseTableName";
     // 声明某张表格导出到数据库中的说明信息
@@ -293,9 +295,10 @@ public class AppValues
     // 声明某张表格导出csv对应C#或Java文件的类名
     public const string CONFIG_NAME_EXPORT_CSV_CLASS_NAME = "exportCsvClassName";
 
-    // 声明对某张表格不进行默认导出的参数配置
+    // 声明对某张表格不进行默认导出Lua的参数配置
     public const string CONFIG_PARAM_NOT_EXPORT_ORIGINAL_TABLE = "-notExportOriginalTable";
-
+    // 声明对某张表格不进行默认导出TXT的参数配置
+    public const string CONFIG_PARAM_NOT_EXPORTTXT_ORIGINAL_TABLE = "-notExportTxtOriginalTable";
     // 以下为config配置文件中配置项的key名
     // MySQL连接字符串
     public const string APP_CONFIG_KEY_MYSQL_CONNECT_STRING = "connectMySQLString";
@@ -492,7 +495,7 @@ public class AppValues
     public static string ExportTxtPath = null;
 
     /// <summary>
-    /// 导出txt文件的扩展名（不含点号），默认为csv
+    /// 导出txt文件的扩展名（不含点号），默认为txt
     /// </summary>
     public static string ExportTxtExtension = "txt";
 

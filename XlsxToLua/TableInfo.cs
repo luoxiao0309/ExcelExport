@@ -1,11 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 /// <summary>
 /// 将一张Excel表格解析为本工具所需的数据结构
 /// </summary>
 public class TableInfo
 {
+    /// <summary>
+    /// 一个文件目录Excel文件目录,
+    /// 如：C:\Users\Administrator\Desktop\text.xlsx
+    /// </summary>
+    public string ExcelFilePath { get; set; }
+    /// <summary>
+    /// Excel文件所在的目录，
+    /// 如：C:\Users\Administrator\Desktop
+    /// </summary>
+    public string ExcelDirectoryName
+    {
+        get
+        {
+            return Path.GetDirectoryName(ExcelFilePath);
+        }
+    }
+    /// <summary>
+    /// Excel文件的名称含有后缀,
+    ///如：text.xlsx
+    /// </summary>
+    public string ExcelFileName
+    {
+        get
+        {
+           return Path.GetFileName(ExcelFilePath);
+        }
+    }
     public string TableName { get; set; }
     // 表格配置参数
     public Dictionary<string, List<string>> TableConfig { get; set; }
