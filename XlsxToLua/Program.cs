@@ -1348,7 +1348,13 @@ public class Program
                     {
                         tableInfo.TableConfig = TableAnalyzeHelper.GetTableConfig(ds.Tables[AppValues.EXCEL_CONFIG_SHEET_NAME], out errorString);
                         if (!string.IsNullOrEmpty(errorString))
+                        {
                             Utils.LogErrorAndExit(string.Format("错误：解析表格{0}的配置失败\n{1}", fileName, errorString));
+                        }
+                        else
+                        {
+                            tableInfo.TableConfigData = ds.Tables[AppValues.EXCEL_CONFIG_SHEET_NAME];
+                        }
                     }
 
                     AppValues.TableInfo.Add(tableInfo.TableName, tableInfo);
@@ -1490,6 +1496,15 @@ public class Program
                         Utils.LogErrorAndExit(errorString);
                     else
                         Utils.Log("额外导出为txt文件成功");
+                    if (tableInfo.TableConfig != null)
+                    {
+                        TableExportToTxtHelper.ExportTableConfigDataToTxt(tableInfo, out errorString);
+                        if (errorString != null)
+                            Utils.LogErrorAndExit(errorString);
+                        else
+                            Utils.Log("额外导出为txt文件config配置成功");
+                    }
+
                 }
                 #endregion
 

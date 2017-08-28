@@ -135,6 +135,7 @@ public class AppValues
     /// 导出txt文件参数下属的具体参数，用于配置导出文件的扩展名
     /// </summary>
     public const string EXPORT_TXT_PARAM_EXTENSION_PARAM_STRING = "extension";
+
     /// <summary>
     /// 导出csv文件参数下属的具体参数，用于配置字段间的分隔符
     /// </summary>

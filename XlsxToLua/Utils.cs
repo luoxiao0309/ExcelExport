@@ -453,20 +453,31 @@ public class Utils
             return false;
         }
     }
-    public static bool SaveTxtFile(string tableName, List<StringBuilder> rowContentList,string savePath=null)
+    /// <summary>
+    /// 导出txt类型
+    /// </summary>
+    /// <param name="tableName">文件名</param>
+    /// <param name="rowContentList">数据集</param>
+    /// <param name="ExportTxtExtension">扩展名，默认txt</param>
+    /// <param name="ExportTxtPath">导出路径指定，为空时，使用全局指定的txt导出路径</param>
+    /// <returns></returns>
+    public static bool SaveTxtFile(string tableName, List<StringBuilder> rowContentList, string ExportTxtExtension = null, string ExportTxtPath = null)
     {
         try
         {
-            string fileName = string.Concat(tableName, ".", AppValues.ExportTxtExtension);
-            if(savePath==null)
+            if(ExportTxtExtension==null)
             {
-                savePath = Utils.CombinePath(AppValues.ExportTxtPath, fileName);
+                ExportTxtExtension = AppValues.ExportTxtExtension;
             }
-            else
+            string fileName = string.Concat(tableName, ".", ExportTxtExtension);
+            if(ExportTxtPath == null)
             {
-                savePath = Utils.CombinePath(savePath, fileName);
+                ExportTxtPath = AppValues.ExportTxtPath;
             }
-            StreamWriter writer = new StreamWriter(savePath, false, new UTF8Encoding(false));
+
+            ExportTxtPath = Utils.CombinePath(ExportTxtPath, fileName);
+
+            StreamWriter writer = new StreamWriter(ExportTxtPath, false, new UTF8Encoding(false));
             foreach (StringBuilder stringBuilder in rowContentList)
                 writer.WriteLine(stringBuilder);
 

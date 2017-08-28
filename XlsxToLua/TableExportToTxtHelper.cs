@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 public class TableExportToTxtHelper
@@ -23,7 +24,7 @@ public class TableExportToTxtHelper
             errorString = string.Format("导出配置\"{0}\"定义错误，必须在开头声明导出txt文件名\n", exportRule);
             return false;
         }
-        string fileName = exportRule.Substring(0, colonIndex).Trim();
+        string fileName = exportRule.Substring(0, colonIndex).Trim();//文件名
 
         // 解析依次作为索引的字段名
         string indexFieldNameString = exportRule.Substring(colonIndex + 1);
@@ -42,7 +43,9 @@ public class TableExportToTxtHelper
         // 存储每一行数据生成的txt文件内容
         List<StringBuilder> rowContentList = new List<StringBuilder>();
 
-        string[] extension=null;
+        string ExportTxtExtension = null;
+        string ExportTxtPath = null;
+
         // 生成主键列的同时，对每行的StringBuilder进行初始化，主键列只能为int、long或string型，且值不允许为空，直接转为字符串即可
         FieldInfo keyColumnFieldInfo = tableInfo.GetKeyColumnFieldInfo();
         int rowCount = keyColumnFieldInfo.Data.Count;
@@ -52,12 +55,19 @@ public class TableExportToTxtHelper
             // 检查字段是否存在且为int、float、string或lang型
             foreach (string fieldDefine in indexFieldDefine)
             {
-                if(fieldDefine.StartsWith("extension="))
+                if (fieldDefine.StartsWith(AppValues.EXPORT_TXT_PARAM_EXTENSION_PARAM_STRING))//文件后缀，如 extension=txt
                 {
-                    extension = fieldDefine.Split(new char[] { '=' });
+                    string[] extension = fieldDefine.Split(new char[] { '=' });
+                    ExportTxtExtension = extension[1].ToString().Trim();
                     continue;
                 }
-                if ( fieldDefine.StartsWith("{") && fieldDefine.EndsWith("}"))
+                if (fieldDefine.StartsWith(AppValues.EXPORT_TXT_PARAM_EXPORT_PATH_PARAM_STRING))//文件导出目录，如exportPath = C:\Users\Administrator\Desktop
+                {
+                    string[] exportTxtPath = fieldDefine.Split(new char[] { '=' });
+                    ExportTxtPath = exportTxtPath[1].ToString().Trim();
+                    continue;
+                }
+                if (fieldDefine.StartsWith("{") && fieldDefine.EndsWith("}"))
                 {
                     string fieldName = fieldDefine.Substring(1, fieldDefine.Length - 2);
                     FieldInfo fieldInfo = tableInfo.GetFieldInfoByFieldName(fieldName);
@@ -71,22 +81,21 @@ public class TableExportToTxtHelper
             rowContentList.Add(stringBuilder);
         }
 
-        string OldExportTxtExtension = AppValues.ExportTxtExtension;
-        AppValues.ExportTxtExtension = extension[1];
         // 保存为txt文件
-        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList))
+        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList, ExportTxtExtension, ExportTxtPath))
         {
             errorString = null;
-            AppValues.ExportTxtExtension = OldExportTxtExtension;
+
             return true;
         }
         else
         {
-            errorString = string.Format("保存为{0}文件失败\n", AppValues.ExportTxtExtension);
-            AppValues.ExportTxtExtension = OldExportTxtExtension;
+            errorString = string.Format("保存为{0}文件失败\n", ExportTxtExtension);
+
             return false;
         }
     }
+
     public static bool ExportTableToTxt(TableInfo tableInfo, out string errorString)
     {
         // 存储每一行数据生成的txt文件内容
@@ -156,7 +165,55 @@ public class TableExportToTxtHelper
         }
 
         // 保存为txt文件
-        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList,tableInfo.ExcelDirectoryName))
+        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList))
+        {
+            errorString = null;
+            return true;
+        }
+        else
+        {
+            errorString = "保存为txt文件失败\n";
+            return false;
+        }
+    }
+
+    public static bool ExportTableConfigDataToTxt(TableInfo tableInfo, out string errorString)
+    {
+        DataTable dt = tableInfo.TableConfigData;
+        int rowCount = dt.Rows.Count;
+        int columnCount = dt.Columns.Count;
+
+        // 存储每一行数据生成的txt文件内容
+        List<StringBuilder> rowContentList = new List<StringBuilder>();
+        //if (columnCount == 0)
+        //{
+        //    StringBuilder stringBuilder = new StringBuilder();
+        //    string param = null;
+        //    stringBuilder.Append(param);
+        //    rowContentList.Add(stringBuilder);
+        //}
+        //else
+        //{
+            for (int row = 0; row < rowCount; ++row)
+            {
+            string str = null;
+                for (int column = 0; column < columnCount; ++column)
+                {
+                str = str+ dt.Rows[row][column].ToString()+ AppValues.ExportTxtSplitChar;
+                }
+
+            //str.Remove(str.Length-1, 1);
+            str=str.TrimEnd(AppValues.ExportTxtSplitChar);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(str);
+            rowContentList.Add(stringBuilder);
+                // 去掉开头多加的一个分隔符
+                // rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 1 : 0, );
+            }
+       // }
+        string tableName = tableInfo.TableName + "_Config";
+        // 保存为txt文件
+        if (Utils.SaveTxtFile(tableName, rowContentList))
         {
             errorString = null;
             return true;
