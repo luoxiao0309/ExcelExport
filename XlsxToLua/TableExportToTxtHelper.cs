@@ -43,8 +43,10 @@ public class TableExportToTxtHelper
         // 存储每一行数据生成的txt文件内容
         List<StringBuilder> rowContentList = new List<StringBuilder>();
 
-        string ExportTxtExtension = null;
-        string ExportTxtPath = null;
+        string SpecialExportTxtExtension = null;
+        string SpecialExportTxtPath = null;
+        int SpecialTopCommentRows = 0;
+        string SpecialTopComment = null;
 
         // 生成主键列的同时，对每行的StringBuilder进行初始化，主键列只能为int、long或string型，且值不允许为空，直接转为字符串即可
         FieldInfo keyColumnFieldInfo = tableInfo.GetKeyColumnFieldInfo();
@@ -55,16 +57,28 @@ public class TableExportToTxtHelper
             // 检查字段是否存在且为int、float、string或lang型
             foreach (string fieldDefine in indexFieldDefine)
             {
-                if (fieldDefine.StartsWith(AppValues.EXPORT_TXT_PARAM_EXTENSION_PARAM_STRING))//文件后缀，如 extension=txt
+                if (fieldDefine.StartsWith(AppValues.SPECIAL_EXPORT_TXT_PARAM_EXTENSION_PARAM_STRING))//文件后缀，如 extension=txt
                 {
                     string[] extension = fieldDefine.Split(new char[] { '=' });
-                    ExportTxtExtension = extension[1].ToString().Trim();
+                    SpecialExportTxtExtension = extension[1].ToString().Trim();
                     continue;
                 }
-                if (fieldDefine.StartsWith(AppValues.EXPORT_TXT_PARAM_EXPORT_PATH_PARAM_STRING))//文件导出目录，如exportPath = C:\Users\Administrator\Desktop
+                if (fieldDefine.StartsWith(AppValues.SPECIAL_EXPORT_TXT_PARAM_EXPORT_PATH_PARAM_STRING))//文件导出目录，如exportPath = C:\Users\Administrator\Desktop
                 {
                     string[] exportTxtPath = fieldDefine.Split(new char[] { '=' });
-                    ExportTxtPath = exportTxtPath[1].ToString().Trim();
+                    SpecialExportTxtPath = exportTxtPath[1].ToString().Trim();
+                    continue;
+                }
+                if (fieldDefine.StartsWith(AppValues.SPECIAL_EXPORT_TXT_PARAM_TOPCOMMENTROWS_PARAM_STRING))//配置导出文件上方注释说明的行数
+                {
+                    string[] TopCommentRows = fieldDefine.Split(new char[] { '=' });
+                    SpecialTopCommentRows = int.Parse(TopCommentRows[1].ToString().Trim());
+                    continue;
+                }
+                if (fieldDefine.StartsWith(AppValues.SPECIAL_EXPORT_TXT_PARAM_TOPCOMMENT_PARAM_STRING))//配置导出文件上方注释说明内容
+                {
+                    string[] TopComment = fieldDefine.Split(new char[] { '=' });
+                    SpecialTopComment = TopComment[1].ToString().Trim();
                     continue;
                 }
                 if (fieldDefine.StartsWith("{") && fieldDefine.EndsWith("}"))
@@ -81,8 +95,39 @@ public class TableExportToTxtHelper
             rowContentList.Add(stringBuilder);
         }
 
-        // 保存为txt文件
-        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList, ExportTxtExtension, ExportTxtPath))
+        if(SpecialExportTxtExtension==null)
+        {
+            SpecialExportTxtExtension = AppValues.SpecialExportTxtExtension;
+        }
+        if (SpecialExportTxtPath == null)//如果不存在文件夹就创建
+        {
+            string p = SpecialExportTxtExtension.ToUpper();
+            if (!System.IO.Directory.Exists(p))
+            {
+                System.IO.Directory.CreateDirectory(p);
+
+            }
+            SpecialExportTxtPath = p;
+        }
+        if (SpecialTopCommentRows > 0)//默认注释文本内容
+        {
+            if(SpecialTopComment==null)
+            {
+                SpecialTopComment = AppValues.SPECIAL_EXPORT_TXT_PARAM_TOPCOMMENT_STRING;
+            }
+        }
+
+        for (int i = 0; i < SpecialTopCommentRows; i++)
+        {
+            StringBuilder stringbuilder = new StringBuilder();
+            stringbuilder.Append(SpecialTopComment);
+            rowContentList.Insert(0, stringbuilder);
+        }
+        // stringbuilder = stringbuilder.Remove(stringbuilder.Length - 3, 2);
+        
+
+        // 保存为txt文件 SpecialExportTxtExtension
+        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList, SpecialExportTxtExtension, SpecialExportTxtPath))
         {
             errorString = null;
 
@@ -90,7 +135,7 @@ public class TableExportToTxtHelper
         }
         else
         {
-            errorString = string.Format("保存为{0}文件失败\n", ExportTxtExtension);
+            errorString = string.Format("保存为{0}文件失败\n", SpecialExportTxtExtension);
 
             return false;
         }

@@ -128,6 +128,10 @@ public class AppValues
     /// </summary>
     public const string EXPORT_TXT_PARAM_EXPORT_PATH_PARAM_STRING = "exportPath";
     /// <summary>
+    /// 特殊方式导出txt文件参数下属的具体参数，用于配置导出路径
+    /// </summary>
+    public const string SPECIAL_EXPORT_TXT_PARAM_EXPORT_PATH_PARAM_STRING = "exportPath";
+    /// <summary>
     /// 导出csv文件参数下属的具体参数，用于配置导出文件的扩展名
     /// </summary>
     public const string EXPORT_CSV_PARAM_EXTENSION_PARAM_STRING = "extension";
@@ -135,7 +139,26 @@ public class AppValues
     /// 导出txt文件参数下属的具体参数，用于配置导出文件的扩展名
     /// </summary>
     public const string EXPORT_TXT_PARAM_EXTENSION_PARAM_STRING = "extension";
-
+    /// <summary>
+    /// 特殊方式导出txt文件参数下属的具体参数，用于配置导出文件的扩展名
+    /// </summary>
+    public const string SPECIAL_EXPORT_TXT_PARAM_EXTENSION_PARAM_STRING = "extension";
+    /// <summary>
+    /// 特殊方式导出txt文件参数下属的具体参数，用于配置导出文件上方注释说明的行数
+    /// </summary>
+    public const string SPECIAL_EXPORT_TXT_PARAM_TOPCOMMENTROWS_PARAM_STRING = "TopCommentRows";
+    /// <summary>
+    /// 特殊方式导出txt文件参数下属的具体参数，用于配置导出文件上方注释说明的行数
+    /// </summary>
+    public const int SPECIAL_EXPORT_TXT_PARAM_TOPCOMMENTROWS_INT = 0;
+    /// <summary>
+    /// 特殊方式导出txt文件参数下属的具体参数，用于配置导出文件上方注释说明内容
+    /// </summary>
+    public const string SPECIAL_EXPORT_TXT_PARAM_TOPCOMMENT_PARAM_STRING = "TopComment";
+    /// <summary>
+    /// 特殊方式导出txt文件参数下属的具体参数，用于配置导出文件上方注释说明的默认内容
+    /// </summary>
+    public const string SPECIAL_EXPORT_TXT_PARAM_TOPCOMMENT_STRING = "%%配置导表自动生成，请不要随意手动修改！！！";
     /// <summary>
     /// 导出csv文件参数下属的具体参数，用于配置字段间的分隔符
     /// </summary>
@@ -499,7 +522,10 @@ public class AppValues
     /// 导出txt文件的扩展名（不含点号），默认为txt
     /// </summary>
     public static string ExportTxtExtension = "txt";
-
+    /// <summary>
+    /// 特殊方式导出txt文件的扩展名（不含点号），默认为hrl
+    /// </summary>
+    public static string SpecialExportTxtExtension = "hrl";
     /// <summary>
     /// 导出txt文件中的字段分隔符，默认为Tab键
     /// </summary>

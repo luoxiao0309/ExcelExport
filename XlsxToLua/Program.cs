@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 // 注意：要在本项目属性的“生成”选项卡中将“目标平台”由默认的“Any CPU”改为“x86”，
 // 否则即便安装了AccessDatabaseEngine，在64位系统安装32位Office（Microsoft.ACE.OLEDB.12.0也就是32位的），然后64位的VS默认编译为64位程序仍将导致无法连接Excel，提示本机未注册Microsoft.ACE.OLEDB.12.0提供程序
@@ -1545,7 +1546,7 @@ public class Program
                 #endregion
             }
 
-            Utils.Log("\n导出lua文件完毕\n");
+            Utils.Log("\n导出客户端文件完毕\n");
             #region 导入到MySQL数据库
             // 进行数据库导出
             if (AppValues.IsExportMySQL == true)
