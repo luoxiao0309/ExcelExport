@@ -1577,7 +1577,7 @@ public class Program
             Utils.SaveErrorInfoToFile();
         }
 
-        Utils.Log("\n按任意键退出本工具");
+        Utils.Log("\n按任意键继续");
         Console.ReadKey();
 
 
