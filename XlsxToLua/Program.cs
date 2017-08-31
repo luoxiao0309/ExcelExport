@@ -1321,12 +1321,16 @@ public class Program
     public static void AnalyzingExcel()
     {
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
-        Utils.Log("开始解析Excel所在目录下的所有Excel文件：");
+        Utils.Log("开始解析Excel文件：");
         Stopwatch stopwatch = new Stopwatch();//计算运行时间
         foreach (var filePath in existExcelFilePaths)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
             if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
+                continue;
+            if (AppValues.ExceptExportTableNames.Contains(fileName))
+                continue;
+            if (AppValues.ExportTableNames.Count > 0 && !AppValues.ExportTableNames.Contains(fileName))
                 continue;
 
             Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
@@ -1399,7 +1403,7 @@ public class Program
         if (CheckExcelTable() == true)
         {
             Utils.Log("\n表格检查完毕，没有发现错误，开始导出为lua文件\n");
-            // 进行表格导出
+            // 进行表格导出 
             foreach (string tableName in AppValues.ExportTableNames)
             {
                 TableInfo tableInfo = AppValues.TableInfo[tableName];
@@ -1577,8 +1581,8 @@ public class Program
             Utils.SaveErrorInfoToFile();
         }
 
-       // Utils.Log("\n按任意键继续");
-        //Console.ReadKey();
+        Utils.Log("\n按任意键继续");
+        Console.ReadKey();
 
 
     }

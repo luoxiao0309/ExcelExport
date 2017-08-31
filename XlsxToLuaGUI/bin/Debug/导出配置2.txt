@@ -1,0 +1,13 @@
+programPath:F:\XZ\client\ZTool\ZXlsxToLua\XlsxToLua.exe
+excelFolderPath:F:\XZ\client\ZTool\ZXlsxToLua\TestExcel
+exportLuaFolderPath:F:\XZ\client\XZ\Assets\LuaFramework\Lua\Config
+clientFolderPath:F:\XZ\client\XZ\Assets
+langFilePath:-noLang
+-part:entry_add_baowuattribute_name|entry_baowu|entry_baowu_add_attr_weight|entry_baowu_add_attribute|entry_baowu_partner|entry_baowu_xilian|entry_baowu_zhuanshu|entry_baowuattribute_name
+-except:entry_name
+-exportCsvParam_extension:csv
+-exportCsvParam_splitString:,
+-exportJsonParam_extension:txt
+-columnInfo:true
+-exportMySQL:true
+isCheckedPart:true

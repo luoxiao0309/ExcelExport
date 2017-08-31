@@ -705,11 +705,11 @@ namespace XlsxToLuaGUI
                 // 检查指定导出的Excel文件是否存在
                 foreach (string exportExcelFileName in exportTableNames)
                 {
-                    if (!existExcelFileNames.Contains(exportExcelFileName))
-                    {
-                        MessageBox.Show(string.Format("指定要导出的Excel文件（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(excelFolderPath, string.Concat(exportExcelFileName, ".xlsx"))), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
+                    //if (!existExcelFileNames.Contains(exportExcelFileName))
+                    //{
+                    //    MessageBox.Show(string.Format("指定要导出的Excel文件（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(excelFolderPath, string.Concat(exportExcelFileName, ".xlsx"))), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    return false;
+                    //}
                 }
             }
 
@@ -1159,11 +1159,11 @@ namespace XlsxToLuaGUI
                 string[] filePaths = dialog.FileNames;
                 // 检查选择的Excel文件是否在设置的Excel所在目录
                 string checkFilePath = Path.GetDirectoryName(filePaths[0]);
-                if (!Path.GetFullPath(checkFilePath).Equals(Path.GetFullPath(excelFolderPath), StringComparison.CurrentCultureIgnoreCase))
-                {
-                    errorString = string.Format("必须在指定的Excel文件所在目录中选择导出文件\n设置的Excel文件所在目录为：{0}\n而你选择的Excel所在目录为：{1}", excelFolderPath, checkFilePath);
-                    return null;
-                }
+                //if (!Path.GetFullPath(checkFilePath).Equals(Path.GetFullPath(excelFolderPath), StringComparison.CurrentCultureIgnoreCase))
+                //{
+                //    errorString = string.Format("必须在指定的Excel文件所在目录中选择导出文件\n设置的Excel文件所在目录为：{0}\n而你选择的Excel所在目录为：{1}", excelFolderPath, checkFilePath);
+                //    return null;
+                //}
                 List<string> fileNames = new List<string>();
                 foreach (string filePath in filePaths)
                     fileNames.Add(Path.GetFileNameWithoutExtension(filePath));

@@ -14,3 +14,11 @@ D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.MainForm.resources
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.Properties.Resources.resources
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csproj.GenerateResource.Cache
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csprojResolveAssemblyReference.cache
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.exe
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.pdb
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\bin\Debug\XlsxToLuaGUI.exe
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\bin\Debug\XlsxToLuaGUI.pdb
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csprojResolveAssemblyReference.cache
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.MainForm.resources
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.Properties.Resources.resources
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Debug\XlsxToLuaGUI.csproj.GenerateResource.Cache
