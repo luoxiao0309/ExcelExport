@@ -1577,8 +1577,8 @@ public class Program
             Utils.SaveErrorInfoToFile();
         }
 
-        Utils.Log("\n按任意键继续");
-        Console.ReadKey();
+       // Utils.Log("\n按任意键继续");
+        //Console.ReadKey();
 
 
     }
