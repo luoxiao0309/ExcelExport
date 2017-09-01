@@ -198,15 +198,19 @@ public class TableExportToTxtHelper
         if (AppValues.ExportTxtIsExportColumnDataType == true)
         {
             StringBuilder columnDataTypeStringBuilder = new StringBuilder();
+            StringBuilder columnDataTypeStringBuilder2 = new StringBuilder();
             for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
             {
                 columnDataTypeStringBuilder.Append(AppValues.ExportTxtSplitChar);
+                columnDataTypeStringBuilder2.Append(AppValues.ExportTxtSplitChar);
                 FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
                 columnDataTypeStringBuilder.Append(fieldInfo.DataType);
+                columnDataTypeStringBuilder2.Append(fieldInfo.DatabaseFieldName==null? null: fieldInfo.DatabaseFieldName+"("+fieldInfo.DatabaseFieldType+")");
             }
 
             // 去掉开头多加的一个分隔符
             rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 1 : 0, columnDataTypeStringBuilder.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
+            rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 2 : 0, columnDataTypeStringBuilder2.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
         }
 
         // 保存为txt文件

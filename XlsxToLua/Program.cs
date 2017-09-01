@@ -1420,21 +1420,21 @@ public class Program
                     {
                         isNeedExportOriginalTable = false;
                         if (inputParams.Count == 1)
-                            Utils.LogWarning(string.Format("警告：你设置了不对表格\"{0}\"按默认方式进行导出，而又没有指定任何其他自定义导出规则，本工具对此表格不进行任何导出，请确认是否真要如此", tableInfo.TableName));
+                            Utils.LogWarning(string.Format("警告：你设置了不对表格\"{0}\"按默认方式进行导出Lua，而又没有指定任何其他自定义导出规则，本工具对此表格不进行任何导出Lua，请确认是否真要如此", tableInfo.TableName));
                         else
-                            Utils.Log("你设置了不对此表进行默认规则导出");
+                            Utils.Log("你设置了不对此表进行默认规则导出Lua");
                     }
                     // 执行设置的特殊导出规则
                     foreach (string param in inputParams)
                     {
                         if (!AppValues.CONFIG_PARAM_NOT_EXPORT_ORIGINAL_TABLE.Equals(param, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            Utils.Log(string.Format("对此表格按\"{0}\"自定义规则进行导出：", param));
+                            Utils.Log(string.Format("对此表格按\"{0}\"自定义规则进行导出Lua：", param));
                             TableExportToLuaHelper.SpecialExportTableToLua(tableInfo, param, out errorString);
                             if (errorString != null)
-                                Utils.LogErrorAndExit(string.Format("导出失败：\n{0}\n", errorString));
+                                Utils.LogErrorAndExit(string.Format("导出Lua失败：\n{0}\n", errorString));
                             else
-                                Utils.Log("成功");
+                                Utils.Log("导出Lua成功");
                         }
                     }
                 }
@@ -1448,7 +1448,7 @@ public class Program
                     if (errorString != null)
                         Utils.LogErrorAndExit(errorString);
                     else
-                        Utils.Log("按默认方式导出成功");
+                        Utils.Log("按默认方式导出Lua成功");
                 }
                 #endregion
 
@@ -1582,7 +1582,7 @@ public class Program
         }
 
         Utils.Log("\n按任意键继续");
-        Console.ReadKey();
+       // Console.ReadKey();
 
 
     }

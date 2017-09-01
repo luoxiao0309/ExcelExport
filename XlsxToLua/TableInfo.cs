@@ -148,9 +148,14 @@ public class FieldInfo
     public List<FieldInfo> ChildField { get; set; }
     // 如果该字段是array或dict的子元素，存储其父元素的引用
     public FieldInfo ParentField { get; set; }
-    // 导出到数据库中对应的字段名
+    /// <summary>
+    /// 导出到数据库中对应的字段名
+    /// </summary>
     public string DatabaseFieldName { get; set; }
-    // 导出到数据库中对应的字段数据类型
+    // 
+    /// <summary>
+    /// 导出到数据库中对应的字段数据类型
+    /// </summary>
     public string DatabaseFieldType { get; set; }
     // 是否忽略进行lua、csv、json等客户端方式导出（未填写字段名但填写了数据库导出信息的字段，仅进行数据库导出）
     public bool IsIgnoreClientExport { get; set; }
