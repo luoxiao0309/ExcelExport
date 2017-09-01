@@ -788,14 +788,14 @@ namespace XlsxToLuaGUI
                         exportCsvTableNames.Add(fileName.Trim());
 
                     // 检查指定要额外导出为csv文件的Excel表格是否存在
-                    foreach (string exportCsvExcelFileName in exportCsvTableNames)
-                    {
-                        if (!existExcelFileNames.Contains(exportCsvExcelFileName))
-                        {
-                            MessageBox.Show(string.Format("指定要额外导出出csv文件的Excel表格（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(excelFolderPath, string.Concat(exportCsvExcelFileName, ".xlsx"))), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
-                    }
+                    //foreach (string exportCsvExcelFileName in exportCsvTableNames)
+                    //{
+                    //    if (!existExcelFileNames.Contains(exportCsvExcelFileName))
+                    //    {
+                    //        MessageBox.Show(string.Format("指定要额外导出出csv文件的Excel表格（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(excelFolderPath, string.Concat(exportCsvExcelFileName, ".xlsx"))), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //        return false;
+                    //    }
+                    //}
                 }
 
                 // 检查设置的导出csv文件的存储路径是否正确
@@ -1044,6 +1044,29 @@ namespace XlsxToLuaGUI
 
                 stringBuilder.AppendFormat("\"{0}({1})\" ", AppValues.EXPORT_CSV_PARAM_PARAM_STRING, Utils.CombineString(exportCsvParamList, "|"));
             }
+
+
+            // 声明要额外导出为txt文件的Excel表格
+            string exportTxtTableNames = "$all";
+            stringBuilder.AppendFormat("\"{0}({1})\" ", AppValues.EXPORT_TXT_PARAM_STRING, exportTxtTableNames);
+
+            string exportTxtFilePath = tbExportTxtFilePath.Text.Trim();
+            if (!string.IsNullOrEmpty(exportTxtFilePath))
+            {
+                List<string> exportTxtParamList = new List<string>();
+                const string KEY_AND_VALUE_FORMAT = "{0}={1}";
+                if (Path.IsPathRooted(exportTxtFilePath))
+                    exportTxtFilePath = programUri.MakeRelativeUri(new Uri(exportTxtFilePath)).ToString();
+
+                exportTxtParamList.Add(string.Format(KEY_AND_VALUE_FORMAT, AppValues.EXPORT_TXT_PARAM_SUBTYPE_EXPORT_PATH, exportTxtFilePath));
+                // txt文件扩展名
+                string txtFileExtension = "txt";
+                exportTxtParamList.Add(string.Format(KEY_AND_VALUE_FORMAT, AppValues.EXPORT_TXT_PARAM_SUBTYPE_EXTENSION, txtFileExtension));
+
+                stringBuilder.AppendFormat("\"{0}({1})\" ", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, Utils.CombineString(exportTxtParamList, "|"));
+
+            }
+
             // 自动对导出csv对应的C#或Java类文件命名时添加的前后缀
             string csvClassNamePrefix = tbExportCsvClassNamePrefix.Text.Trim();
             string csvClassNamePostfix = tbExportCsvClassNamePostfix.Text.Trim();
