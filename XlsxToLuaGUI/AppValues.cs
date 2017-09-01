@@ -18,6 +18,8 @@ public class AppValues
     public const string ALLOWED_NULL_NUMBER_PARAM_STRING = "-allowedNullNumber";
     public const string EXPORT_CSV_PARAM_STRING = "-exportCsv";
     public const string EXPORT_CSV_PARAM_PARAM_STRING = "-exportCsvParam";
+    public const string EXPORT_TXT_PARAM_STRING = "-exportTxt";
+    public const string EXPORT_TXT_PARAM_PARAM_STRING = "-exportTxtParam";
     public const string EXPORT_CS_CLASS_PARAM_STRING = "-exportCsClass";
     public const string EXPORT_CS_CLASS_PARAM_PARAM_STRING = "-exportCsClassParam";
     public const string EXPORT_JAVA_CLASS_PARAM_STRING = "-exportJavaClass";
@@ -31,6 +33,12 @@ public class AppValues
     public const string EXPORT_CSV_PARAM_SUBTYPE_SPLIT_STRING = "splitString";
     public const string EXPORT_CSV_PARAM_SUBTYPE_IS_EXPORT_COLUMN_NAME = "isExportColumnName";
     public const string EXPORT_CSV_PARAM_SUBTYPE_IS_EXPORT_COLUMN_DATA_TYPE = "isExportColumnDataType";
+
+    public const string EXPORT_TXT_PARAM_SUBTYPE_EXPORT_PATH = "exportPath";
+    public const string EXPORT_TXT_PARAM_SUBTYPE_EXTENSION = "extension";
+    public const string EXPORT_TXT_PARAM_SUBTYPE_SPLIT_STRING = "splitString";
+    public const string EXPORT_TXT_PARAM_SUBTYPE_IS_EXPORT_COLUMN_NAME = "isExportColumnName";
+    public const string EXPORT_TXT_PARAM_SUBTYPE_IS_EXPORT_COLUMN_DATA_TYPE = "isExportColumnDataType";
 
     public const string EXPORT_CS_CLASS_PARAM_SUBTYPE_EXPORT_PATH = "exportPath";
     public const string EXPORT_CS_CLASS_PARAM_SUBTYPE_NAMESPACE = "namespace";

@@ -251,7 +251,17 @@ namespace XlsxToLuaGUI
                 tbExportJsonFilePath.Text = folderPath;
             }
         }
-
+        private void btnChooseExportTxtFilePath_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "请选择txt文件导出目录";
+            dialog.ShowNewFolderButton = false;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string folderPath = dialog.SelectedPath;
+                tbExportTxtFilePath.Text = folderPath;
+            }
+        }
         private void btnExecute_Click(object sender, EventArgs e)
         {
             if (_CheckConfig() == true)
@@ -330,6 +340,15 @@ namespace XlsxToLuaGUI
                     string exceptExcelNames = tbExceptExcelNames.Text.Trim();
                     if (!string.IsNullOrEmpty(exceptExcelNames))
                         configStringBuilder.Append(AppValues.EXCEPT_EXPORT_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(exceptExcelNames);
+
+                    string exportTxtFilePath = tbExportTxtFilePath.Text.Trim();
+                    if (!string.IsNullOrEmpty(exportTxtFilePath))
+                    {
+                        if (Path.IsPathRooted(exportTxtFilePath))
+                            exportTxtFilePath = programUri.MakeRelativeUri(new Uri(exportTxtFilePath)).ToString();
+
+                        configStringBuilder.Append(AppValues.EXPORT_TXT_PARAM_PARAM_STRING).Append(AppValues.SAVE_CONFIG_PARAM_SUBTYPE_SEPARATOR).Append(AppValues.EXPORT_TXT_PARAM_SUBTYPE_EXPORT_PATH).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(exportTxtFilePath);
+                    }
 
                     string exportCsvExcelNames = tbExportCsvTableNames.Text.Trim();
                     if (!string.IsNullOrEmpty(exportCsvExcelNames))
@@ -414,7 +433,6 @@ namespace XlsxToLuaGUI
 
                         configStringBuilder.Append(AppValues.EXPORT_JSON_PARAM_PARAM_STRING).Append(AppValues.SAVE_CONFIG_PARAM_SUBTYPE_SEPARATOR).Append(AppValues.EXPORT_JSON_PARAM_SUBTYPE_EXPORT_PATH).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(exportJsonFilePath);
                     }
-
                     string jsonFileExtension = tbJsonFileExtension.Text.Trim();
                     if (!string.IsNullOrEmpty(jsonFileExtension))
                         configStringBuilder.Append(AppValues.EXPORT_JSON_PARAM_PARAM_STRING).Append(AppValues.SAVE_CONFIG_PARAM_SUBTYPE_SEPARATOR).Append(AppValues.EXPORT_JSON_PARAM_SUBTYPE_EXTENSION).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(jsonFileExtension);
@@ -520,6 +538,10 @@ namespace XlsxToLuaGUI
                     tbExportJavaClassTableNames.Text = config[AppValues.EXPORT_JAVA_CLASS_PARAM_STRING];
                 if (config.ContainsKey(AppValues.EXPORT_JSON_PARAM_STRING))
                     tbExportJsonTableNames.Text = config[AppValues.EXPORT_JSON_PARAM_STRING];
+
+                string exportTxtFilePathKey = string.Concat(AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.SAVE_CONFIG_PARAM_SUBTYPE_SEPARATOR, AppValues.EXPORT_TXT_PARAM_SUBTYPE_EXPORT_PATH);
+                if (config.ContainsKey(exportTxtFilePathKey))
+                    tbExportTxtFilePath.Text = config[exportTxtFilePathKey];
 
                 string exportCsvFilePathKey = string.Concat(AppValues.EXPORT_CSV_PARAM_PARAM_STRING, AppValues.SAVE_CONFIG_PARAM_SUBTYPE_SEPARATOR, AppValues.EXPORT_CSV_PARAM_SUBTYPE_EXPORT_PATH);
                 if (config.ContainsKey(exportCsvFilePathKey))
