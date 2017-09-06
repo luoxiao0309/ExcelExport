@@ -19,12 +19,15 @@ namespace XlsxToLuaGUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             // 部分文本框填入默认值
-            tbClientFolderPath.Text = AppValues.NO_CLIENT_PATH_STRING;
+            tbClientFolderPath.Text = @"../../XZ/Assets";// AppValues.NO_CLIENT_PATH_STRING;
             tbLangFilePath.Text = AppValues.NO_LANG_PARAM_STRING;
             // 查找本程序所在目录下是否含有XlsxToLua工具，如果有直接填写路径到“工具所在目录”文本框中
             string defaultPath = Utils.CombinePath(AppValues.PROGRAM_FOLDER_PATH, AppValues.PROGRAM_NAME);
             if (File.Exists(defaultPath))
                 tbProgramPath.Text = defaultPath;
+
+            cbPart.Checked = true;
+            cbColumnInfo.Checked = true;
         }
 
         private void btnChooseExcelFolderPath_Click(object sender, EventArgs e)

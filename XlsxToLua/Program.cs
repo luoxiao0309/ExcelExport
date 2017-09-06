@@ -46,6 +46,13 @@ public class Program
     /// </summary>
     private static void Main(string[] args)
     {
+        string PROGRAM_FOLDER_PATH = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        //string defaultPath = Utils.CombinePath(PROGRAM_FOLDER_PATH, "svnUpdate.bat");
+        //if (File.Exists(defaultPath))
+        //{
+        //    Utils.Log("\n开始更新SVN\n");
+        //    System.Diagnostics.Process.Start(defaultPath.Replace('/', '\\'));
+        //}
         //处理第1个参数（Excel表格所在目录）；
         // 目录是否正确；
         // 目录及子目录是否存在同名文件；
@@ -1573,6 +1580,14 @@ public class Program
                 Utils.Log("\n导出到数据库完毕\n");
             }
             #endregion
+
+            string PROGRAM_FOLDER_PATH = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string defaultPath = Utils.CombinePath(PROGRAM_FOLDER_PATH, "svnCommit.bat");
+            if (File.Exists(defaultPath))
+            {
+                Utils.Log("\n开始提交SVN\n");
+                System.Diagnostics.Process.Start(defaultPath.Replace('/', '\\'));
+            }
         }
         else
         {
@@ -1582,7 +1597,7 @@ public class Program
         }
 
         Utils.Log("\n按任意键继续");
-       // Console.ReadKey();
+        Console.ReadKey();
 
 
     }

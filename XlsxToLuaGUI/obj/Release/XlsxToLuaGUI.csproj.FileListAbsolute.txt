@@ -12,3 +12,10 @@ D:\my\Code\xlsxtolua\XlsxToLuaGUI\bin\Release\XlsxToLuaGUI.pdb
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.MainForm.resources
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.Properties.Resources.resources
 D:\my\Code\xlsxtolua\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.csproj.GenerateResource.Cache
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.exe
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.pdb
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\bin\Release\XlsxToLuaGUI.exe
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\bin\Release\XlsxToLuaGUI.pdb
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.MainForm.resources
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.Properties.Resources.resources
+E:\my\Source\Code\ExcelExport\XlsxToLuaGUI\obj\Release\XlsxToLuaGUI.csproj.GenerateResource.Cache

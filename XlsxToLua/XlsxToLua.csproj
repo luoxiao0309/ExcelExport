@@ -62,6 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableAnalyzeHelper.cs" />
     <Compile Include="TableCheckHelper.cs" />
+    <Compile Include="TableCheckHelper2.cs" />
     <Compile Include="TableExportTo\TableExportToCsClassHelper.cs" />
     <Compile Include="TableExportTo\TableExportToCsvHelper.cs" />
     <Compile Include="TableExportTo\TableExportToJavaClassHelper.cs" />

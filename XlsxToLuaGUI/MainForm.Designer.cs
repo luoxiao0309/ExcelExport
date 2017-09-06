@@ -134,6 +134,7 @@
             this.tbExcelFolderPath.Name = "tbExcelFolderPath";
             this.tbExcelFolderPath.Size = new System.Drawing.Size(366, 21);
             this.tbExcelFolderPath.TabIndex = 1;
+            this.tbExcelFolderPath.Text = "TestExcel";
             // 
             // btnChooseExcelFolderPath
             // 
@@ -160,6 +161,7 @@
             this.tbExportLuaFolderPath.Name = "tbExportLuaFolderPath";
             this.tbExportLuaFolderPath.Size = new System.Drawing.Size(366, 21);
             this.tbExportLuaFolderPath.TabIndex = 4;
+            this.tbExportLuaFolderPath.Text = "../../XZ/Assets/LuaFramework/Lua/Config";
             // 
             // btnChooseExportLuaFolderPath
             // 
@@ -186,6 +188,7 @@
             this.tbClientFolderPath.Name = "tbClientFolderPath";
             this.tbClientFolderPath.Size = new System.Drawing.Size(366, 21);
             this.tbClientFolderPath.TabIndex = 7;
+            this.tbClientFolderPath.Text = "../../XZ/Assets";
             // 
             // btnChooseClientFolderPath
             // 
@@ -212,6 +215,7 @@
             this.tbLangFilePath.Name = "tbLangFilePath";
             this.tbLangFilePath.Size = new System.Drawing.Size(366, 21);
             this.tbLangFilePath.TabIndex = 10;
+            this.tbLangFilePath.Text = "-noLang";
             // 
             // btnChooseLangFilePath
             // 
@@ -382,7 +386,7 @@
             // 
             this.cbExportCsv.AutoSize = true;
             this.cbExportCsv.Location = new System.Drawing.Point(651, 26);
-            this.cbExportCsv.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbExportCsv.Margin = new System.Windows.Forms.Padding(2);
             this.cbExportCsv.Name = "cbExportCsv";
             this.cbExportCsv.Size = new System.Drawing.Size(174, 16);
             this.cbExportCsv.TabIndex = 28;
@@ -402,7 +406,7 @@
             // tbExportCsvTableNames
             // 
             this.tbExportCsvTableNames.Location = new System.Drawing.Point(934, 50);
-            this.tbExportCsvTableNames.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbExportCsvTableNames.Margin = new System.Windows.Forms.Padding(2);
             this.tbExportCsvTableNames.Name = "tbExportCsvTableNames";
             this.tbExportCsvTableNames.Size = new System.Drawing.Size(206, 21);
             this.tbExportCsvTableNames.TabIndex = 30;
@@ -410,7 +414,7 @@
             // btnChooseExportCsvFile
             // 
             this.btnChooseExportCsvFile.Location = new System.Drawing.Point(1155, 48);
-            this.btnChooseExportCsvFile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnChooseExportCsvFile.Margin = new System.Windows.Forms.Padding(2);
             this.btnChooseExportCsvFile.Name = "btnChooseExportCsvFile";
             this.btnChooseExportCsvFile.Size = new System.Drawing.Size(75, 23);
             this.btnChooseExportCsvFile.TabIndex = 31;
@@ -431,7 +435,7 @@
             // tbExportCsvFilePath
             // 
             this.tbExportCsvFilePath.Location = new System.Drawing.Point(790, 81);
-            this.tbExportCsvFilePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbExportCsvFilePath.Margin = new System.Windows.Forms.Padding(2);
             this.tbExportCsvFilePath.Name = "tbExportCsvFilePath";
             this.tbExportCsvFilePath.Size = new System.Drawing.Size(350, 21);
             this.tbExportCsvFilePath.TabIndex = 33;
@@ -439,7 +443,7 @@
             // btnChooseExportCsvFilePath
             // 
             this.btnChooseExportCsvFilePath.Location = new System.Drawing.Point(1155, 79);
-            this.btnChooseExportCsvFilePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnChooseExportCsvFilePath.Margin = new System.Windows.Forms.Padding(2);
             this.btnChooseExportCsvFilePath.Name = "btnChooseExportCsvFilePath";
             this.btnChooseExportCsvFilePath.Size = new System.Drawing.Size(75, 23);
             this.btnChooseExportCsvFilePath.TabIndex = 34;
@@ -460,7 +464,7 @@
             // tbCsvFileExtension
             // 
             this.tbCsvFileExtension.Location = new System.Drawing.Point(790, 114);
-            this.tbCsvFileExtension.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbCsvFileExtension.Margin = new System.Windows.Forms.Padding(2);
             this.tbCsvFileExtension.Name = "tbCsvFileExtension";
             this.tbCsvFileExtension.Size = new System.Drawing.Size(68, 21);
             this.tbCsvFileExtension.TabIndex = 36;
@@ -479,7 +483,7 @@
             // tbCsvFileSplitString
             // 
             this.tbCsvFileSplitString.Location = new System.Drawing.Point(967, 114);
-            this.tbCsvFileSplitString.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbCsvFileSplitString.Margin = new System.Windows.Forms.Padding(2);
             this.tbCsvFileSplitString.Name = "tbCsvFileSplitString";
             this.tbCsvFileSplitString.Size = new System.Drawing.Size(102, 21);
             this.tbCsvFileSplitString.TabIndex = 38;
@@ -491,7 +495,7 @@
             this.cbIsExportCsvColumnName.Checked = true;
             this.cbIsExportCsvColumnName.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbIsExportCsvColumnName.Location = new System.Drawing.Point(681, 147);
-            this.cbIsExportCsvColumnName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbIsExportCsvColumnName.Margin = new System.Windows.Forms.Padding(2);
             this.cbIsExportCsvColumnName.Name = "cbIsExportCsvColumnName";
             this.cbIsExportCsvColumnName.Size = new System.Drawing.Size(132, 16);
             this.cbIsExportCsvColumnName.TabIndex = 39;
@@ -504,7 +508,7 @@
             this.cbIsExportCsvColumnDataType.Checked = true;
             this.cbIsExportCsvColumnDataType.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbIsExportCsvColumnDataType.Location = new System.Drawing.Point(880, 147);
-            this.cbIsExportCsvColumnDataType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbIsExportCsvColumnDataType.Margin = new System.Windows.Forms.Padding(2);
             this.cbIsExportCsvColumnDataType.Name = "cbIsExportCsvColumnDataType";
             this.cbIsExportCsvColumnDataType.Size = new System.Drawing.Size(156, 16);
             this.cbIsExportCsvColumnDataType.TabIndex = 40;
@@ -515,7 +519,7 @@
             // 
             this.cbExportJson.AutoSize = true;
             this.cbExportJson.Location = new System.Drawing.Point(15, 459);
-            this.cbExportJson.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbExportJson.Margin = new System.Windows.Forms.Padding(2);
             this.cbExportJson.Name = "cbExportJson";
             this.cbExportJson.Size = new System.Drawing.Size(180, 16);
             this.cbExportJson.TabIndex = 41;
@@ -535,7 +539,7 @@
             // tbExportJsonTableNames
             // 
             this.tbExportJsonTableNames.Location = new System.Drawing.Point(298, 482);
-            this.tbExportJsonTableNames.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbExportJsonTableNames.Margin = new System.Windows.Forms.Padding(2);
             this.tbExportJsonTableNames.Name = "tbExportJsonTableNames";
             this.tbExportJsonTableNames.Size = new System.Drawing.Size(206, 21);
             this.tbExportJsonTableNames.TabIndex = 43;
@@ -543,7 +547,7 @@
             // btnChooseExportJsonFile
             // 
             this.btnChooseExportJsonFile.Location = new System.Drawing.Point(519, 480);
-            this.btnChooseExportJsonFile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnChooseExportJsonFile.Margin = new System.Windows.Forms.Padding(2);
             this.btnChooseExportJsonFile.Name = "btnChooseExportJsonFile";
             this.btnChooseExportJsonFile.Size = new System.Drawing.Size(75, 23);
             this.btnChooseExportJsonFile.TabIndex = 44;
@@ -564,7 +568,7 @@
             // tbExportJsonFilePath
             // 
             this.tbExportJsonFilePath.Location = new System.Drawing.Point(154, 514);
-            this.tbExportJsonFilePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbExportJsonFilePath.Margin = new System.Windows.Forms.Padding(2);
             this.tbExportJsonFilePath.Name = "tbExportJsonFilePath";
             this.tbExportJsonFilePath.Size = new System.Drawing.Size(350, 21);
             this.tbExportJsonFilePath.TabIndex = 46;
@@ -572,7 +576,7 @@
             // btnChooseExportJsonFilePath
             // 
             this.btnChooseExportJsonFilePath.Location = new System.Drawing.Point(519, 512);
-            this.btnChooseExportJsonFilePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnChooseExportJsonFilePath.Margin = new System.Windows.Forms.Padding(2);
             this.btnChooseExportJsonFilePath.Name = "btnChooseExportJsonFilePath";
             this.btnChooseExportJsonFilePath.Size = new System.Drawing.Size(75, 23);
             this.btnChooseExportJsonFilePath.TabIndex = 47;
@@ -593,7 +597,7 @@
             // tbJsonFileExtension
             // 
             this.tbJsonFileExtension.Location = new System.Drawing.Point(154, 547);
-            this.tbJsonFileExtension.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbJsonFileExtension.Margin = new System.Windows.Forms.Padding(2);
             this.tbJsonFileExtension.Name = "tbJsonFileExtension";
             this.tbJsonFileExtension.Size = new System.Drawing.Size(68, 21);
             this.tbJsonFileExtension.TabIndex = 49;
@@ -603,7 +607,7 @@
             // 
             this.cbIsExportJsonWithFormat.AutoSize = true;
             this.cbIsExportJsonWithFormat.Location = new System.Drawing.Point(244, 548);
-            this.cbIsExportJsonWithFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbIsExportJsonWithFormat.Margin = new System.Windows.Forms.Padding(2);
             this.cbIsExportJsonWithFormat.Name = "cbIsExportJsonWithFormat";
             this.cbIsExportJsonWithFormat.Size = new System.Drawing.Size(264, 16);
             this.cbIsExportJsonWithFormat.TabIndex = 50;
@@ -936,7 +940,7 @@
             // tbExportTxtFilePath
             // 
             this.tbExportTxtFilePath.Location = new System.Drawing.Point(188, 193);
-            this.tbExportTxtFilePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbExportTxtFilePath.Margin = new System.Windows.Forms.Padding(2);
             this.tbExportTxtFilePath.Name = "tbExportTxtFilePath";
             this.tbExportTxtFilePath.Size = new System.Drawing.Size(316, 21);
             this.tbExportTxtFilePath.TabIndex = 46;
@@ -945,7 +949,7 @@
             // btnChooseExportTxtFilePath
             // 
             this.btnChooseExportTxtFilePath.Location = new System.Drawing.Point(519, 192);
-            this.btnChooseExportTxtFilePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnChooseExportTxtFilePath.Margin = new System.Windows.Forms.Padding(2);
             this.btnChooseExportTxtFilePath.Name = "btnChooseExportTxtFilePath";
             this.btnChooseExportTxtFilePath.Size = new System.Drawing.Size(75, 23);
             this.btnChooseExportTxtFilePath.TabIndex = 47;
