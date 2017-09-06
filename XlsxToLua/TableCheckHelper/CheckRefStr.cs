@@ -8,6 +8,10 @@ public partial class TableCheckHelper
     /// 用于string型按指定格式解析后，取值必须在另一字段（可能还是这张表格也可能跨表）中有对应值的检查
     /// ref2:table[entry_dungeon_drop.drop_id](split{1;x;y;z}(;))(except{0})
     /// </summary>
+    /// <param name="fieldInfo">字段信息</param>
+    /// <param name="checkRule">检查信息</param>
+    /// <param name="errorString">错误信息</param>
+    /// <returns></returns>
     public static bool CheckRefStr(FieldInfo fieldInfo, FieldCheckRule checkRule, out string errorString)
     {
         int IDPosition = 0;
@@ -119,9 +123,7 @@ public partial class TableCheckHelper
                     }
 
                     FieldInfo targetFieldInfo = null;
-
-                    #region 多表多字段情况 ref:table[entry_item.item_id,entry_item_weapon.weapon_id,entry_partner.entry_id](except{0})
-
+                    #region 多表情况
                     const string START_STRING2 = "table[";
                     int rightBracketIndex2 = temp.LastIndexOf(']');
                     if (temp.StartsWith(START_STRING2, StringComparison.CurrentCultureIgnoreCase))//如果是以 ref2:table开头则
@@ -169,12 +171,12 @@ public partial class TableCheckHelper
                                     return false;
                                 }
                             }
-                            //// 检查目标字段必须为相同的数据类型
-                            //if (fieldInfo.DataType != targetFieldInfo.DataType)
-                            //{
-                            //    errorString = string.Format("值引用检查规则声明错误，表格\"{0}\"中通过索引字符串\"{1}\"找到的参考字段的数据类型为{2}，而要检查字段的数据类型为{3}，无法进行不同数据类型字段的引用检查\n", tableName, fieldIndexDefine, targetFieldInfo.DataType.ToString(), fieldInfo.DataType.ToString());
-                            //    return false;
-                            //}
+                            // 检查目标字段必须为相同的数据类型
+                            if (fieldInfo.DataType != targetFieldInfo.DataType)
+                            {
+                                //errorString = string.Format("值引用检查规则声明错误，表格\"{0}\"中通过索引字符串\"{1}\"找到的参考字段的数据类型为{2}，而要检查字段的数据类型为{3}，无法进行不同数据类型字段的引用检查\n", tableName, fieldIndexDefine, targetFieldInfo.DataType.ToString(), fieldInfo.DataType.ToString());
+                                //return false;
+                            }
                         }
 
                         Dictionary<string, object> unreferencedInfo = new Dictionary<string, object>();
@@ -293,9 +295,6 @@ public partial class TableCheckHelper
                                         default:
                                             break;
                                     }
-
-                                    //if (!targetFieldData.Contains(fieldInfo.Data[i]))
-                                    //    tempunreferencedInfo.Add(i, fieldInfo.Data[i]);
                                 }
                             }
                             if (tempunreferencedInfo.Count == 0)
@@ -330,9 +329,6 @@ public partial class TableCheckHelper
                                         unreferencedInfo.Add(kvp.Key, kvp.Value);
                                     }
                                 }
-                                else
-                                {
-                                }
                             }
                         }
 
@@ -357,8 +353,8 @@ public partial class TableCheckHelper
                             return true;
                         }
                     }
-
-                    #endregion 多表多字段情况 ref:table[entry_item.item_id,entry_item_weapon.weapon_id,entry_partner.entry_id](except{0})
+                    #endregion
+                    #region 废弃
 
                     // 解析参考表名、列名声明
 
@@ -450,6 +446,7 @@ public partial class TableCheckHelper
                             return true;
                         }
                     }
+                    #endregion
                 }
             }
         }
