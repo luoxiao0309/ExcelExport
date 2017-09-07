@@ -123,7 +123,9 @@ public partial class TableCheckHelper
                     }
 
                     FieldInfo targetFieldInfo = null;
+
                     #region 多表情况
+
                     const string START_STRING2 = "table[";
                     int rightBracketIndex2 = temp.LastIndexOf(']');
                     if (temp.StartsWith(START_STRING2, StringComparison.CurrentCultureIgnoreCase))//如果是以 ref2:table开头则
@@ -271,7 +273,7 @@ public partial class TableCheckHelper
 
                                                 string[] SecondSplitData = splitData.Split(SecondSplit[0]);
 
-                                                if(SecondSplitData.Length < IDPosition - 1)
+                                                if (SecondSplitData.Length < IDPosition - 1)
                                                 {
                                                     tempunreferencedInfo.Add(i + "_" + z.ToString(), SecondSplitData.ToString());
                                                     continue;
@@ -279,11 +281,11 @@ public partial class TableCheckHelper
 
                                                 try
                                                 {
-                                                    splitDataInt = int.Parse(SecondSplitData[IDPosition-1].ToString());
+                                                    splitDataInt = int.Parse(SecondSplitData[IDPosition - 1].ToString());
                                                 }
                                                 catch
                                                 {
-                                                    tempunreferencedInfo.Add(i + "_" + z.ToString(), SecondSplitData[IDPosition-1].ToString());
+                                                    tempunreferencedInfo.Add(i + "_" + z.ToString(), SecondSplitData[IDPosition - 1].ToString());
                                                     continue;
                                                 }
 
@@ -353,7 +355,9 @@ public partial class TableCheckHelper
                             return true;
                         }
                     }
-                    #endregion
+
+                    #endregion 多表情况
+
                     #region 废弃
 
                     // 解析参考表名、列名声明
@@ -446,7 +450,8 @@ public partial class TableCheckHelper
                             return true;
                         }
                     }
-                    #endregion
+
+                    #endregion 废弃
                 }
             }
         }

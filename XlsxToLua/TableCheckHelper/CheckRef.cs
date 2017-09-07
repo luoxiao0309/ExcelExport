@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
 using System.Text;
-
 
 public partial class TableCheckHelper
 {
@@ -226,14 +222,9 @@ public partial class TableCheckHelper
                                 }
                                 else
                                 {
-
                                 }
                             }
                         }
-
-
-
-
 
                         if (unreferencedInfo.Count > 0)
                         {
@@ -251,7 +242,9 @@ public partial class TableCheckHelper
                             return true;
                         }
                     }
-                    #endregion
+
+                    #endregion 多表多字段情况 ref:table[entry_item.item_id,entry_item_weapon.weapon_id,entry_partner.entry_id](except{0})
+
                     // 解析参考表名、列名声明
 
                     int hyphenIndex2 = temp.LastIndexOf('-');
@@ -346,6 +339,4 @@ public partial class TableCheckHelper
             }
         }
     }
-
 }
-

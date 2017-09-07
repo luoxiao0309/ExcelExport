@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-
 public partial class TableCheckHelper
 {
     /// <summary>
@@ -169,6 +168,4 @@ public partial class TableCheckHelper
             return true;
         }
     }
-
 }
-

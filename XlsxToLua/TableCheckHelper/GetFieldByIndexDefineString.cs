@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Text;
 
 public partial class TableCheckHelper
 {
@@ -249,6 +246,4 @@ public partial class TableCheckHelper
         errorString = null;
         return fieldInfo;
     }
-
 }
-

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-
-public partial class TableCheckHelper
+﻿public partial class TableCheckHelper
 {
     /// <summary>
     /// 检查字段名是否合法，要求必须以英文字母开头，只能为英文字母、数字或下划线，且不能为空或纯空格
@@ -33,6 +28,4 @@ public partial class TableCheckHelper
         errorString = null;
         return true;
     }
-
 }
-

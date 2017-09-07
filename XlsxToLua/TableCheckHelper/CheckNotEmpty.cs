@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-
 public partial class TableCheckHelper
 {
-
     /// <summary>
     /// 用于输入数据的非空检查，适用于int、long、float、string、lang、date、time、json或tableString型
     /// 注意：string类型要求字符串不能为空但允许为连续空格字符串，如果也不允许为连续空格字符串，需要声明为notEmpty[trim]
@@ -174,6 +172,4 @@ public partial class TableCheckHelper
 
         return data.Count == 0;
     }
-
 }
-

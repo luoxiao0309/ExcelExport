@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-
 
 public partial class TableCheckHelper
 {
@@ -52,6 +50,4 @@ public partial class TableCheckHelper
         else
             return false;
     }
-
 }
-

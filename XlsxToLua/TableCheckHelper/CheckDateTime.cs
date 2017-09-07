@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
 
 public partial class TableCheckHelper
 {
@@ -99,4 +96,3 @@ public partial class TableCheckHelper
         return true;
     }
 }
-

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Text;
-
 
 public partial class TableCheckHelper
 {
@@ -337,6 +333,4 @@ public partial class TableCheckHelper
             return;
         }
     }
-
 }
-

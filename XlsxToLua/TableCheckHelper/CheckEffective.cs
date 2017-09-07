@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-
-    public partial class TableCheckHelper
-    {
+public partial class TableCheckHelper
+{
     /// <summary>
     /// 用于int、long、float、string、date或time型取值必须为指定有效取值中的一个的检查
     /// </summary>
@@ -65,6 +64,4 @@ using System.Text;
             return false;
         }
     }
-
 }
-
