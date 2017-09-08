@@ -1,7 +1,7 @@
 ﻿####以下为程序配置
 
 ####连接MySQL数据库的参数字符串
-connectMySQLString:server=127.0.0.1;port=3306;uid=root;password=root;database=mydb;Charset=utf8;
+connectMySQLString:server=192.168.18.48;port=32001;uid=root;password=2J89d7*(JDdih&_78$56;database=xz_game;Charset=utf8;
 ####创建MySQL数据库表格时额外指定的参数字符串
 createDatabaseTableExtraParam:ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin
 ####未声明date型的输入格式时所采用的默认格式（支持以下几种：1、符合C#类库要求的标准时间格式。2、#1970sec表示距离1970年1月1日的秒数，#1970msec则为毫秒数）
@@ -19,27 +19,69 @@ defaultTimeToDatabaseFormat:HH:mm:ss
 
 ####以下为表格检查规则
 
-####道具品质
-$propQuality:{1,2,3}
-####道具类型
-$propType:[1,4]
-####价值物类型（包含各种道具和货币，1=道具，2=金钱，3=钻石，4=英雄）
-$type:[1,10]
-####英雄职业
-$heroType:[1,4]
-####英雄稀有度
-$heroRare:[11,13]
-####英雄星级
-$heroStar:[1,5]
-####英雄品阶（分别对应白、绿、绿+1、蓝、蓝+1、蓝+2、紫、紫+1、紫+2、紫+3
-$heroQuality:{10,20,21,30,31,32,40,41,42,43}
-####英雄装备槽位序号范围
-$heroEquipmentSeq:[1,4]
-####英雄等级范围
-$heroRank:[1,60]
+
+###装备id命名规则
+$weapon_id:[100101000,199999999]
+
+###道具id命名规则
+$item_id:[200000000,299999999]
 
 
-####以下为常量配置
+###掉落id检查
+$checkItemId:ref:table[entry_item.item_id,entry_baowu.id,entry_item_weapon.weapon_id,entry_partner.entry_id](except{0})
 
-####道具类型的type
-propType:1
+###掉落道具id检查
+$checkItem:ref:entry_item-item_id
+###伙伴ID命名规则
+$partner_id:[10000,99999]
+
+###颜色编码依次为：灰色、白色、绿色、蓝色、紫色、橙色、红色
+$color:{0,1,2,3,4,5,6}
+
+###种族依次为：任意种族，人族,妖族，魔族，仙族、鬼族
+$race:{0,1,2,3,4,5}
+
+###性别依次为：任意性别、男、女
+$sex:{0,1,2}
+
+###伤害类型依次为：任意伤害类型、物理、法术
+$hurt_type:{0,1,2}
+
+###资质依次为：B  A  S-  S  SS 
+$qualifiy:{1,2,3,4,5}
+
+###背包类型依次为：普通背包、装备背包、武器碎片背包
+$pack_type:{1,2,3,4}
+
+###属性范围限定
+###仇恨值
+$hatred:[0,1000000]
+###灵巧
+$dexterous:[0,999]
+###攻击
+$attack:[0,99999]
+###物防
+$defense:[0,99999]
+###法防
+$magic_def:[0,99999]
+###生命
+$hp:[0,999999]
+
+###命中率
+$hittarget:[0,9999]
+###闪避率
+$duck:[0,9999]
+###暴击率
+$power_hit:[0,9999]
+###抗暴击率
+$resist_power_hit:[0,9999]
+###反伤百分比
+$back_hurt:[0,9999]
+###伤害加成
+$add_hurt_percent:[0,9999]
+###伤害减免
+$reduce_hurt_percent:[0,9999]
+###吸血百分比
+$suck_blood:[0,9999]
+###生命恢复百分比
+$rehp_rate:[0,9999]

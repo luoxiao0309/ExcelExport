@@ -9,6 +9,12 @@ public partial class TableCheckHelper
     /// </summary>
     public static bool CheckRef(FieldInfo fieldInfo, FieldCheckRule checkRule, out string errorString)
     {
+        string temp = null;
+        List<object> exceptValues = new List<object>();
+        string tableName;
+        string fieldIndexDefine;
+        FieldInfo targetFieldInfo = null;
+
         // 首先要求字段类型只能为int、long、float或string型
         if (!(fieldInfo.DataType == DataType.Int || fieldInfo.DataType == DataType.Long || fieldInfo.DataType == DataType.Float || fieldInfo.DataType == DataType.String))
         {
@@ -17,9 +23,6 @@ public partial class TableCheckHelper
         }
         else
         {
-            string tableName;
-            string fieldIndexDefine;
-
             // 解析ref规则中目标列所在表格以及字段名
             const string START_STRING = "ref:";
             if (!checkRule.CheckRuleString.StartsWith(START_STRING, StringComparison.CurrentCultureIgnoreCase))
@@ -29,7 +32,7 @@ public partial class TableCheckHelper
             }
             else
             {
-                string temp = checkRule.CheckRuleString.Substring(START_STRING.Length).Trim();//去掉前面的fef:字符
+                temp = checkRule.CheckRuleString.Substring(START_STRING.Length).Trim();//去掉前面的fef:字符
                 if (string.IsNullOrEmpty(temp))
                 {
                     errorString = string.Format("值引用检查规则声明错误，\"{0}\"的后面必须跟表格名-字段名\n", START_STRING);
@@ -38,7 +41,7 @@ public partial class TableCheckHelper
                 else
                 {
                     // 判断是否在最后以(except{xx,xx})的格式声明无需ref规则检查的特殊值
-                    List<object> exceptValues = new List<object>();
+                   // List<object> exceptValues = new List<object>();
                     int leftBracketIndex = temp.IndexOf('(');
                     int rightBracketIndex = temp.LastIndexOf(')');
                     if (leftBracketIndex != -1 && rightBracketIndex > leftBracketIndex)
@@ -67,7 +70,7 @@ public partial class TableCheckHelper
                         }
                     }
 
-                    FieldInfo targetFieldInfo = null;
+                 //   FieldInfo targetFieldInfo = null;
 
                     #region 多表多字段情况 ref:table[entry_item.item_id,entry_item_weapon.weapon_id,entry_partner.entry_id](except{0})
 
@@ -127,6 +130,7 @@ public partial class TableCheckHelper
                         }
 
                         Dictionary<int, object> unreferencedInfo = new Dictionary<int, object>();
+                        Dictionary<int, object> tempunreferencedInfo2 = new Dictionary<int, object>();
                         for (int j = 0; j < values.Length; ++j)
                         {
                             string tempNameField = values[j].Trim();
@@ -156,75 +160,75 @@ public partial class TableCheckHelper
                             // 存储找不到引用对应关系的数据信息（key：行号， value：填写的数据）
                             Dictionary<int, object> tempunreferencedInfo = new Dictionary<int, object>();
 
-                            if (fieldInfo.DataType == DataType.Int || fieldInfo.DataType == DataType.Long || fieldInfo.DataType == DataType.Float)
+                            if (unreferencedInfo.Count == 0)
                             {
-                                for (int i = 0; i < fieldInfo.Data.Count; ++i)
+                                if (fieldInfo.DataType == DataType.Int || fieldInfo.DataType == DataType.Long || fieldInfo.DataType == DataType.Float)
                                 {
-                                    // 忽略无效集合元素下属子类型的空值或本身为空值
-                                    if (fieldInfo.Data[i] == null)
-                                        continue;
-                                    // 忽略不进行ref检查的排除值
-                                    else if (exceptValues.Contains(fieldInfo.Data[i]))
-                                        continue;
-
-                                    if (!targetFieldData.Contains(fieldInfo.Data[i]))
-                                        tempunreferencedInfo.Add(i, fieldInfo.Data[i]);
-                                }
-                            }
-                            else if (fieldInfo.DataType == DataType.String)
-                            {
-                                for (int i = 0; i < fieldInfo.Data.Count; ++i)
-                                {
-                                    // 忽略无效集合元素下属子类型的空值以及空字符串
-                                    if (fieldInfo.Data[i] == null || string.IsNullOrEmpty(fieldInfo.Data[i].ToString()))
-                                        continue;
-                                    // 忽略不进行ref检查的排除值
-                                    else if (exceptValues.Contains(fieldInfo.Data[i]))
-                                        continue;
-
-                                    if (!targetFieldData.Contains(fieldInfo.Data[i]))
-                                        tempunreferencedInfo.Add(i, fieldInfo.Data[i]);
-                                }
-                            }
-                            if (tempunreferencedInfo.Count == 0)
-                            {
-                                break;
-                            }
-                            //  var dz = unreferencedInfo.Keys.Intersect(tempunreferencedInfo.Keys);
-                            if (unreferencedInfo.Count > 0)
-                            {
-                                List<int> tempList = new List<int>();
-                                foreach (KeyValuePair<int, object> kvp in unreferencedInfo)
-                                {
-                                    if (tempunreferencedInfo.ContainsKey(kvp.Key))
+                                    for (int i = 0; i < fieldInfo.Data.Count; ++i)
                                     {
-                                        //存在处理
-                                    }
-                                    else
-                                    {
-                                        tempList.Add(kvp.Key);
-                                        // unreferencedInfo.Remove(kvp.Key);//不存在就移除
+                                        // 忽略无效集合元素下属子类型的空值或本身为空值
+                                        if (fieldInfo.Data[i] == null)
+                                            continue;
+                                        // 忽略不进行ref检查的排除值
+                                        else if (exceptValues.Contains(fieldInfo.Data[i]))
+                                            continue;
+
+                                        if (!targetFieldData.Contains(fieldInfo.Data[i]))
+                                            tempunreferencedInfo.Add(i, fieldInfo.Data[i]);
                                     }
                                 }
-                                foreach (int k in tempList)
+                                else if (fieldInfo.DataType == DataType.String)
                                 {
-                                    unreferencedInfo.Remove(k);//不存在就移除
+                                    for (int i = 0; i < fieldInfo.Data.Count; ++i)
+                                    {
+                                        // 忽略无效集合元素下属子类型的空值以及空字符串
+                                        if (fieldInfo.Data[i] == null || string.IsNullOrEmpty(fieldInfo.Data[i].ToString()))
+                                            continue;
+                                        // 忽略不进行ref检查的排除值
+                                        else if (exceptValues.Contains(fieldInfo.Data[i]))
+                                            continue;
+
+                                        if (!targetFieldData.Contains(fieldInfo.Data[i]))
+                                            tempunreferencedInfo.Add(i, fieldInfo.Data[i]);
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                if (tempunreferencedInfo.Count > 0)
+                                if (tempunreferencedInfo.Count == 0)
+                                {
+                                    break;
+                                }
+                                else
                                 {
                                     foreach (KeyValuePair<int, object> kvp in tempunreferencedInfo)
                                     {
                                         unreferencedInfo.Add(kvp.Key, kvp.Value);
                                     }
+                                    continue;
                                 }
-                                else
+                               
+                            }
+                            else
+                            {
+                                foreach (KeyValuePair<int, object> kvp in unreferencedInfo)
                                 {
+                                    if (targetFieldData.Contains(kvp.Value))
+                                    {
+                                        if(!tempunreferencedInfo2.ContainsKey(kvp.Key))
+                                            tempunreferencedInfo2.Add(kvp.Key, kvp.Value);
+                                    }
                                 }
                             }
                         }
+
+                        if (tempunreferencedInfo2.Count > 0)
+                        {
+                            foreach (KeyValuePair<int, object> kvp in tempunreferencedInfo2)
+                            {
+                                if (unreferencedInfo.ContainsKey(kvp.Key))
+                                    unreferencedInfo.Remove(kvp.Key);
+                            }
+                        }
+
+
 
                         if (unreferencedInfo.Count > 0)
                         {
