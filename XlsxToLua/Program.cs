@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -11,11 +12,13 @@ using System.Threading;
 
 public class Program
 {
+   static Stopwatch st = new Stopwatch();//计算运行时间
     /// <summary>
     /// 文件名及完整路径，如：
     /// 
     /// </summary>
-    static List<XlsxToLua.FileInformation> existExcelFilePaths = new List<XlsxToLua.FileInformation>();
+    //static List<XlsxToLua.FileInformation> existExcelFilePaths = new List<XlsxToLua.FileInformation>();
+    static string[] existExcelFilePaths;
     /// <summary>
     /// 不带扩展名的文件名称，如item
     /// </summary>
@@ -46,6 +49,8 @@ public class Program
     /// </summary>
     private static void Main(string[] args)
     {
+
+        st.Start();
         string PROGRAM_FOLDER_PATH = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
         //string defaultPath = Utils.CombinePath(PROGRAM_FOLDER_PATH, "svnUpdate.bat");
         //if (File.Exists(defaultPath))
@@ -187,6 +192,7 @@ public class Program
     
         //开始导出Excel表
         ExportExcel();
+
     }
 
     /// <summary>
@@ -209,19 +215,20 @@ public class Program
 
         // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
         XlsxToLua.DirectoryAllFiles directoryAllFiles = new XlsxToLua.DirectoryAllFiles();
-        existExcelFilePaths = directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xlsx");
+        //existExcelFilePaths = directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xlsx");
+        existExcelFilePaths = GetAllFiles(AppValues.ExcelFolderPath, "0", true);
 
         Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-        foreach (var filePath in existExcelFilePaths)
+        foreach (string filePath in existExcelFilePaths)
         {
-            string strP = Path.GetFileNameWithoutExtension(filePath.FilePath);
+            string strP = Path.GetFileNameWithoutExtension(filePath);
             if (dic.ContainsKey(strP))//存在该key
             {
-                dic[strP].Add(filePath.FilePath);
+                dic[strP].Add(filePath);
             }
             else
             {
-                dic.Add(strP, new List<string> { filePath.FilePath });
+                dic.Add(strP, new List<string> { filePath});
             }
             existExcelFileNames.Add(strP);//不带扩展名的文件名称，如item
         }
@@ -1212,13 +1219,13 @@ public class Program
         // 如果未指定导出部分Excel文件，则全部导出，但要排除设置了进行忽略的
         if (AppValues.ExportTableNames.Count == 0)
         {
-            foreach (var filePath in existExcelFilePaths)
+            foreach (string filePath in existExcelFilePaths)
             {
-                string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
                 if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
                     Utils.LogWarning(string.Format("目录中的{0}文件为Excel自动生成的临时文件，将被忽略处理", filePath));
                 else if (!AppValues.ExceptExportTableNames.Contains(fileName))
-                    AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath.FileName));
+                    AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath));
             }
         }
         #endregion
@@ -1323,11 +1330,11 @@ public class Program
             Utils.LogErrorAndExit(errorConfigString);
         }
     }
-
+    
     /// <summary>
     /// 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
     /// </summary>
-    public static void AnalyzingExcel()
+    public static void AnalyzingExcel2()
     {
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
         Utils.Log("开始解析Excel文件：");
@@ -1335,9 +1342,9 @@ public class Program
                                               //foreach (var filePathi in existExcelFilePaths)
         System.Threading.Tasks.Parallel.ForEach(existExcelFilePaths, (item, ParallelLoopState) =>
         {
-            var filePath = item;
+            string filePath = item;
 
-            string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
             if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
             {
                 // 跳出当前执行单元
@@ -1357,20 +1364,21 @@ public class Program
                 return;//不加return，可能会发生该进程资源未释放。
             }
 
-            Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
+            //Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
             stopwatch.Reset();//时间重置
             stopwatch.Start();
 
             string errorString = null;
-            DataSet ds = XlsxReader.ReadXlsxFile(filePath.FilePath, out errorString);
+            DataSet ds = XlsxReader.ReadXlsxFile(filePath, out errorString);
             stopwatch.Stop();
-            Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
+            Utils.Log(string.Format("解析表格\"{0}\"成功，耗时：{1}毫秒：", fileName , stopwatch.ElapsedMilliseconds), ConsoleColor.Green);
+            //Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
             if (string.IsNullOrEmpty(errorString))
             {
-                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName, filePath.FilePath, out errorString);
+                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName, filePath, out errorString);
                 if (errorString != null)
                 {
-                    Utils.LogErrorAndExit(string.Format("错误：解析{0}失败\n{1}", filePath, errorString));
+                    Utils.LogErrorAndExit(string.Format("解析表格\"{0}\"失败", filePath, errorString));
                     // 停止并退出Parallel.For
                     ParallelLoopState.Stop();
                     return;
@@ -1408,38 +1416,36 @@ public class Program
 
         });
     }
+    
     /// <summary>
     /// 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
     /// </summary>
-    public static void AnalyzingExcel2()
+    public static void AnalyzingExcel()
     {
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
         Utils.Log("开始解析Excel文件：");
         Stopwatch stopwatch = new Stopwatch();//计算运行时间
-        foreach (var filePathi in existExcelFilePaths)
+        foreach (string filePath in existExcelFilePaths)
         {
-            var filePath = filePathi;
-
-                string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
             if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
                 continue;
             if (AppValues.ExceptExportTableNames.Contains(fileName))
                 continue;
             if (AppValues.ExportTableNames.Count > 0 && !AppValues.ExportTableNames.Contains(fileName))
                 continue;
-            ThreadPool.QueueUserWorkItem(h =>
-            {
+
                 Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
             stopwatch.Reset();//时间重置
             stopwatch.Start();
 
             string errorString = null;
-            DataSet ds = XlsxReader.ReadXlsxFile(filePath.FilePath, out errorString);
+            DataSet ds = XlsxReader.ReadXlsxFile(filePath, out errorString);
             stopwatch.Stop();
             Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
             if (string.IsNullOrEmpty(errorString))
             {
-                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName,filePath.FilePath, out errorString);
+                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName,filePath, out errorString);
                 if (errorString != null)
                     Utils.LogErrorAndExit(string.Format("错误：解析{0}失败\n{1}", filePath, errorString));
                 else
@@ -1463,7 +1469,7 @@ public class Program
             }
             else
                 Utils.LogErrorAndExit(string.Format("错误：读取{0}失败\n{1}", filePath, errorString));
-            });
+    
         }
     }
     public static bool CheckExcelTable()
@@ -1685,10 +1691,52 @@ public class Program
             // 将错误信息全部输出保存到txt文件中
             Utils.SaveErrorInfoToFile();
         }
-
+        st.Stop();
+        Utils.Log(string.Format("总耗时：{0}毫秒：", st.ElapsedMilliseconds), ConsoleColor.Green);
         Utils.Log("\n按任意键继续");
         Console.ReadKey();
 
+
+    }
+
+    /// <summary>
+    /// 获取指定文件下所有【文件的全名称】，
+    /// 可以获取子文件夹
+    /// </summary>
+    /// <param name="strFolder">指定目录</param>
+    /// <param name="strRegesText">正则指定搜索条件,0为搜索xlsx文件，"\S\.xlsx$"表示 </param>
+    /// <param name="blIsSearchSubfolder">是否搜索子文件夹,1搜索，0不搜索。默认不搜索</param>
+    /// <returns>返回搜索到的文件全名数组</returns>
+    public static string[] GetAllFiles(string strFolder, string strRegesText, bool blIsSearchSubfolder = false)
+    {
+        string[] files;
+        if (strRegesText == null | strRegesText == "0")
+        {
+            strRegesText = @"\S\.xlsx$";
+        }
+
+        if (blIsSearchSubfolder)//搜索子文件夹
+        {
+            files = Directory.EnumerateFiles(strFolder, "*", SearchOption.AllDirectories).Where(s => isContainsText(s, strRegesText)).ToArray();
+        }
+        else
+        {
+            files = Directory.EnumerateFiles(strFolder).Where(s => isContainsText(s, strRegesText)).ToArray();
+        }
+
+        return files;
+    }
+
+    private static bool isContainsText(string s, string containstext)
+    {
+        if (string.IsNullOrEmpty(containstext))
+        {
+            return true;
+        }
+        else
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(s, containstext);
+        }
 
     }
 }

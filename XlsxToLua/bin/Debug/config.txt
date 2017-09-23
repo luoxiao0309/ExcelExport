@@ -29,9 +29,6 @@ $item_id:[200000000,299999999]
 
 ###掉落id检查
 $checkItemId:ref:table[entry_item.item_id,entry_baowu.id,entry_item_weapon.weapon_id,entry_partner.entry_id](except{0})
-
-###掉落道具id检查
-$checkItem:ref:entry_item-item_id
 ###伙伴ID命名规则
 $partner_id:[10000,99999]
 
