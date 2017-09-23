@@ -181,9 +181,10 @@ public class Program
         //检查并解析本工具所在目录下的config文件
         CheckToolConfig();
 
-        //读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
-        AnalyzingExcel();
-
+       
+            //读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
+            AnalyzingExcel();
+    
         //开始导出Excel表
         ExportExcel();
     }
@@ -1322,6 +1323,7 @@ public class Program
             Utils.LogErrorAndExit(errorConfigString);
         }
     }
+
     /// <summary>
     /// 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
     /// </summary>
@@ -1330,17 +1332,104 @@ public class Program
         // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
         Utils.Log("开始解析Excel文件：");
         Stopwatch stopwatch = new Stopwatch();//计算运行时间
-        foreach (var filePath in existExcelFilePaths)
+                                              //foreach (var filePathi in existExcelFilePaths)
+        System.Threading.Tasks.Parallel.ForEach(existExcelFilePaths, (item, ParallelLoopState) =>
         {
+            var filePath = item;
+
             string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
+            if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
+            {
+                // 跳出当前执行单元
+                ParallelLoopState.Break();
+                return;//不加return，可能会发生该进程资源未释放。
+            }
+            if (AppValues.ExceptExportTableNames.Contains(fileName))
+            {
+                // 跳出当前执行单元
+                ParallelLoopState.Break();
+                return;//不加return，可能会发生该进程资源未释放。
+            }
+            if (AppValues.ExportTableNames.Count > 0 && !AppValues.ExportTableNames.Contains(fileName))
+            {
+                // 跳出当前执行单元
+                ParallelLoopState.Break();
+                return;//不加return，可能会发生该进程资源未释放。
+            }
+
+            Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
+            stopwatch.Reset();//时间重置
+            stopwatch.Start();
+
+            string errorString = null;
+            DataSet ds = XlsxReader.ReadXlsxFile(filePath.FilePath, out errorString);
+            stopwatch.Stop();
+            Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
+            if (string.IsNullOrEmpty(errorString))
+            {
+                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName, filePath.FilePath, out errorString);
+                if (errorString != null)
+                {
+                    Utils.LogErrorAndExit(string.Format("错误：解析{0}失败\n{1}", filePath, errorString));
+                    // 停止并退出Parallel.For
+                    ParallelLoopState.Stop();
+                    return;
+                }
+
+                else
+                {
+                    // 如果有表格配置进行解析
+                    if (ds.Tables[AppValues.EXCEL_CONFIG_SHEET_NAME] != null)
+                    {
+                        tableInfo.TableConfig = TableAnalyzeHelper.GetTableConfig(ds.Tables[AppValues.EXCEL_CONFIG_SHEET_NAME], out errorString);
+                        if (!string.IsNullOrEmpty(errorString))
+                        {
+                            Utils.LogErrorAndExit(string.Format("错误：解析表格{0}的配置失败\n{1}", fileName, errorString));
+                            // 停止并退出Parallel.For
+                            ParallelLoopState.Stop();
+                            return;
+                        }
+                        else
+                        {
+                            tableInfo.TableConfigData = ds.Tables[AppValues.EXCEL_CONFIG_SHEET_NAME];
+                        }
+                    }
+
+                    AppValues.TableInfo.Add(tableInfo.TableName, tableInfo);
+                }
+            }
+            else
+            {
+                Utils.LogErrorAndExit(string.Format("错误：读取{0}失败\n{1}", filePath, errorString));
+                // 停止并退出Parallel.For
+                ParallelLoopState.Stop();
+                return;
+            }
+
+        });
+    }
+    /// <summary>
+    /// 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
+    /// </summary>
+    public static void AnalyzingExcel2()
+    {
+        // 读取给定的Excel所在目录下的所有Excel文件，然后解析成本工具所需的数据结构
+        Utils.Log("开始解析Excel文件：");
+        Stopwatch stopwatch = new Stopwatch();//计算运行时间
+        foreach (var filePathi in existExcelFilePaths)
+        {
+            var filePath = filePathi;
+
+                string fileName = Path.GetFileNameWithoutExtension(filePath.FileName);
             if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
                 continue;
             if (AppValues.ExceptExportTableNames.Contains(fileName))
                 continue;
             if (AppValues.ExportTableNames.Count > 0 && !AppValues.ExportTableNames.Contains(fileName))
                 continue;
-
-            Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
+            ThreadPool.QueueUserWorkItem(h =>
+            {
+                Utils.Log(string.Format("解析表格\"{0}\"：", fileName), ConsoleColor.Green);
             stopwatch.Reset();//时间重置
             stopwatch.Start();
 
@@ -1374,6 +1463,7 @@ public class Program
             }
             else
                 Utils.LogErrorAndExit(string.Format("错误：读取{0}失败\n{1}", filePath, errorString));
+            });
         }
     }
     public static bool CheckExcelTable()
