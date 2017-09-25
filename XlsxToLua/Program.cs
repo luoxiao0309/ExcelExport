@@ -1690,11 +1690,12 @@ public class Program
             Utils.LogError("\n表格检查完毕，但存在上面所列错误，必须全部修正后才可以进行表格导出\n");
             // 将错误信息全部输出保存到txt文件中
             Utils.SaveErrorInfoToFile();
+            Utils.Log("\n按任意键继续");
+            Console.ReadKey();
         }
         st.Stop();
-        Utils.Log(string.Format("总耗时：{0}毫秒：", st.ElapsedMilliseconds), ConsoleColor.Green);
-        Utils.Log("\n按任意键继续");
-        Console.ReadKey();
+        //Utils.Log(string.Format("总耗时：{0}毫秒：", st.ElapsedMilliseconds), ConsoleColor.Green);
+
 
 
     }
