@@ -81,12 +81,19 @@ public class TableExportToTxtHelper
                     SpecialTopComment = TopComment[1].ToString().Trim();
                     continue;
                 }
+                if (fieldDefine == "\\r\\n")
+                {
+                    //stringBuilder.Append("\\r\\n");
+                    stringBuilder.AppendLine("");
+                    continue;
+                }
                 if (fieldDefine.StartsWith("{") && fieldDefine.EndsWith("}"))
                 {
                     string fieldName = fieldDefine.Substring(1, fieldDefine.Length - 2);
                     FieldInfo fieldInfo = tableInfo.GetFieldInfoByFieldName(fieldName);
                     stringBuilder.Append(fieldInfo.Data[row]);
                 }
+
                 else
                 {
                     stringBuilder.Append(fieldDefine);
@@ -127,7 +134,7 @@ public class TableExportToTxtHelper
         
 
         // 保存为txt文件 SpecialExportTxtExtension
-        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList, SpecialExportTxtExtension, SpecialExportTxtPath))
+        if (Utils.SaveTxtFile(fileName, rowContentList, SpecialExportTxtExtension, SpecialExportTxtPath))
         {
             errorString = null;
 

@@ -10,12 +10,12 @@
             errorString = "不能为空或纯空格";
             return false;
         }
-        char firstLetter = fieldName[0];
-        if (!((firstLetter >= 'a' && firstLetter <= 'z') || (firstLetter >= 'A' && firstLetter <= 'Z')))
-        {
-            errorString = string.Format("{0}不合法，必须以英文字母开头", fieldName);
-            return false;
-        }
+        //char firstLetter = fieldName[0];
+        //if (!((firstLetter >= 'a' && firstLetter <= 'z') || (firstLetter >= 'A' && firstLetter <= 'Z')))
+        //{
+        //    errorString = string.Format("{0}不合法，必须以英文字母开头", fieldName);
+        //    return false;
+        //}
         foreach (char c in fieldName)
         {
             if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'))
