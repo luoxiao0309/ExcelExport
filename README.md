@@ -1,6 +1,4 @@
 # XlsxToLua
-# 原作者：张齐 
-# 作者github https://github.com/zhangqi-ulua/XlsxToLua.git
 ####Excel表格数据导出为Lua table形式的工具，兼带数据检查功能
 
 希望这个工具能为今后ulua手机游戏项目带来便利，使得策划可以用Excel进行配表，从而享受Excel各种强大的功能，而程序可以直接读取lua table定义的数据使用，省去如果用CSV作为数据表所导致的每个文件都得专门去写解析文件并构造数据结构的麻烦。同时各种预设检查规则以及可以自己扩展的检查规则可以帮助策划、程序进行数据导出前的查错，避免因为数据填写错误导致的上线事故<br/>
@@ -11,8 +9,21 @@
 感谢蒙大神的 [<b>CSToLua</b>](https://github.com/topameng/CsToLua)(https://github.com/topameng/CsToLua) 以及新推出的[<b>tolua#</b>](https://github.com/topameng/tolua)(https://github.com/topameng/tolua) 对ulua开发unity游戏带来的巨大效率提升<br/>
 感谢众多为ulua社区做出贡献的大神 (http://bbs.ulua.org/article/ulua/uluacstoluagongxianyingxiongbang.html)<br/>
 ______________________________________________________________________________<br/>
+
+感谢mimicryryu fork出了替换微软读取Excel类库为开源的ExcelDataReader，从而支持在mac系统上运行XlsxToLua工具<br/>
+
+地址为：https://github.com/mimicryryu/XlsxToLua<br/>
+______________________________________________________________________________<br/><br/>
 ####更新日志<br/>
 这里仅列举版本新增功能的大致介绍，详细使用请参考PDF版本的使用说明<br/><br/>
+
+======= V7.0 2017.10.25 ======<br/>
+1、增加用于灵活配置不定参数的mspString类型以及对应的表格检查规则<br/>
+2、修改LitJson类库，使得输出json中的中文等字符原样显示，而不是以Unicode编码形式显示<br/>
+
+======= V6.7 2017.9.18 ======<br/>
+1、取消array、dict类型最多只能嵌套两层的限制，取消dict型下属子元素类型不能为json和tableString的限制<br/>
+2、导出csv文件中，如果array、dict型字段的某个数据用-1设为无效，其下属array、dict型子字段的数据值也会被输出为-1<br/>
 
 ======= V6.6 2017.8.18 ======<br/>
 1、增加另一种导出json文件的形式，即为各行数据以主键列值为key，各字段信息为value，包含在一个json object<br/>

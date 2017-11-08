@@ -530,6 +530,11 @@ public class TableExportToLuaHelper
                     value = _GetTableStringValue(fieldInfo, row, level, out errorString);
                     break;
                 }
+            case DataType.MapString:
+                {
+                    value = _GetMapStringValue(fieldInfo, row, level);
+                    break;
+                }
             case DataType.Dict:
             case DataType.Array:
                 {
@@ -702,7 +707,6 @@ public class TableExportToLuaHelper
     {
         StringBuilder content = new StringBuilder();
 
-
         // 如果该dict或array数据用-1标为无效，则赋值为nil
         if ((bool)fieldInfo.Data[row] == false)
             content.Append("nil");
@@ -714,7 +718,6 @@ public class TableExportToLuaHelper
             // 逐个对子元素进行生成
             foreach (FieldInfo childField in fieldInfo.ChildField)
             {
-                
                 string oneFieldString = _GetOneField(childField, row, level, out errorString);
                 if (errorString != null)
                     return null;
@@ -797,13 +800,30 @@ public class TableExportToLuaHelper
             content.Append("}");
         }
         else if (jsonData.IsString == true)
-            content.AppendFormat("\"{0}\"", jsonData.ToString());
+        {
+            // 将单元格中填写的英文引号进行转义，使得单元格中填写123"456时，最终生成的lua文件中为xx = "123\"456"
+            // 将单元格中手工按下的回车变成"\n"输出到lua文件中，单元格中输入的"\n"等原样导出到lua文件中使其能被lua转义处理
+            content.AppendFormat("\"{0}\"", jsonData.ToString().Replace("\n", "\\n").Replace("\"", "\\\""));
+        }
         else if (jsonData.IsBoolean == true)
             content.AppendFormat(jsonData.ToString().ToLower());
         else if (jsonData.IsInt == true || jsonData.IsLong == true || jsonData.IsDouble == true)
             content.AppendFormat(jsonData.ToString());
         else
             Utils.LogErrorAndExit("用_AnalyzeJsonData解析了未知的JsonData类型");
+    }
+
+    private static string _GetMapStringValue(FieldInfo fieldInfo, int row, int level)
+    {
+        JsonData jsonData = fieldInfo.Data[row] as JsonData;
+        if (jsonData == null)
+            return "nil";
+        else
+        {
+            StringBuilder content = new StringBuilder();
+            _AnalyzeJsonData(content, jsonData, level);
+            return content.ToString();
+        }
     }
 
     private static string _GetTableStringValue(FieldInfo fieldInfo, int row, int level, out string errorString)

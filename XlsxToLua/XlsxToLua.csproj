@@ -57,6 +57,8 @@
     <Compile Include="AppValues\AppValues.ExportTXT.cs" />
     <Compile Include="FileInformation.cs" />
     <Compile Include="DirectoryAllFiles.cs" />
+    <Compile Include="MapStringAnalyzeHelper.cs" />
+    <Compile Include="MapStringCheckHelper.cs" />
     <Compile Include="MyCheckFunction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

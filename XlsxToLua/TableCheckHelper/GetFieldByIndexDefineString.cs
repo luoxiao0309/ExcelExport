@@ -8,12 +8,12 @@ public partial class TableCheckHelper
     public static FieldInfo GetFieldByIndexDefineString(string indexDefineString, TableInfo tableInfo, out string errorString)
     {
         FieldInfo fieldInfo = null;
-        if (string.IsNullOrEmpty(indexDefineString.Trim()))
+        indexDefineString = indexDefineString.Trim();
+        if (string.IsNullOrEmpty(indexDefineString))
         {
             errorString = "输入的索引定义字符串不允许为空";
             return null;
         }
-        indexDefineString = indexDefineString.Trim();
         // 如果是独立字段
         if (indexDefineString.IndexOf('.') == -1 && indexDefineString.IndexOf('[') == -1)
         {

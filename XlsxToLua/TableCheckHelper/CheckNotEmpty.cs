@@ -92,7 +92,7 @@ public partial class TableCheckHelper
                     emptyDataLines.Add(i);
             }
         }
-        else if (fieldInfo.DataType == DataType.Json || fieldInfo.DataType == DataType.TableString)
+        else if (fieldInfo.DataType == DataType.Json || fieldInfo.DataType == DataType.TableString || fieldInfo.DataType == DataType.MapString)
         {
             for (int i = 0; i < fieldInfo.Data.Count; ++i)
             {
@@ -105,7 +105,7 @@ public partial class TableCheckHelper
         }
         else
         {
-            errorString = string.Format("数据非空检查规则只适用于int、long、float、string、lang、date、time、json或tableString类型的字段，要检查的这列类型为{0}\n", fieldInfo.DataType.ToString());
+            errorString = string.Format("数据非空检查规则只适用于int、long、float、string、lang、date、time、json、tableString或mapString类型的字段，要检查的这列类型为{0}\n", fieldInfo.DataType.ToString());
             return false;
         }
 

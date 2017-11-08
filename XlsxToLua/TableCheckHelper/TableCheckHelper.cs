@@ -156,7 +156,6 @@ public partial class TableCheckHelper
                         CheckRef(fieldInfo, checkRule, out errorString);
                         break;
                     }
-
                 case TableCheckType.Range:
                     {
                         CheckRange(fieldInfo, checkRule, out errorString);
@@ -180,6 +179,11 @@ public partial class TableCheckHelper
                 case TableCheckType.File:
                     {
                         CheckFile(fieldInfo, checkRule, out errorString);
+                        break;
+                    }
+                case TableCheckType.MapString:
+                    {
+                        MapStringCheckHelper.CheckMapString(fieldInfo, checkRule, out errorString);
                         break;
                     }
                 case TableCheckType.Func:
@@ -233,6 +237,7 @@ public enum TableCheckType
     GreaterThan,  // 值大小比较检查（同一行中某个字段的值必须大于另一字段的值）
     Func,         // 自定义检查函数
     File,         // 文件存在性检查
+    MapString,    // mapString类型的内容检查
 }
 
 public struct FieldCheckRule

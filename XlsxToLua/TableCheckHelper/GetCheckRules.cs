@@ -74,6 +74,13 @@ public partial class TableCheckHelper
             checkRule.CheckRuleString = ruleString;
             oneCheckRule.Add(checkRule);
         }
+        else if (ruleString.StartsWith("mapString", StringComparison.CurrentCultureIgnoreCase))
+        {
+            FieldCheckRule checkRule = new FieldCheckRule();
+            checkRule.CheckType = TableCheckType.MapString;
+            checkRule.CheckRuleString = ruleString;
+            oneCheckRule.Add(checkRule);
+        }
         else if (ruleString.StartsWith(">") || ruleString.StartsWith(">="))
         {
             FieldCheckRule checkRule = new FieldCheckRule();
