@@ -37,6 +37,27 @@ public partial class AppValues
     /// 导出txt文件参数下属的具体参数，用于配置是否在其后列举字段数据类型
     /// </summary>
     public const string EXPORT_TXT_PARAM_IS_EXPORT_COLUMN_DATA_TYPE_PARAM_STRING = "isExportColumnDataType";
+
+    /// <summary>
+    /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示MySQL数据字段名及数据类型
+    /// </summary>
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_DatabseFieldNameAndDatabaseFieldType_PARAM_STRING = "isExportDatabseFieldNameAndDatabaseFieldType";
+    /// <summary>
+    /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 声明字段检查规则字符串
+    /// </summary>
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_CheckRule_PARAM_STRING = "isExportCheckRule";
+    /// <summary>
+    /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 Lua等客户端数据类型
+    /// </summary>
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_DataType_PARAM_STRING = "isExportDataType";
+    /// <summary>
+    /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 英文字段名
+    /// </summary>
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_FieldName_PARAM_STRING = "isExportFieldName";
+    /// <summary>
+    /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 字段描述 级中文字段名
+    /// </summary>
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_Desc_PARAM_STRING = "isExportDesc";
     #endregion
 
     #region 全局 初始值 默认值
@@ -68,6 +89,27 @@ public partial class AppValues
     /// 导出的txt文件中是否在其后列举字段数据类型，默认为是
     /// </summary>
     public static bool ExportTxtIsExportColumnDataType = true;
+
+    /// <summary>
+    /// 导出的txt文件中是否包含 MySQL数据库字段名及数据类型（第5行），默认为是
+    /// </summary>
+    public static bool ExportTxtIsExportDatabseFieldNameAndDatabaseFieldType = true;
+    /// <summary>
+    /// 导出的txt文件中是否包含 声明字段检查规则的字符串（第4行），默认为是
+    /// </summary>
+    public static bool ExportTxtIsExportCheckRule = true;
+    /// <summary>
+    /// 导出的txt文件中是否包含 Lua等客户端数据类型（第3行），默认为是
+    /// </summary>
+    public static bool ExportTxtIsExportDataType = true;
+    /// <summary>
+    /// 导出的txt文件中是否包含 英文字段名（第2行），默认为是
+    /// </summary>
+    public static bool ExportTxtIsExportFieldName = true;
+    /// <summary>
+    /// 导出的txt文件中是否包含 中文字段名（第1行），默认为是
+    /// </summary>
+    public static bool ExportTxtIsExportDesc = true;
     #endregion
 
     #region 单表 常量 特殊方式导出

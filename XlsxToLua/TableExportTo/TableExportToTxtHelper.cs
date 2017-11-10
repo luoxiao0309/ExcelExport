@@ -167,13 +167,42 @@ public class TableExportToTxtHelper
         for (int i = 1; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
             _GetOneFieldTxtContent(allFieldInfoIgnoreSetDataStructure[i], rowContentList);
 
-        // 如果声明了要在首行列举字段名称
-        if (AppValues.ExportTxtIsExportColumnName == true)
+        // 如果声明了要在txt中显示 声明字段检查字符串
+        if (AppValues.ExportTxtIsExportCheckRule== true)
         {
-            StringBuilder columnNameStringBuilder = new StringBuilder();
+            StringBuilder tempStringBuilder = new StringBuilder();
             for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
             {
-                columnNameStringBuilder.Append(AppValues.ExportTxtSplitChar);
+                tempStringBuilder.Append(AppValues.ExportTxtSplitChar);
+                FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
+                tempStringBuilder.Append(fieldInfo.CheckRule);
+            }
+
+            // 去掉开头多加的一个分隔符
+            rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
+        }
+        // 如果声明了要在txt中显示 Lua等客户端数据类型
+        if (AppValues.ExportTxtIsExportDataType == true)
+        {
+            StringBuilder tempStringBuilder = new StringBuilder();
+            for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
+            {
+                tempStringBuilder.Append(AppValues.ExportTxtSplitChar);
+                FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
+                tempStringBuilder.Append(fieldInfo.DataType);
+            }
+
+            // 去掉开头多加的一个分隔符
+            rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
+        }
+
+        // 如果声明了要在txt中显示 英文字段名
+        if (AppValues.ExportTxtIsExportFieldName == true)
+        {
+            StringBuilder tempStringBuilder = new StringBuilder();
+            for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
+            {
+                tempStringBuilder.Append(AppValues.ExportTxtSplitChar);
                 FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
                 // 如果是array下属的子元素，字段名生成格式为“array字段名[从1开始的下标序号]”。dict下属的子元素，生成格式为“dict字段名.下属字段名”
                 if (fieldInfo.ParentField != null)
@@ -190,36 +219,51 @@ public class TableExportToTxtHelper
                         tempField = tempField.ParentField;
                     }
 
-                    columnNameStringBuilder.Append(fieldName);
+                    tempStringBuilder.Append(fieldName);
                 }
                 else
-                    columnNameStringBuilder.Append(fieldInfo.FieldName);
+                    tempStringBuilder.Append(fieldInfo.FieldName);
             }
 
             // 去掉开头多加的一个分隔符
-            rowContentList.Insert(0, columnNameStringBuilder.Remove(0, 1));
+            rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
             //rowContentList.Insert(0, columnNameStringBuilder.Remove(0, AppValues.ExportTxtSplitChar.Length));
         }
 
-        // 如果声明了要在其后列举字段数据类型
-        if (AppValues.ExportTxtIsExportColumnDataType == true)
+        // 如果声明了要在txt中显示 中文字段名
+        if (AppValues.ExportTxtIsExportDesc == true)
         {
-            StringBuilder columnDataTypeStringBuilder = new StringBuilder();
-            StringBuilder columnDataTypeStringBuilder2 = new StringBuilder();
+            StringBuilder tempStringBuilder = new StringBuilder();
             for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
             {
-                columnDataTypeStringBuilder.Append(AppValues.ExportTxtSplitChar);
-                columnDataTypeStringBuilder2.Append(AppValues.ExportTxtSplitChar);
+                tempStringBuilder.Append(AppValues.ExportTxtSplitChar);
                 FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
-                columnDataTypeStringBuilder.Append(fieldInfo.DataType);
-                columnDataTypeStringBuilder2.Append(fieldInfo.DatabaseFieldName==null? null: fieldInfo.DatabaseFieldName+"("+fieldInfo.DatabaseFieldType+")");
+                tempStringBuilder.Append(fieldInfo.Desc);
             }
 
             // 去掉开头多加的一个分隔符
-            rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 1 : 0, columnDataTypeStringBuilder.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
-            rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 2 : 0, columnDataTypeStringBuilder2.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
+            rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
         }
+        /*
+     // 如果声明了要在其后列举字段数据类型
+     if (AppValues.ExportTxtIsExportColumnDataType == true)
+     {
+         StringBuilder columnDataTypeStringBuilder = new StringBuilder();
+         StringBuilder columnDataTypeStringBuilder2 = new StringBuilder();
+         for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
+         {
+             columnDataTypeStringBuilder.Append(AppValues.ExportTxtSplitChar);
+             columnDataTypeStringBuilder2.Append(AppValues.ExportTxtSplitChar);
+             FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
+             columnDataTypeStringBuilder.Append(fieldInfo.DataType);
+             columnDataTypeStringBuilder2.Append(fieldInfo.DatabaseFieldName==null? null: fieldInfo.DatabaseFieldName+"("+fieldInfo.DatabaseFieldType+")");
+         }
 
+         // 去掉开头多加的一个分隔符
+         rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 1 : 0, columnDataTypeStringBuilder.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
+         rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 2 : 0, columnDataTypeStringBuilder2.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
+     }
+     */
         // 保存为txt文件
         if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList))
         {

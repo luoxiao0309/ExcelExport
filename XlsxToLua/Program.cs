@@ -666,6 +666,56 @@ public class Program
                             else
                                 Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_COLUMN_DATA_TYPE_PARAM_STRING));
                         }
+                        else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_DatabseFieldNameAndDatabaseFieldType_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            value = value.Trim();
+                            if ("true".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportDatabseFieldNameAndDatabaseFieldType = true;
+                            else if ("false".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportDatabseFieldNameAndDatabaseFieldType = false;
+                            else
+                                Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_DatabseFieldNameAndDatabaseFieldType_PARAM_STRING));
+                        }
+                        else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_CheckRule_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            value = value.Trim();
+                            if ("true".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportCheckRule = true;
+                            else if ("false".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportCheckRule = false;
+                            else
+                                Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_CheckRule_PARAM_STRING));
+                        }
+                        else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_DataType_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            value = value.Trim();
+                            if ("true".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportDataType = true;
+                            else if ("false".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportDataType = false;
+                            else
+                                Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_DataType_PARAM_STRING));
+                        }
+                        else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_FieldName_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            value = value.Trim();
+                            if ("true".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportFieldName = true;
+                            else if ("false".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportFieldName = false;
+                            else
+                                Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_FieldName_PARAM_STRING));
+                        }
+                        else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_Desc_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            value = value.Trim();
+                            if ("true".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportDesc= true;
+                            else if ("false".Equals(value, StringComparison.CurrentCultureIgnoreCase))
+                                AppValues.ExportTxtIsExportDesc= false;
+                            else
+                                Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_Desc_PARAM_STRING));
+                        }
                         else
                             Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}非法", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, key));
                     }

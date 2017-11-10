@@ -4,3 +4,5 @@
 
 /XlsxToLua/bin/Debug
 /XlsxToLua/obj/Release
+/XlsxToLua/obj/Debug/XlsxToLua.csprojResolveAssemblyReference.cache
+/XlsxToLua/.vs/config/applicationhost.config
