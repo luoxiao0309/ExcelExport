@@ -167,6 +167,20 @@ public class TableExportToTxtHelper
         for (int i = 1; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
             _GetOneFieldTxtContent(allFieldInfoIgnoreSetDataStructure[i], rowContentList);
 
+        // 如果声明了要在txt中显示 Lua等客户端数据类型
+        if (AppValues.ExportTxtIsExportDatabseField == true)
+        {
+            StringBuilder tempStringBuilder = new StringBuilder();
+            for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
+            {
+                tempStringBuilder.Append(AppValues.ExportTxtSplitChar);
+                FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
+                tempStringBuilder.Append(fieldInfo.DatabaseFieldName == null ? null : fieldInfo.DatabaseFieldName + "(" + fieldInfo.DatabaseFieldType + ")");
+            }
+
+            // 去掉开头多加的一个分隔符
+            rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
+        }
         // 如果声明了要在txt中显示 声明字段检查字符串
         if (AppValues.ExportTxtIsExportCheckRule== true)
         {
@@ -244,26 +258,7 @@ public class TableExportToTxtHelper
             // 去掉开头多加的一个分隔符
             rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
         }
-        /*
-     // 如果声明了要在其后列举字段数据类型
-     if (AppValues.ExportTxtIsExportColumnDataType == true)
-     {
-         StringBuilder columnDataTypeStringBuilder = new StringBuilder();
-         StringBuilder columnDataTypeStringBuilder2 = new StringBuilder();
-         for (int i = 0; i < allFieldInfoIgnoreSetDataStructure.Count; ++i)
-         {
-             columnDataTypeStringBuilder.Append(AppValues.ExportTxtSplitChar);
-             columnDataTypeStringBuilder2.Append(AppValues.ExportTxtSplitChar);
-             FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
-             columnDataTypeStringBuilder.Append(fieldInfo.DataType);
-             columnDataTypeStringBuilder2.Append(fieldInfo.DatabaseFieldName==null? null: fieldInfo.DatabaseFieldName+"("+fieldInfo.DatabaseFieldType+")");
-         }
 
-         // 去掉开头多加的一个分隔符
-         rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 1 : 0, columnDataTypeStringBuilder.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
-         rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 2 : 0, columnDataTypeStringBuilder2.Remove(0, 1));//AppValues.ExportTxtSplitString.Length
-     }
-     */
         // 保存为txt文件
         if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList))
         {

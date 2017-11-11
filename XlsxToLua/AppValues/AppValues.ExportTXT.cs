@@ -41,23 +41,23 @@ public partial class AppValues
     /// <summary>
     /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示MySQL数据字段名及数据类型
     /// </summary>
-    public const string EXPORT_TXT_PARAM_IS_EXPORT_DatabseFieldNameAndDatabaseFieldType_PARAM_STRING = "isExportDatabseFieldNameAndDatabaseFieldType";
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_DATABASE_FIELD_PARAM_STRING = "isExportDatabaseField";
     /// <summary>
     /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 声明字段检查规则字符串
     /// </summary>
-    public const string EXPORT_TXT_PARAM_IS_EXPORT_CheckRule_PARAM_STRING = "isExportCheckRule";
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_CHECK_RULE_PARAM_STRING = "isExportCheckRule";
     /// <summary>
     /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 Lua等客户端数据类型
     /// </summary>
-    public const string EXPORT_TXT_PARAM_IS_EXPORT_DataType_PARAM_STRING = "isExportDataType";
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_DATA_TYPE_PARAM_STRING = "isExportDataType";
     /// <summary>
     /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 英文字段名
     /// </summary>
-    public const string EXPORT_TXT_PARAM_IS_EXPORT_FieldName_PARAM_STRING = "isExportFieldName";
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_FIELD_NAME_PARAM_STRING = "isExportFieldName";
     /// <summary>
     /// 导出txt文件参数下属的具体参数，用于配置是否在导出的txt中显示 字段描述 级中文字段名
     /// </summary>
-    public const string EXPORT_TXT_PARAM_IS_EXPORT_Desc_PARAM_STRING = "isExportDesc";
+    public const string EXPORT_TXT_PARAM_IS_EXPORT_DESC_PARAM_STRING = "isExportDesc";
     #endregion
 
     #region 全局 初始值 默认值
@@ -93,7 +93,7 @@ public partial class AppValues
     /// <summary>
     /// 导出的txt文件中是否包含 MySQL数据库字段名及数据类型（第5行），默认为是
     /// </summary>
-    public static bool ExportTxtIsExportDatabseFieldNameAndDatabaseFieldType = true;
+    public static bool ExportTxtIsExportDatabseField = true;
     /// <summary>
     /// 导出的txt文件中是否包含 声明字段检查规则的字符串（第4行），默认为是
     /// </summary>
