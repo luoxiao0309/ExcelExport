@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"TestExcel" "ExportLua" "ClientVirtual/Assert" "-noLang" "-columnInfo" "-allowedNullNumber" "-exportTxt%28%24all%29" "-exportTxtParam%28exportPath=TestExcel/txt|extension=txt|isExportCheckRule=false%29"</StartArguments>
+    <StartArguments>"TestExcel" "ExportLua" "ClientVirtual/Assert" "-noLang" "-columnInfo" "-allowedNullNumber" "-exportTxt%28%24all%29" "-exportTxtParam%28exportPath=TestExcel/txt|extension=txt|isExportDatabaseField=false|isExportCheckRule=false|isExportDataType=false|isExportFieldName=false|isExportDesc=false%29" "-exportJson%28%24all%29" "-exportJsonParam%28exportPath=ExportJson|extension=txt|isFormat=true|isExportJsonArrayFormat=true|isMapIncludeKeyColumnValue=true%29" "-exportCsv%28%24all%29" "-exportCsvParam%28exportPath=ExportCsv|extension=csv|splitString=\||isExportColumnName=true|isExportColumnDataType=true%29"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartArguments>"F:\XZ\client\ZTool\ZXlsxToLua\TestExcel" "F:\XZ\client\XZ\Assets\LuaFramework\Lua\Config" "F:\XZ\client\XZ\Assets" "-noLang" "-columnInfo" "-exportTxt%28%24all%29" "-exportTxtParam%28exportPath=F:/XZ/client/ZTool/ZXlsxToLua/TestExcel/txt|extension=txt%29"</StartArguments>

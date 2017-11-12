@@ -469,6 +469,8 @@ public class Program
                     paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1, index - lastSplitParamChatIndex - 1));
                     lastSplitParamChatIndex = index;
                 }
+                //最后一个分割符的内容处理
+                paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1));
                 // 解析各个具体参数
                 foreach (string oneParamString in paramStringList)
                 {
@@ -593,6 +595,8 @@ public class Program
             else
             {
                 string paramString = exportTxtParamString.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
+                //string[] paramStringList = paramString.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                
                 // 通过|分隔各个参数，但因为用户设置的TXT文件中的字段分隔符本身可能为|，本工具采用\|配置进行转义，故需要自行从头遍历查找真正的参数分隔符
                 // 记录参数分隔符的下标位置
                 List<int> splitParamCharIndex = new List<int>();
@@ -610,6 +614,9 @@ public class Program
                     paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1, index - lastSplitParamChatIndex - 1));
                     lastSplitParamChatIndex = index;
                 }
+                //最后一个分割符的内容处理
+                paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1));
+                
                 // 解析各个具体参数
                 foreach (string oneParamString in paramStringList)
                 {
@@ -1745,7 +1752,8 @@ public class Program
         }
         st.Stop();
         //Utils.Log(string.Format("总耗时：{0}毫秒：", st.ElapsedMilliseconds), ConsoleColor.Green);
-
+        Utils.Log("\n按任意键继续");
+        Console.ReadKey();
 
 
     }
