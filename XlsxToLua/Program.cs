@@ -469,8 +469,11 @@ public class Program
                     paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1, index - lastSplitParamChatIndex - 1));
                     lastSplitParamChatIndex = index;
                 }
-                //最后一个分割符的内容处理
-                paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1));
+                // 还要加上最后一个|后面的参数
+                if (lastSplitParamChatIndex == -1)
+                    paramStringList.Add(paramString);
+                else if (lastSplitParamChatIndex + 1 < paramString.Length - 1)
+                    paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1));
                 // 解析各个具体参数
                 foreach (string oneParamString in paramStringList)
                 {
@@ -614,9 +617,12 @@ public class Program
                     paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1, index - lastSplitParamChatIndex - 1));
                     lastSplitParamChatIndex = index;
                 }
-                //最后一个分割符的内容处理
-                paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1));
-                
+                // 还要加上最后一个|后面的参数
+                if (lastSplitParamChatIndex == -1)
+                    paramStringList.Add(paramString);
+                else if (lastSplitParamChatIndex + 1 < paramString.Length - 1)
+                    paramStringList.Add(paramString.Substring(lastSplitParamChatIndex + 1));
+
                 // 解析各个具体参数
                 foreach (string oneParamString in paramStringList)
                 {
@@ -652,26 +658,6 @@ public class Program
                         {
                             value = value.Replace("\\|", "|");
                             AppValues.ExportTxtSplitChar = Convert.ToChar(value);
-                        }
-                        else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_COLUMN_NAME_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            value = value.Trim();
-                            if ("true".Equals(value, StringComparison.CurrentCultureIgnoreCase))
-                                AppValues.ExportTxtIsExportColumnName = true;
-                            else if ("false".Equals(value, StringComparison.CurrentCultureIgnoreCase))
-                                AppValues.ExportTxtIsExportColumnName = false;
-                            else
-                                Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_COLUMN_NAME_PARAM_STRING));
-                        }
-                        else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_COLUMN_DATA_TYPE_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            value = value.Trim();
-                            if ("true".Equals(value, StringComparison.CurrentCultureIgnoreCase))
-                                AppValues.ExportTxtIsExportColumnDataType = true;
-                            else if ("false".Equals(value, StringComparison.CurrentCultureIgnoreCase))
-                                AppValues.ExportTxtIsExportColumnDataType = false;
-                            else
-                                Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的值错误，必须为true或false", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_IS_EXPORT_COLUMN_DATA_TYPE_PARAM_STRING));
                         }
                         else if (AppValues.EXPORT_TXT_PARAM_IS_EXPORT_DATABASE_FIELD_PARAM_STRING.Equals(key, StringComparison.CurrentCultureIgnoreCase))
                         {

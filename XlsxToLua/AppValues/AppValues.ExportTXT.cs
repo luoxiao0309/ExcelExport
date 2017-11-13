@@ -81,16 +81,6 @@ public partial class AppValues
     public static char ExportTxtSplitChar = '\t';
 
     /// <summary>
-    /// 导出的txt文件中是否在首行列举字段名称，默认为是
-    /// </summary>
-    public static bool ExportTxtIsExportColumnName = true;
-
-    /// <summary>
-    /// 导出的txt文件中是否在其后列举字段数据类型，默认为是
-    /// </summary>
-    public static bool ExportTxtIsExportColumnDataType = true;
-
-    /// <summary>
     /// 导出的txt文件中是否包含 MySQL数据库字段名及数据类型（第5行），默认为是
     /// </summary>
     public static bool ExportTxtIsExportDatabseField = true;
