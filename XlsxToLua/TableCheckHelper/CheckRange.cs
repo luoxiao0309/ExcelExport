@@ -6,15 +6,16 @@ using System.Text;
 public partial class TableCheckHelper
 {
     /// <summary>
-    /// 用于int、long、float三种数值类型或date、time两种时间类型的范围检查
+    /// 用于int、long、float三种数值类型或string类型或date、time两种时间类型的范围检查
     /// </summary>
     public static bool CheckRange(FieldInfo fieldInfo, FieldCheckRule checkRule, out string errorString)
     {
         bool isNumberDataType = fieldInfo.DataType == DataType.Int || fieldInfo.DataType == DataType.Long || fieldInfo.DataType == DataType.Float;
+        bool isStringDataType = fieldInfo.DataType == DataType.String;
         bool isTimeDataType = fieldInfo.DataType == DataType.Date || fieldInfo.DataType == DataType.Time;
-        if (isNumberDataType == false && isTimeDataType == false)
+        if (isNumberDataType == false && isStringDataType==false && isTimeDataType == false)
         {
-            errorString = string.Format("值范围检查只能用于int、long、float三种数值类型或date、time两种时间类型的字段，而该字段为{0}型\n", fieldInfo.DataType);
+            errorString = string.Format("值范围检查只能用于int、long、float三种数值类型或String类型或date、time两种时间类型的字段，而该字段为{0}型\n", fieldInfo.DataType);
             return false;
         }
         // 检查填写的检查规则是否正确
@@ -24,6 +25,8 @@ public partial class TableCheckHelper
         bool isCheckCeil;
         double floorValue = 0;
         double ceilValue = 0;
+        int intfloorValue = 0;
+        int intceilValue = 0;
         DateTime floorDateTime = AppValues.REFERENCE_DATE;
         DateTime ceilDateTime = AppValues.REFERENCE_DATE;
         // 规则首位必须为方括号或者圆括号
@@ -66,6 +69,14 @@ public partial class TableCheckHelper
             if (isNumberDataType == true)
             {
                 if (double.TryParse(floorString, out floorValue) == false)
+                {
+                    errorString = string.Format("值范围检查定义错误：下限不是合法的数字，你输入的为{0}\n", floorString);
+                    return false;
+                }
+            }
+            else if(isStringDataType==true)
+            {
+                if (int.TryParse(floorString, out intfloorValue) == false)
                 {
                     errorString = string.Format("值范围检查定义错误：下限不是合法的数字，你输入的为{0}\n", floorString);
                     return false;
@@ -119,6 +130,14 @@ public partial class TableCheckHelper
                     return false;
                 }
             }
+            else if(isStringDataType==true)
+            {
+                if (int.TryParse(ceilString, out intceilValue) == false)
+                {
+                    errorString = string.Format("值范围检查定义错误：上限不是合法的数字，你输入的为{0}\n", ceilString);
+                    return false;
+                }
+            }
             else
             {
                 if (fieldInfo.DataType == DataType.Date)
@@ -162,6 +181,14 @@ public partial class TableCheckHelper
                 return false;
             }
         }
+        else if(isStringDataType==true)
+        {
+            if (isCheckFloor == true && isCheckCeil == true && intfloorValue >= intceilValue && intceilValue>=0)
+            {
+                errorString = string.Format("值范围检查定义错误：上下限必须为正整数，且上限值必须大于下限值，你输入的下限为{0}，上限为{1}\n", floorString, ceilString);
+                return false;
+            }
+        }
         else
         {
             if (isCheckFloor == true && isCheckCeil == true && floorDateTime >= ceilDateTime)
@@ -190,6 +217,12 @@ public partial class TableCheckHelper
                         if (inputValue < floorValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
+                    else if(isStringDataType==true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue < intfloorValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
                     else
                     {
                         DateTime inputValue = (DateTime)fieldInfo.Data[i];
@@ -209,6 +242,12 @@ public partial class TableCheckHelper
                     {
                         double inputValue = Convert.ToDouble(fieldInfo.Data[i]);
                         if (inputValue <= floorValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
+                    else if(isStringDataType==true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue <= intfloorValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
                     else
@@ -235,6 +274,12 @@ public partial class TableCheckHelper
                         if (inputValue > ceilValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
+                    else if (isStringDataType == true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue > intceilValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
                     else
                     {
                         DateTime inputValue = (DateTime)fieldInfo.Data[i];
@@ -254,6 +299,12 @@ public partial class TableCheckHelper
                     {
                         double inputValue = Convert.ToDouble(fieldInfo.Data[i]);
                         if (inputValue >= ceilValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
+                    else if (isStringDataType == true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue >= intceilValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
                     else
@@ -280,6 +331,12 @@ public partial class TableCheckHelper
                         if (inputValue <= floorValue || inputValue >= ceilValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
+                    else if (isStringDataType == true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue <= intfloorValue || inputValue >= intceilValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
                     else
                     {
                         DateTime inputValue = (DateTime)fieldInfo.Data[i];
@@ -299,6 +356,12 @@ public partial class TableCheckHelper
                     {
                         double inputValue = Convert.ToDouble(fieldInfo.Data[i]);
                         if (inputValue < floorValue || inputValue >= ceilValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
+                    else if (isStringDataType == true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue < intfloorValue || inputValue >= intceilValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
                     else
@@ -322,6 +385,12 @@ public partial class TableCheckHelper
                         if (inputValue <= floorValue || inputValue > ceilValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
+                    else if (isStringDataType == true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue <= intfloorValue || inputValue > intceilValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
                     else
                     {
                         DateTime inputValue = (DateTime)fieldInfo.Data[i];
@@ -343,6 +412,12 @@ public partial class TableCheckHelper
                         if (inputValue < floorValue || inputValue > ceilValue)
                             illegalValue.Add(i, fieldInfo.Data[i]);
                     }
+                    else if (isStringDataType == true)
+                    {
+                        int inputValue = System.Text.Encoding.Default.GetBytes(fieldInfo.Data[i].ToString().ToCharArray()).Length;
+                        if (inputValue < intfloorValue || inputValue > intceilValue)
+                            illegalValue.Add(i, fieldInfo.Data[i]);
+                    }
                     else
                     {
                         DateTime inputValue = (DateTime)fieldInfo.Data[i];
@@ -357,6 +432,11 @@ public partial class TableCheckHelper
         {
             StringBuilder illegalValueInfo = new StringBuilder();
             if (isNumberDataType == true)
+            {
+                foreach (var item in illegalValue)
+                    illegalValueInfo.AppendFormat("第{0}行数据\"{1}\"不满足要求\n", item.Key + AppValues.DATA_FIELD_DATA_START_INDEX + 1, item.Value);
+            }
+            else if(isStringDataType==true)
             {
                 foreach (var item in illegalValue)
                     illegalValueInfo.AppendFormat("第{0}行数据\"{1}\"不满足要求\n", item.Key + AppValues.DATA_FIELD_DATA_START_INDEX + 1, item.Value);

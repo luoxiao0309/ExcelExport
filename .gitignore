@@ -8,3 +8,4 @@
 /XlsxToLua/.vs/config/applicationhost.config
 /XlsxToLua/bin/TestExcel2
 /XlsxToLua/bin/TestExcel
+/XlsxToLua/TableExportTo/TableExportToSQLite.cs
