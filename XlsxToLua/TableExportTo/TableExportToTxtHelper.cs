@@ -258,9 +258,17 @@ public class TableExportToTxtHelper
             // 去掉开头多加的一个分隔符
             rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
         }
-
+        string ExportTxtPath = null;
+        if (AppValues.ExportTxtPath == null)
+        {
+            ExportTxtPath = System.IO.Path.GetDirectoryName(tableInfo.ExcelFilePath);
+        }
+        else
+        {
+            ExportTxtPath = AppValues.ExportTxtPath;
+        }
         // 保存为txt文件
-        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList))
+        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList,null, ExportTxtPath))
         {
             errorString = null;
             return true;
@@ -305,10 +313,19 @@ public class TableExportToTxtHelper
                 // 去掉开头多加的一个分隔符
                 // rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 1 : 0, );
             }
-       // }
+        // }
+        string ExportTxtPath = null;
+        if (AppValues.ExportTxtPath == null)
+        {
+            ExportTxtPath = System.IO.Path.GetDirectoryName(tableInfo.ExcelFilePath);
+        }
+        else
+        {
+            ExportTxtPath = AppValues.ExportTxtPath;
+        }
         string tableName = tableInfo.TableName + "_Config";
         // 保存为txt文件
-        if (Utils.SaveTxtFile(tableName, rowContentList))
+        if (Utils.SaveTxtFile(tableName, rowContentList, null, ExportTxtPath))
         {
             errorString = null;
             return true;

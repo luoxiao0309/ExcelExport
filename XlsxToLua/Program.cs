@@ -714,8 +714,8 @@ public class Program
                     }
                 }
                 // 要求必须含有exportPath参数
-                if (AppValues.ExportTxtPath == null)
-                    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为txt文件，就必须同时在{0}参数下声明用于配置txt文件导出路径的参数{1}", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_EXPORT_PATH_PARAM_STRING));
+               // if (AppValues.ExportTxtPath == null)
+                //    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为txt文件，就必须同时在{0}参数下声明用于配置txt文件导出路径的参数{1}", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, AppValues.EXPORT_TXT_PARAM_EXPORT_PATH_PARAM_STRING));
             }
         }
         else
