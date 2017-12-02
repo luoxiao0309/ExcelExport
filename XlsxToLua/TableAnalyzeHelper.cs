@@ -7,7 +7,7 @@ using System.Text;
 
 public class TableAnalyzeHelper
 {
-    public static TableInfo AnalyzeTable(DataTable dt, string tableName, string filePath, out string errorString)
+    public static TableInfo AnalyzeTable(DataTable dt, string filePath, out string errorString)
     {
         if (dt.Rows.Count < AppValues.DATA_FIELD_DATA_START_INDEX)
         {
@@ -22,7 +22,7 @@ public class TableAnalyzeHelper
 
         TableInfo tableInfo = new TableInfo();
         tableInfo.ExcelFilePath = filePath;
-        tableInfo.TableName = tableName;
+        string tableName=tableInfo.TableName;
 
         // 当前解析到的列号
         int curColumnIndex = 0;

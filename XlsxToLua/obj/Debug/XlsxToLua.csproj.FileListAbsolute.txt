@@ -21,4 +21,3 @@ E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Debug\XlsxToLua.pdb
 E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Debug\LitJson.dll
 E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Debug\MySql.Data.dll
 D:\my\Code\xlsxtolua\XlsxToLua\obj\Debug\XlsxToLua.csprojResolveAssemblyReference.cache
-E:\my\Source\Code\ExcelExport\XlsxToLua\obj\Debug\XlsxToLua.csprojResolveAssemblyReference.cache

@@ -535,13 +535,14 @@ public class Program
                     }
                 }
                 // 要求必须含有exportPath参数
-                if (AppValues.ExportCsvPath == null)
-                    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv文件，就必须同时在{0}参数下声明用于配置csv文件导出路径的参数{1}", AppValues.EXPORT_CSV_PARAM_PARAM_STRING, AppValues.EXPORT_CSV_PARAM_EXPORT_PATH_PARAM_STRING));
+                //if (AppValues.ExportCsvPath == null)
+                //    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv文件，就必须同时在{0}参数下声明用于配置csv文件导出路径的参数{1}", AppValues.EXPORT_CSV_PARAM_PARAM_STRING, AppValues.EXPORT_CSV_PARAM_EXPORT_PATH_PARAM_STRING));
             }
         }
         else
-            Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv文件，就必须同时声明用于配置csv文件导出参数的{0}", AppValues.EXPORT_CSV_PARAM_PARAM_STRING));
-
+        {
+           // Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv文件，就必须同时声明用于配置csv文件导出参数的{0}", AppValues.EXPORT_CSV_PARAM_PARAM_STRING));
+        }
         // 解析配置的要额外导出csv文件的Excel文件名
         string errorString = null;
         // 先判断是否声明对所有文件进行导出
@@ -719,7 +720,9 @@ public class Program
             }
         }
         else
-            Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为txt文件，就必须同时声明用于配置txt文件导出参数的{0}", AppValues.EXPORT_TXT_PARAM_PARAM_STRING));
+        {
+            //Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为txt文件，就必须同时声明用于配置txt文件导出参数的{0}", AppValues.EXPORT_TXT_PARAM_PARAM_STRING));
+        }
 
         // 解析配置的要额外导出txt文件的Excel文件名
         string errorString = null;
@@ -833,13 +836,14 @@ public class Program
                     }
                 }
                 // 要求必须含有exportPath参数
-                if (AppValues.ExportCsClassPath == null)
-                    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出csv对应C#类文件，就必须同时在{0}参数下声明用于配置导出路径的参数{1}", AppValues.EXPORT_CS_CLASS_PARAM_PARAM_STRING, AppValues.EXPORT_CS_CLASS_PARAM_EXPORT_PATH_PARAM_STRING));
+               // if (AppValues.ExportCsClassPath == null)
+                //    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出csv对应C#类文件，就必须同时在{0}参数下声明用于配置导出路径的参数{1}", AppValues.EXPORT_CS_CLASS_PARAM_PARAM_STRING, AppValues.EXPORT_CS_CLASS_PARAM_EXPORT_PATH_PARAM_STRING));
             }
         }
         else
-            Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv对应C#类文件，就必须同时声明用于配置C#类文件导出参数的{0}", AppValues.EXPORT_CS_CLASS_PARAM_PARAM_STRING));
-
+        {
+            //Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv对应C#类文件，就必须同时声明用于配置C#类文件导出参数的{0}", AppValues.EXPORT_CS_CLASS_PARAM_PARAM_STRING));
+        }
         // 解析配置的要额外导出csv对应C#类文件的Excel文件名
         string errorString = null;
         // 先判断是否声明对所有文件进行导出
@@ -981,16 +985,17 @@ public class Program
                     }
                 }
                 // 要求必须含有exportPath参数
-                if (AppValues.ExportJavaClassPath == null)
-                    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出csv对应Java类文件，就必须同时在{0}参数下声明用于配置导出路径的参数{1}", AppValues.EXPORT_JAVA_CLASS_PARAM_PARAM_STRING, AppValues.EXPORT_JAVA_CLASS_PARAM_EXPORT_PATH_PARAM_STRING));
+               // if (AppValues.ExportJavaClassPath == null)
+               //     Utils.LogErrorAndExit(string.Format("错误：声明要额外导出csv对应Java类文件，就必须同时在{0}参数下声明用于配置导出路径的参数{1}", AppValues.EXPORT_JAVA_CLASS_PARAM_PARAM_STRING, AppValues.EXPORT_JAVA_CLASS_PARAM_EXPORT_PATH_PARAM_STRING));
                 // 要求必须含有package参数
                 if (AppValues.ExportJavaClassPackage == null)
                     Utils.LogErrorAndExit(string.Format("错误：声明要额外导出csv对应Java类文件，就必须同时在{0}参数下声明用于配置包名的参数{1}", AppValues.EXPORT_JAVA_CLASS_PARAM_PARAM_STRING, AppValues.EXPORT_JAVA_CLASS_PARAM_PACKAGE_PARAM_STRING));
             }
         }
         else
-            Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv对应Java类文件，就必须同时声明用于配置Java类文件导出参数的{0}", AppValues.EXPORT_JAVA_CLASS_PARAM_PARAM_STRING));
-
+        {
+            //Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为csv对应Java类文件，就必须同时声明用于配置Java类文件导出参数的{0}", AppValues.EXPORT_JAVA_CLASS_PARAM_PARAM_STRING));
+        }
         // 解析配置的要额外导出csv对应Java类文件的Excel文件名
         string errorString = null;
         // 先判断是否声明对所有文件进行导出
@@ -1114,13 +1119,14 @@ public class Program
                     }
                 }
                 // 要求必须含有exportPath参数
-                if (AppValues.ExportJsonPath == null)
-                    Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为json文件，就必须同时在{0}参数下声明用于配置json文件导出路径的参数{1}", AppValues.EXPORT_JSON_PARAM_PARAM_STRING, AppValues.EXPORT_JSON_PARAM_EXPORT_PATH_PARAM_STRING));
+               // if (AppValues.ExportJsonPath == null)
+               //     Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为json文件，就必须同时在{0}参数下声明用于配置json文件导出路径的参数{1}", AppValues.EXPORT_JSON_PARAM_PARAM_STRING, AppValues.EXPORT_JSON_PARAM_EXPORT_PATH_PARAM_STRING));
             }
         }
         else
-            Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为json文件，就必须同时声明用于配置json文件导出参数的{0}", AppValues.EXPORT_JSON_PARAM_PARAM_STRING));
-
+        {
+           // Utils.LogErrorAndExit(string.Format("错误：声明要额外导出指定Excel文件为json文件，就必须同时声明用于配置json文件导出参数的{0}", AppValues.EXPORT_JSON_PARAM_PARAM_STRING));
+        }
         // 解析配置的要额外导出json文件的Excel文件名
         string errorString = null;
         // 先判断是否声明对所有文件进行导出
@@ -1418,7 +1424,7 @@ public class Program
             //Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
             if (string.IsNullOrEmpty(errorString))
             {
-                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName, filePath, out errorString);
+                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], filePath, out errorString);
                 if (errorString != null)
                 {
                     Utils.LogErrorAndExit(string.Format("解析表格\"{0}\"失败", filePath, errorString));
@@ -1488,7 +1494,7 @@ public class Program
             Utils.Log(string.Format("成功，耗时：{0}毫秒", stopwatch.ElapsedMilliseconds));
             if (string.IsNullOrEmpty(errorString))
             {
-                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME], fileName,filePath, out errorString);
+                TableInfo tableInfo = TableAnalyzeHelper.AnalyzeTable(ds.Tables[AppValues.EXCEL_DATA_SHEET_NAME],filePath, out errorString);
                 if (errorString != null)
                     Utils.LogErrorAndExit(string.Format("错误：解析{0}失败\n{1}", filePath, errorString));
                 else

@@ -15,6 +15,11 @@
     public const string CONFIG_PARAM_NOT_EXPORT_ORIGINAL_TABLE = "-notExportOriginalTable";
 
     /// <summary>
+    /// 导出csv文件的扩展名（不含点号），默认为csv
+    /// </summary>
+    public static string ExportLuaExtension = "lua";
+
+    /// <summary>
     /// 用户输入的要生成的lua文件存放路径
     /// </summary>
     public static string ExportLuaFilePath = null;

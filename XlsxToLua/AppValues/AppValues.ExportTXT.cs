@@ -67,7 +67,7 @@ public partial class AppValues
     public static List<string> ExportTxtTableNames = new List<string>();
 
     /// <summary>
-    /// 导出txt文件的存储路径
+    /// 导出txt文件的存储路径,如果为空则导出txt到与原文件同路径下
     /// </summary>
     public static string ExportTxtPath = null;
 

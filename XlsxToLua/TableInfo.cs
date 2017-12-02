@@ -35,7 +35,17 @@ public class TableInfo
            return Path.GetFileName(ExcelFilePath);
         }
     }
-    public string TableName { get; set; }
+    /// <summary>
+    /// 表名，Excel文件不带后缀的名称，如 item
+    /// </summary>
+    public string TableName
+    {
+        get
+        {
+            return Path.GetFileNameWithoutExtension(ExcelFilePath);
+        }
+    }
+    //public string TableName { get; set; }
     // 表格配置参数
     public Dictionary<string, List<string>> TableConfig { get; set; }
     public DataTable TableConfigData { get; set; }
@@ -117,7 +127,7 @@ public class TableInfo
 public class FieldInfo
 {
     /// <summary>
-    /// 表名， 该字段所在表格
+    /// 表名， 该字段所在表格,如item
     /// </summary>
     public string TableName { get; set; }
     /// <summary>

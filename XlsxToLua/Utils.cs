@@ -472,7 +472,22 @@ public class Utils
     {
         try
         {
-            string savePath = Utils.CombinePath(AppValues.ExportLuaFilePath, tableName + ".lua");
+            string ExportLuaFilePath = null;
+            if (AppValues.ExportLuaFilePath == null)//如果不存在文件夹就创建
+            {
+                ExportLuaFilePath = "ExportLua";
+                if (!System.IO.Directory.Exists(ExportLuaFilePath))
+                {
+                    System.IO.Directory.CreateDirectory(ExportLuaFilePath);
+
+                }
+            }
+            else
+            {
+                ExportLuaFilePath = AppValues.ExportLuaFilePath;
+            }
+            string fileName = string.Concat(tableName, ".", AppValues.ExportLuaExtension);
+            string savePath = Utils.CombinePath(ExportLuaFilePath, fileName);
             StreamWriter writer = new StreamWriter(savePath, false, new UTF8Encoding(false));
             writer.Write(content);
             writer.Flush();
@@ -489,8 +504,22 @@ public class Utils
     {
         try
         {
+            string ExportCsvPath = null;
+            if (AppValues.ExportCsvPath == null)//如果不存在文件夹就创建
+            {
+                ExportCsvPath = "ExportCsv";
+                if (!System.IO.Directory.Exists(ExportCsvPath))
+                {
+                    System.IO.Directory.CreateDirectory(ExportCsvPath);
+
+                }
+            }
+            else
+            {
+                ExportCsvPath = AppValues.ExportCsvPath;
+            }
             string fileName = string.Concat(tableName, ".", AppValues.ExportCsvExtension);
-            string savePath = Utils.CombinePath(AppValues.ExportCsvPath, fileName);
+            string savePath = Utils.CombinePath(ExportCsvPath, fileName);
             StreamWriter writer = new StreamWriter(savePath, false, new UTF8Encoding(false));
             foreach (StringBuilder stringBuilder in rowContentList)
                 writer.WriteLine(stringBuilder);
@@ -507,12 +536,13 @@ public class Utils
     /// <summary>
     /// 导出txt类型
     /// </summary>
-    /// <param name="tableName">文件名</param>
     /// <param name="rowContentList">数据集</param>
-    /// <param name="ExportTxtExtension">扩展名，默认txt</param>
-    /// <param name="ExportTxtPath">导出路径指定，为空时，使用全局指定的txt导出路径</param>
+    /// <param name="ExportTxtPath">导出路径指定</param>
+    /// <param name="tableName">文件名</param>
+    /// <param name="ExportTxtExtension">扩展名，默认为AppValues.ExportTxtExtension中的值，一般为txt</param>
+
     /// <returns></returns>
-    public static bool SaveTxtFile(string tableName, List<StringBuilder> rowContentList, string ExportTxtExtension = null, string ExportTxtPath = null)
+    public static bool SaveTxtFile(List<StringBuilder> rowContentList, string ExportTxtPath , string tableName, string ExportTxtExtension = null)
     {
         try
         {
@@ -545,8 +575,22 @@ public class Utils
     {
         try
         {
+            string ExportCsClassPath = null;
+            if (AppValues.ExportCsClassPath == null)//如果不存在文件夹就创建
+            {
+                ExportCsClassPath = "ExportCsClass";
+                if (!System.IO.Directory.Exists(ExportCsClassPath))
+                {
+                    System.IO.Directory.CreateDirectory(ExportCsClassPath);
+
+                }
+            }
+            else
+            {
+                ExportCsClassPath = AppValues.ExportCsClassPath;
+            }
             string fileName = string.Concat(className, ".", AppValues.EXPORT_CS_CLASS_FILE_EXTENSION);
-            string savePath = Utils.CombinePath(AppValues.ExportCsClassPath, fileName);
+            string savePath = Utils.CombinePath(ExportCsClassPath, fileName);
             StreamWriter writer = new StreamWriter(savePath, false, new UTF8Encoding(false));
             writer.Write(content);
             writer.Flush();
@@ -563,8 +607,22 @@ public class Utils
     {
         try
         {
+            string ExportJavaClassPath = null;
+            if (AppValues.ExportJavaClassPath == null)//如果不存在文件夹就创建
+            {
+                ExportJavaClassPath = "ExportJavaClass";
+                if (!System.IO.Directory.Exists(ExportJavaClassPath))
+                {
+                    System.IO.Directory.CreateDirectory(ExportJavaClassPath);
+
+                }
+            }
+            else
+            {
+                ExportJavaClassPath = AppValues.ExportJavaClassPath;
+            }
             string fileName = string.Concat(className, ".", AppValues.EXPORT_JAVA_CLASS_FILE_EXTENSION);
-            string savePath = Utils.CombinePath(AppValues.ExportJavaClassPath, fileName);
+            string savePath = Utils.CombinePath(ExportJavaClassPath, fileName);
             StreamWriter writer = new StreamWriter(savePath, false, new UTF8Encoding(false));
             writer.Write(content);
             writer.Flush();
@@ -581,8 +639,22 @@ public class Utils
     {
         try
         {
+            string ExportJsonPath = null;
+            if (AppValues.ExportJsonPath == null)//如果不存在文件夹就创建
+            {
+                ExportJsonPath = "ExportJson";
+                if (!System.IO.Directory.Exists(ExportJsonPath))
+                {
+                    System.IO.Directory.CreateDirectory(ExportJsonPath);
+
+                }
+            }
+            else
+            {
+                ExportJsonPath = AppValues.ExportJsonPath;
+            }
             string fileName = string.Concat(tableName, ".", AppValues.ExportJsonExtension);
-            string savePath = Utils.CombinePath(AppValues.ExportJsonPath, fileName);
+            string savePath = Utils.CombinePath(ExportJsonPath, fileName);
             StreamWriter writer = new StreamWriter(savePath, false, new UTF8Encoding(false));
             writer.Write(content);
             writer.Flush();

@@ -134,7 +134,7 @@ public class TableExportToTxtHelper
         
 
         // 保存为txt文件 SpecialExportTxtExtension
-        if (Utils.SaveTxtFile(fileName, rowContentList, SpecialExportTxtExtension, SpecialExportTxtPath))
+        if (Utils.SaveTxtFile( rowContentList, SpecialExportTxtPath, fileName, SpecialExportTxtExtension))
         {
             errorString = null;
 
@@ -261,14 +261,14 @@ public class TableExportToTxtHelper
         string ExportTxtPath = null;
         if (AppValues.ExportTxtPath == null)
         {
-            ExportTxtPath = System.IO.Path.GetDirectoryName(tableInfo.ExcelFilePath);
+            ExportTxtPath = tableInfo.ExcelDirectoryName;
         }
         else
         {
             ExportTxtPath = AppValues.ExportTxtPath;
         }
         // 保存为txt文件
-        if (Utils.SaveTxtFile(tableInfo.TableName, rowContentList,null, ExportTxtPath))
+        if (Utils.SaveTxtFile( rowContentList, ExportTxtPath, tableInfo.TableName, null))
         {
             errorString = null;
             return true;
@@ -317,7 +317,7 @@ public class TableExportToTxtHelper
         string ExportTxtPath = null;
         if (AppValues.ExportTxtPath == null)
         {
-            ExportTxtPath = System.IO.Path.GetDirectoryName(tableInfo.ExcelFilePath);
+            ExportTxtPath = tableInfo.ExcelDirectoryName;
         }
         else
         {
@@ -325,7 +325,7 @@ public class TableExportToTxtHelper
         }
         string tableName = tableInfo.TableName + "_Config";
         // 保存为txt文件
-        if (Utils.SaveTxtFile(tableName, rowContentList, null, ExportTxtPath))
+        if (Utils.SaveTxtFile(rowContentList, ExportTxtPath, tableName, null))
         {
             errorString = null;
             return true;
