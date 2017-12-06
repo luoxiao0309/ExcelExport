@@ -67,6 +67,7 @@
     <Compile Include="TableCheckHelper\CheckEffective.cs" />
     <Compile Include="TableCheckHelper\CheckFieldName.cs" />
     <Compile Include="TableCheckHelper\CheckFile.cs" />
+    <Compile Include="TableCheckHelper\CheckFile2.cs" />
     <Compile Include="TableCheckHelper\CheckFunc.cs" />
     <Compile Include="TableCheckHelper\CheckGreaterThan.cs" />
     <Compile Include="TableCheckHelper\CheckIllegal.cs" />

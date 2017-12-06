@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Linq;
 
 public class Utils
 {
@@ -678,6 +679,133 @@ public class Utils
             path2 = path2.Substring(1, path2.Length - 1);
 
         return Path.Combine(path1, path2);
+    }
+    /// <summary>
+    /// 获取指定文件下所有【文件的全名称】，
+    /// 可以获取子文件夹
+    /// </summary>
+    /// <param name="strFolder">指定目录</param>
+    /// <param name="strRegesText">正则指定搜索条件,0为搜索xlsx文件，"\S\.xlsx$"表示 </param>
+    /// <param name="blIsSearchSubfolder">是否搜索子文件夹,1搜索，0不搜索。默认不搜索</param>
+    /// <returns>返回搜索到的文件全名数组</returns>
+    public static string[] GetAllFiles(string strFolder, string strRegesText, bool blIsSearchSubfolder = false)
+    {
+        string[] files;
+        if (strRegesText == null | strRegesText == "0")
+        {
+            strRegesText = @"\S\.xlsx$";
+        }
+
+        if (blIsSearchSubfolder)//搜索子文件夹
+        {
+            files = Directory.EnumerateFiles(strFolder, "*", SearchOption.AllDirectories).Where(s => isContainsText(s, strRegesText)).ToArray();
+        }
+        else
+        {
+            files = Directory.EnumerateFiles(strFolder).Where(s => isContainsText(s, strRegesText)).ToArray();
+        }
+
+        return files;
+    }
+    /// <summary>
+    /// 获取指定文件下所有【文件夹】的名称，
+    /// 可以获取子文件夹
+    /// </summary>
+    /// <param name="strFolder">指定目录</param>
+    /// <param name="strRegesText">正则指定搜索条件 </param>
+    /// <param name="blIsSearchSubfolder">是否搜索子文件夹,1搜索，0不搜索。默认不搜索</param>
+    /// <returns>返回搜索到的文件全名数组</returns>
+    public static string[] GetAllFolders(string strFolder, string strRegesText, bool blIsSearchSubfolder = false)
+    {
+        string[] files;
+        if (string.IsNullOrEmpty(strRegesText.ToString().Trim()))
+        {
+            strRegesText = string.Empty;
+
+        }
+
+        if (blIsSearchSubfolder)//搜索子文件夹
+        {
+            files = Directory.EnumerateDirectories(strFolder, "*", SearchOption.AllDirectories).Where(s => isContainsText(s, strRegesText)).ToArray();
+        }
+        else
+        {
+            files = Directory.EnumerateDirectories(strFolder).Where(s => isContainsText(s, strRegesText)).ToArray();
+        }
+
+        return files;
+    }
+    private static bool isContainsText(string s, string containstext)
+    {
+        if (string.IsNullOrEmpty(containstext))
+        {
+            return true;
+        }
+        else
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(s, containstext);
+        }
+    }
+    /// <summary>
+    /// 读取数据到AppValue.DicFile中
+    /// </summary>
+    /// <param name="extension">扩展名</param>
+    /// <param name="pathString">指定文件路径</param>
+    /// <returns></returns>
+    public static bool GetDicFile(string extension, string pathString, out string errorString)
+    {
+        errorString = null;
+        if (AppValues.FileFolde.Contains(pathString + "（." + extension + "）"))//如果已经存在就返回
+        {
+            return true;
+        }
+        try
+        {
+            string[] everyFilePaths = Utils.GetAllFiles(pathString, @"\S\." + extension + "$", true);
+            Dictionary<string, List<string>> tempDic = new Dictionary<string, List<string>>();
+            foreach (string tempfile in everyFilePaths)
+            {
+                string strP = pathString+"（."+extension +"）"+ Path.GetFileNameWithoutExtension(tempfile);
+                if (AppValues.FlieNames.ContainsKey(strP))//存在该key
+                {
+                    tempDic[strP].Add(tempfile);
+                    AppValues.FlieNames[strP].Add(tempfile);
+                }
+                else
+                {
+                    tempDic.Add(strP, new List<string> { tempfile });
+                    AppValues.FlieNames.Add(strP, new List<string> { tempfile });
+                }
+            }
+            foreach (KeyValuePair<string, List<string>> kvp in tempDic)
+            {
+                if (kvp.Value.Count > 1)
+                {
+                    errorString = errorString + "\n\n存在同名"+extension+"文件：" + kvp.Key + "，位置如下：";
+                    foreach (string st in kvp.Value)
+                    {
+                        errorString = errorString + "\n" + st;
+                    }
+                }
+            }
+
+            AppValues.FileFolde.Add(pathString + "（." + extension + "）");
+            if (errorString != null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+        catch
+        {
+            errorString = "未知错误！！！";
+            return false;
+        }
+
     }
 }
 

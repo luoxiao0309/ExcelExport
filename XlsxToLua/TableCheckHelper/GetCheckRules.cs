@@ -95,6 +95,13 @@ public partial class TableCheckHelper
             checkRule.CheckRuleString = ruleString;
             oneCheckRule.Add(checkRule);
         }
+        else if (ruleString.StartsWith("file2", StringComparison.CurrentCultureIgnoreCase))
+        {
+            FieldCheckRule checkRule = new FieldCheckRule();
+            checkRule.CheckType = TableCheckType.File2;
+            checkRule.CheckRuleString = ruleString;
+            oneCheckRule.Add(checkRule);
+        }
         else if (ruleString.StartsWith("file", StringComparison.CurrentCultureIgnoreCase))
         {
             FieldCheckRule checkRule = new FieldCheckRule();

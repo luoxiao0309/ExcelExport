@@ -211,12 +211,31 @@ public class Program
 
         AppValues.ExcelFolderPath = Path.GetFullPath(args[0]);
         Utils.Log(string.Format("选择的Excel所在路径：{0}", AppValues.ExcelFolderPath));
-
-
+        string errorString = null;
+        Utils.GetDicFile("xlsx", AppValues.ExcelFolderPath,out errorString);
+        if(errorString==null)
+        {
+            Utils.Log(string.Format("Excel同名检查完毕，没有发现同名文件\n"), ConsoleColor.Green);
+            existExcelFilePaths= Utils.GetAllFiles(AppValues.ExcelFolderPath, "0", true);
+            foreach (string filePath in existExcelFilePaths)
+            {
+                string strP = Path.GetFileNameWithoutExtension(filePath);
+                existExcelFileNames.Add(strP);//不带扩展名的文件名称，如item
+            }
+        }
+        else
+        {
+            Utils.LogError(errorString);
+            Utils.LogError("\n检查Excel同名完毕，但存在上面所列同名文件，必须全部修正后才可以进行表格导出\n");
+            // 将错误信息全部输出保存到txt文件中
+            Utils.SaveErrorInfoToFile();
+            Utils.LogErrorAndExit("\n按任意键继续");
+        }
+        /*
         // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
-        XlsxToLua.DirectoryAllFiles directoryAllFiles = new XlsxToLua.DirectoryAllFiles();
+        // XlsxToLua.DirectoryAllFiles directoryAllFiles = new XlsxToLua.DirectoryAllFiles();
         //existExcelFilePaths = directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xlsx");
-        existExcelFilePaths = GetAllFiles(AppValues.ExcelFolderPath, "0", true);
+        existExcelFilePaths = Utils.GetAllFiles(AppValues.ExcelFolderPath, "0", true);
 
         Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
         foreach (string filePath in existExcelFilePaths)
@@ -258,6 +277,8 @@ public class Program
             Utils.SaveErrorInfoToFile();
             Utils.LogErrorAndExit("\n按任意键继续");
         }
+        */
+
     }
     /// <summary>
     /// 检查第2个参数（存放导出lua文件的目录）是否正确
@@ -342,10 +363,11 @@ public class Program
                 AppValues.ExceptExportTableNames.Add(fileName.Trim());
 
             // 检查要忽略导出的Excel文件是否存在
-            foreach (string exceptExportExcelFileName in AppValues.ExceptExportTableNames)
+            foreach (string fileName in AppValues.ExceptExportTableNames)
             {
-                if (!existExcelFileNames.Contains(exceptExportExcelFileName))
-                    Utils.LogErrorAndExit(string.Format("设置要忽略导出的Excel文件（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExcelFolderPath, string.Concat(exceptExportExcelFileName, ".xlsx"))));
+                //if (!existExcelFileNames.Contains(exceptExportExcelFileName))
+                if (!AppValues.FlieNames.ContainsKey(AppValues.ExcelFolderPath + "（.xlsx）" + fileName))
+                    Utils.LogErrorAndExit(string.Format("设置要忽略导出的Excel文件（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExcelFolderPath, string.Concat(fileName, ".xlsx"))));
             }
 
             Utils.LogWarning(string.Format("警告：本次将忽略以下Excel文件：\n{0}\n", Utils.CombineString(AppValues.ExceptExportTableNames, ", ")));
@@ -368,10 +390,11 @@ public class Program
                 AppValues.ExportTableNames.Add(fileName.Trim());
 
             // 检查指定导出的Excel文件是否存在
-            foreach (string exportExcelFileName in AppValues.ExportTableNames)
+            foreach (string fileName in AppValues.ExportTableNames)
             {
-                if (!existExcelFileNames.Contains(exportExcelFileName))
-                    Utils.LogErrorAndExit(string.Format("要求导出的Excel文件（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExcelFolderPath, string.Concat(exportExcelFileName, ".xlsx"))));
+                //if (!existExcelFileNames.Contains(exportExcelFileName))
+                if (!AppValues.FlieNames.ContainsKey(AppValues.ExcelFolderPath + "（.xlsx）" + fileName))
+                    Utils.LogErrorAndExit(string.Format("要求导出的Excel文件（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExcelFolderPath, string.Concat(fileName, ".xlsx"))));
             }
 
             Utils.LogWarning(string.Format("警告：本次将仅检查并导出以下Excel文件：\n{0}\n", Utils.CombineString(AppValues.ExportTableNames, ", ")));
@@ -564,8 +587,9 @@ public class Program
                 // 检查指定导出的Excel文件是否存在
                 foreach (string fileName in fileNames)
                 {
-                    if (!existExcelFileNames.Contains(fileName))
-                        Utils.LogErrorAndExit(string.Format("要求额外导出为csv文件的Excel表（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExportCsvPath, string.Concat(fileName, ".xlsx"))));
+                    //if (!existExcelFileNames.Contains(fileName))
+                   if (!AppValues.FlieNames.ContainsKey(AppValues.ExcelFolderPath + "（.xlsx）" + fileName))
+                            Utils.LogErrorAndExit(string.Format("要求额外导出为csv文件的Excel表（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExportCsvPath, string.Concat(fileName, ".xlsx"))));
                     else
                         AppValues.ExportCsvTableNames.Add(fileName);
                 }
@@ -745,8 +769,9 @@ public class Program
                 // 检查指定导出的Excel文件是否存在
                 foreach (string fileName in fileNames)
                 {
-                    if (!existExcelFileNames.Contains(fileName))
-                        Utils.LogErrorAndExit(string.Format("要求额外导出为txt文件的Excel表（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExportTxtPath, string.Concat(fileName, ".xlsx"))));
+                    //if (!existExcelFileNames.Contains(fileName))
+                    if (!AppValues.FlieNames.ContainsKey(AppValues.ExcelFolderPath + "（.xlsx）" + fileName))
+                            Utils.LogErrorAndExit(string.Format("要求额外导出为txt文件的Excel表（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExportTxtPath, string.Concat(fileName, ".xlsx"))));
                     else
                         AppValues.ExportTxtTableNames.Add(fileName);
                 }
@@ -865,7 +890,8 @@ public class Program
                 // 检查指定导出的Excel文件是否存在
                 foreach (string fileName in fileNames)
                 {
-                    if (!existExcelFileNames.Contains(fileName))
+                    //if (!existExcelFileNames.Contains(fileName))
+                    if (!AppValues.FlieNames.ContainsKey(AppValues.ExcelFolderPath + "（.xlsx）" + fileName))
                         Utils.LogErrorAndExit(string.Format("要求额外导出为csv对应C#类文件的Excel表（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExportCsClassPath, string.Concat(fileName, ".xlsx"))));
                     else
                         AppValues.ExportCsClassTableNames.Add(fileName);
@@ -1017,7 +1043,8 @@ public class Program
                 // 检查指定导出的Excel文件是否存在
                 foreach (string fileName in fileNames)
                 {
-                    if (!existExcelFileNames.Contains(fileName))
+                    //if (!existExcelFileNames.Contains(fileName))
+                    if (!AppValues.FlieNames.ContainsKey(AppValues.ExcelFolderPath + "（.xlsx）" + fileName))
                         Utils.LogErrorAndExit(string.Format("要求额外导出为csv对应Java类文件的Excel表（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExportJavaClassPath, string.Concat(fileName, ".xlsx"))));
                     else
                         AppValues.ExportJavaClassTableNames.Add(fileName);
@@ -1148,7 +1175,8 @@ public class Program
                 // 检查指定导出的Excel文件是否存在
                 foreach (string fileName in fileNames)
                 {
-                    if (!existExcelFileNames.Contains(fileName))
+                    //if (!existExcelFileNames.Contains(fileName))
+                    if (!AppValues.FlieNames.ContainsKey(AppValues.ExcelFolderPath + "（.xlsx）" + fileName))
                         Utils.LogErrorAndExit(string.Format("要求额外导出为json文件的Excel表（{0}）不存在，请检查后重试并注意区分大小写", Utils.CombinePath(AppValues.ExportJsonPath, string.Concat(fileName, ".xlsx"))));
                     else
                         AppValues.ExportJsonTableNames.Add(fileName);
@@ -1188,11 +1216,26 @@ public class Program
                     if (!Directory.Exists(value))
                         Utils.LogErrorAndExit(string.Format("错误：声明的{0}参数下属的参数{1}所配置的路径不存在", AppValues.CHECK_PNG, AppValues.CHECK_PNG_PATH));
                     else
-                        pngPath = value;
+                        pngPath = Path.GetFullPath(value);
                 }
             }
         }
-
+        Utils.Log("\n开始检查指定路径中中是否有同名png文件");
+        string errorString = null;
+        Utils.GetDicFile("png", pngPath, out errorString);
+        if (errorString == null)
+        {
+            Utils.Log(string.Format("png同名检查完毕，没有发现同名文件\n"), ConsoleColor.Green);
+        }
+        else
+        {
+            Utils.LogError(errorString);
+            Utils.LogError("\n检查png同名完毕，但存在上面所列同名文件，必须全部修正后才可以进行表格导出\n");
+            // 将错误信息全部输出保存到txt文件中
+            Utils.SaveErrorInfoToFile();
+            Utils.LogErrorAndExit("\n按任意键继续");
+        }
+        /*
         List<XlsxToLua.FileInformation> existPngFilePaths = new List<XlsxToLua.FileInformation>();
         List<string> existPngFileNames = new List<string>();
         XlsxToLua.DirectoryAllFiles directoryAllFiles2 = new XlsxToLua.DirectoryAllFiles();
@@ -1239,6 +1282,7 @@ public class Program
             Utils.SaveErrorInfoToFile();
             Utils.LogErrorAndExit("\n按任意键继续");
         }
+        */
     }
     /// <summary>
     /// 设置忽略导出的Excel是否合理：
@@ -1268,6 +1312,17 @@ public class Program
         // 如果未指定导出部分Excel文件，则全部导出，但要排除设置了进行忽略的
         if (AppValues.ExportTableNames.Count == 0)
         {
+            /*
+            foreach(KeyValuePair<string,List<string>> kvp in AppValues.FlieNames)
+            {
+                string filePath = kvp.Value[0];
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
+                if (fileName.StartsWith(AppValues.EXCEL_TEMP_FILE_FILE_NAME_START_STRING))
+                    Utils.LogWarning(string.Format("目录中的{0}文件为Excel自动生成的临时文件，将被忽略处理", filePath));
+                else if (!AppValues.ExceptExportTableNames.Contains(fileName))
+                    AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath));
+            }
+            */
             foreach (string filePath in existExcelFilePaths)
             {
                 string fileName = Path.GetFileNameWithoutExtension(filePath);
@@ -1276,6 +1331,7 @@ public class Program
                 else if (!AppValues.ExceptExportTableNames.Contains(fileName))
                     AppValues.ExportTableNames.Add(Path.GetFileNameWithoutExtension(filePath));
             }
+            
         }
         #endregion
         #region 如果声明要额外导出为csv文件的Excel表本身在本次被忽略，需要进行警告
@@ -1747,47 +1803,6 @@ public class Program
         Utils.Log("\n按任意键继续");
         Console.ReadKey();
 
-
-    }
-
-    /// <summary>
-    /// 获取指定文件下所有【文件的全名称】，
-    /// 可以获取子文件夹
-    /// </summary>
-    /// <param name="strFolder">指定目录</param>
-    /// <param name="strRegesText">正则指定搜索条件,0为搜索xlsx文件，"\S\.xlsx$"表示 </param>
-    /// <param name="blIsSearchSubfolder">是否搜索子文件夹,1搜索，0不搜索。默认不搜索</param>
-    /// <returns>返回搜索到的文件全名数组</returns>
-    public static string[] GetAllFiles(string strFolder, string strRegesText, bool blIsSearchSubfolder = false)
-    {
-        string[] files;
-        if (strRegesText == null | strRegesText == "0")
-        {
-            strRegesText = @"\S\.xlsx$";
-        }
-
-        if (blIsSearchSubfolder)//搜索子文件夹
-        {
-            files = Directory.EnumerateFiles(strFolder, "*", SearchOption.AllDirectories).Where(s => isContainsText(s, strRegesText)).ToArray();
-        }
-        else
-        {
-            files = Directory.EnumerateFiles(strFolder).Where(s => isContainsText(s, strRegesText)).ToArray();
-        }
-
-        return files;
-    }
-
-    private static bool isContainsText(string s, string containstext)
-    {
-        if (string.IsNullOrEmpty(containstext))
-        {
-            return true;
-        }
-        else
-        {
-            return System.Text.RegularExpressions.Regex.IsMatch(s, containstext);
-        }
 
     }
 }

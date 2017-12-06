@@ -176,6 +176,11 @@ public partial class TableCheckHelper
                         CheckGreaterThan(fieldInfo, checkRule, out errorString);
                         break;
                     }
+                case TableCheckType.File2:
+                    {
+                        CheckFile2(fieldInfo, checkRule, out errorString);
+                        break;
+                    }
                 case TableCheckType.File:
                     {
                         CheckFile(fieldInfo, checkRule, out errorString);
@@ -236,6 +241,7 @@ public enum TableCheckType
     Ref,          // 值引用检查（某个数值必须为另一个表格中某字段中存在的值）
     GreaterThan,  // 值大小比较检查（同一行中某个字段的值必须大于另一字段的值）
     Func,         // 自定义检查函数
+    File2,         // 文件存在性检查
     File,         // 文件存在性检查
     MapString,    // mapString类型的内容检查
 }

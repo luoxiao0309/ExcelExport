@@ -232,4 +232,14 @@ public partial class AppValues
     /// 存储运行时打印的所有信息，在程序运行完毕后输出为txt文件，从而解决如果输出内容过多控制台无法显示全部信息的问题
     /// </summary>
     public static StringBuilder LogContent = new StringBuilder();
+
+    /// <summary>
+    /// 存储路径集合
+    /// </summary>
+    public static List<string> FileFolde = new List<string>();
+    /// <summary>
+    /// 存储指定目录及子目录下所有文件名和对应的文件路径；
+    /// 文件名组成：指定路径+文件名
+    /// </summary>
+    public static Dictionary<string, List<string>> FlieNames = new Dictionary<string, List<string>>();
 }
