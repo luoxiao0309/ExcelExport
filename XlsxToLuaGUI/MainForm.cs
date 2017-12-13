@@ -1052,7 +1052,7 @@ namespace XlsxToLuaGUI
             // 声明要额外导出为txt文件的Excel表格
             string exportTxtTableNames = "$all";
             stringBuilder.AppendFormat("\"{0}({1})\" ", AppValues.EXPORT_TXT_PARAM_STRING, exportTxtTableNames);
-
+            /*
             string exportTxtFilePath = tbExportTxtFilePath.Text.Trim();
             if (!string.IsNullOrEmpty(exportTxtFilePath))
             {
@@ -1069,7 +1069,7 @@ namespace XlsxToLuaGUI
                 stringBuilder.AppendFormat("\"{0}({1})\" ", AppValues.EXPORT_TXT_PARAM_PARAM_STRING, Utils.CombineString(exportTxtParamList, "|"));
 
             }
-
+            */
             // 自动对导出csv对应的C#或Java类文件命名时添加的前后缀
             string csvClassNamePrefix = tbExportCsvClassNamePrefix.Text.Trim();
             string csvClassNamePostfix = tbExportCsvClassNamePostfix.Text.Trim();
@@ -1224,6 +1224,11 @@ namespace XlsxToLuaGUI
                 errorString = null;
                 return null;
             }
+        }
+
+        private void tbExportTxtFilePath_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

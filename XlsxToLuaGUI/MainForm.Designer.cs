@@ -235,6 +235,7 @@
             this.lbExtraParam.Size = new System.Drawing.Size(65, 12);
             this.lbExtraParam.TabIndex = 12;
             this.lbExtraParam.Text = "可选参数：";
+            this.lbExtraParam.Visible = false;
             // 
             // cbColumnInfo
             // 
@@ -936,6 +937,7 @@
             this.label1.Size = new System.Drawing.Size(107, 12);
             this.label1.TabIndex = 45;
             this.label1.Text = "txt文件导出路径：";
+            this.label1.Visible = false;
             // 
             // tbExportTxtFilePath
             // 
@@ -944,7 +946,7 @@
             this.tbExportTxtFilePath.Name = "tbExportTxtFilePath";
             this.tbExportTxtFilePath.Size = new System.Drawing.Size(316, 21);
             this.tbExportTxtFilePath.TabIndex = 46;
-            this.tbExportTxtFilePath.Text = "TestExcel/txt";
+            this.tbExportTxtFilePath.Visible = false;
             // 
             // btnChooseExportTxtFilePath
             // 
@@ -955,6 +957,7 @@
             this.btnChooseExportTxtFilePath.TabIndex = 47;
             this.btnChooseExportTxtFilePath.Text = "选择";
             this.btnChooseExportTxtFilePath.UseVisualStyleBackColor = true;
+            this.btnChooseExportTxtFilePath.Visible = false;
             this.btnChooseExportTxtFilePath.Click += new System.EventHandler(this.btnChooseExportTxtFilePath_Click);
             // 
             // MainForm
