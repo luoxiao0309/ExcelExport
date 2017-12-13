@@ -242,4 +242,13 @@ public partial class AppValues
     /// 文件名组成：指定路径+文件名
     /// </summary>
     public static Dictionary<string, List<string>> FlieNames = new Dictionary<string, List<string>>();
+
+    /// <summary>
+    /// 存储_drop掉落表
+    /// </summary>
+    public static Dictionary<string, Table_drop> TableDropInfo = new Dictionary<string, Table_drop>();
+    /// <summary>
+    /// 存储_drop_group掉落表
+    /// </summary>
+    public static Dictionary<string, Table_drop_reward> TableDropRewardInfo = new Dictionary<string, Table_drop_reward>();
 }

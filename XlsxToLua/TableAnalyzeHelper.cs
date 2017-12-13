@@ -302,7 +302,7 @@ public class TableAnalyzeHelper
             // dict下属字段的变量名为空的列，视为无效列，直接忽略
             if (fieldInfo.ParentField != null && fieldInfo.ParentField.DataType == DataType.Dict)
             {
-                Utils.LogWarning(string.Format("警告：第{0}列为dict下属字段，但未填写变量名，将被视为无效列而忽略", Utils.GetExcelColumnName(fieldInfo.ColumnSeq + 1)));
+               // Utils.LogWarning(string.Format("警告：第{0}列为dict下属字段，但未填写变量名，将被视为无效列而忽略", Utils.GetExcelColumnName(fieldInfo.ColumnSeq + 1)));
                 errorString = null;
                 nextFieldColumnIndex = columnIndex + 1;
                 return null;
@@ -310,7 +310,7 @@ public class TableAnalyzeHelper
             // 独立字段未填写字段名以及导出数据库信息，视为无效列，直接忽略
             else if (string.IsNullOrEmpty(databaseInfoString))
             {
-                Utils.LogWarning(string.Format("警告：第{0}列未填写变量名，也未填写导出数据库信息，将被视为无效列而忽略", Utils.GetExcelColumnName(fieldInfo.ColumnSeq + 1)));
+              //  Utils.LogWarning(string.Format("警告：第{0}列未填写变量名，也未填写导出数据库信息，将被视为无效列而忽略", Utils.GetExcelColumnName(fieldInfo.ColumnSeq + 1)));
                 errorString = null;
                 nextFieldColumnIndex = columnIndex + 1;
                 return null;
@@ -318,7 +318,7 @@ public class TableAnalyzeHelper
             // 未填写字段名但填写了导出数据库的信息，视为只进行MySQL导出的字段，自动进行字段命名
             else
             {
-                Utils.LogWarning(string.Format("警告：第{0}列未填写变量名，仅填写了导出数据库信息，将不会进行lua、csv、json等客户端形式导出", Utils.GetExcelColumnName(fieldInfo.ColumnSeq + 1)));
+              //  Utils.LogWarning(string.Format("警告：第{0}列未填写变量名，仅填写了导出数据库信息，将不会进行lua、csv、json等客户端形式导出", Utils.GetExcelColumnName(fieldInfo.ColumnSeq + 1)));
                 fieldInfo.FieldName = string.Concat(AppValues.AUTO_FIELD_NAME_PREFIX, fieldInfo.ColumnSeq);
                 fieldInfo.IsIgnoreClientExport = true;
 

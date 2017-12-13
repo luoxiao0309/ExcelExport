@@ -138,8 +138,8 @@ public class TableExportToMySQLHelper
             }
             if (warningInfo.Count > 0)
             {
-                Utils.LogWarning("警告：以下字段未设置导出数据库的信息，将被忽略：");
-                Utils.LogWarning(Utils.CombineString(warningInfo, " ,"));
+                //Utils.LogWarning("警告：以下字段未设置导出数据库的信息，将被忽略：");
+               // Utils.LogWarning(Utils.CombineString(warningInfo, " ,"));
             }
             // 按Excel表格中字段定义新建数据库表格
             string comment = tableInfo.TableConfig != null && tableInfo.TableConfig.ContainsKey(AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_COMMENT) && tableInfo.TableConfig[AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_COMMENT].Count > 0 ? tableInfo.TableConfig[AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_COMMENT][0] : string.Empty;

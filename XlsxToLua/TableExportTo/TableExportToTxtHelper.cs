@@ -258,6 +258,42 @@ public class TableExportToTxtHelper
             // 去掉开头多加的一个分隔符
             rowContentList.Insert(0, tempStringBuilder.Remove(0, 1));
         }
+
+
+        //config表
+        StringBuilder tempStringBuilder2 = new StringBuilder();
+        tempStringBuilder2.Append("");
+        rowContentList.Add(tempStringBuilder2);
+        rowContentList.Add(tempStringBuilder2);
+        rowContentList.Add(tempStringBuilder2);
+        rowContentList.Add(tempStringBuilder2);
+        rowContentList.Add(tempStringBuilder2);
+        StringBuilder tempStringBuilder3 = new StringBuilder();
+        tempStringBuilder3.Append("============以下为config表中的配置================");
+        rowContentList.Add(tempStringBuilder3);
+
+        DataTable dt = tableInfo.TableConfigData;
+        rowCount = dt.Rows.Count;
+        int columnCount = dt.Columns.Count;
+        for (int row = 0; row < rowCount; ++row)
+        {
+            string str = null;
+            for (int column = 0; column < columnCount; ++column)
+            {
+                str = str + dt.Rows[row][column].ToString() + AppValues.ExportTxtSplitChar;
+            }
+
+            //str.Remove(str.Length-1, 1);
+            str = str.TrimEnd(AppValues.ExportTxtSplitChar);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(str);
+            rowContentList.Add(stringBuilder);
+            // 去掉开头多加的一个分隔符
+            // rowContentList.Insert(AppValues.ExportTxtIsExportColumnName == true ? 1 : 0, );
+        }
+
+
+
         string ExportTxtPath = null;
         if (AppValues.ExportTxtPath == null)
         {

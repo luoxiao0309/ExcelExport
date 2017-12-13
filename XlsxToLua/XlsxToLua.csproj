@@ -82,6 +82,7 @@
     <Compile Include="TableCheckHelper\GetValueIsInSet.cs" />
     <Compile Include="TableCheckHelper\TableCheckHelper.cs" />
     <Compile Include="TableCheckHelper\CheckRefStr.cs" />
+    <Compile Include="TableDrop.cs" />
     <Compile Include="TableExportTo\TableExportToCsClassHelper.cs" />
     <Compile Include="TableExportTo\TableExportToCsvHelper.cs" />
     <Compile Include="TableExportTo\TableExportToJavaClassHelper.cs" />

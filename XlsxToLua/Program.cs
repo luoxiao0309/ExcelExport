@@ -1590,7 +1590,19 @@ public class Program
                 TableInfo tableInfo = AppValues.TableInfo[tableName];
                 string errorString = null;
                 Utils.Log(string.Format("检查表格\"{0}\"：", tableInfo.TableName), ConsoleColor.Green);
-                TableCheckHelper.CheckTable(tableInfo, out errorString);
+                if(tableName.EndsWith("_drop_reward"))
+                {
+                    DropTableAnalyzeHelper.AnalyzeDroupGroup(tableInfo, out errorString);
+                }
+                else if (tableName.EndsWith("_drop"))
+                {
+                    DropTableAnalyzeHelper.AnalyzeDrop(tableInfo, out errorString);
+                }
+                else
+                {
+                    TableCheckHelper.CheckTable(tableInfo, out errorString);
+                }
+
                 if (errorString != null)
                 {
                     Utils.LogError(errorString);
@@ -1709,6 +1721,7 @@ public class Program
                         Utils.LogErrorAndExit(errorString);
                     else
                         Utils.Log("额外导出为txt文件成功");
+                    /*
                     if (tableInfo.TableConfig != null)
                     {
                         TableExportToTxtHelper.ExportTableConfigDataToTxt(tableInfo, out errorString);
@@ -1717,7 +1730,7 @@ public class Program
                         else
                             Utils.Log("额外导出为txt文件config配置成功");
                     }
-
+                    */
                 }
                 #endregion
 
