@@ -76,8 +76,11 @@ public class Program
         for (int i = 4; i < args.Length; ++i)
         {
             string param = args[i];
-
-            if (param.Equals(AppValues.UNCHECKED_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
+            if (param.Equals(AppValues.EXPORT_INCLUDE_SUBFOLDER_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
+                continue;
+            else if (param.Equals(AppValues.EXPORT_KEEP_DIRECTORY_STRUCTURE_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
+                continue;
+            else if (param.Equals(AppValues.UNCHECKED_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
             {
                 AppValues.IsNeedCheck = false;
                 Utils.LogWarning("警告：你选择了不进行表格检查，请务必自己保证表格的正确性");
@@ -211,12 +214,23 @@ public class Program
 
         AppValues.ExcelFolderPath = Path.GetFullPath(args[0]);
         Utils.Log(string.Format("选择的Excel所在路径：{0}", AppValues.ExcelFolderPath));
-        string errorString = null;
+
+
+        for (int i = 4; i < args.Length; ++i)
+        {
+            string param = args[i];
+            if (param.Equals(AppValues.EXPORT_INCLUDE_SUBFOLDER_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
+            {
+                AppValues.IsExportIncludeSubfolder = true;
+                Utils.LogWarning("警告：导出Excel文件夹下属子文件夹中的Excel文件，注意：子文件夹的Excel文件名也不允许重复");
+            }
+        }
+         string errorString = null;
         Utils.GetDicFile("xlsx", AppValues.ExcelFolderPath,out errorString);
         if(errorString==null)
         {
             Utils.Log(string.Format("Excel同名检查完毕，没有发现同名文件\n"), ConsoleColor.Green);
-            existExcelFilePaths= Utils.GetAllFiles(AppValues.ExcelFolderPath, "0", true);
+            existExcelFilePaths= Utils.GetAllFiles(AppValues.ExcelFolderPath, "0", AppValues.IsExportIncludeSubfolder);
             foreach (string filePath in existExcelFilePaths)
             {
                 string strP = Path.GetFileNameWithoutExtension(filePath);
@@ -231,54 +245,6 @@ public class Program
             Utils.SaveErrorInfoToFile();
             Utils.LogErrorAndExit("\n按任意键继续");
         }
-        /*
-        // 记录目录中存在的所有Excel文件名（注意不能直接用File.Exists判断某个字符串代表的文件名是否存在，因为Windows会忽略声明的Excel文件名与实际文件名的大小写差异）
-        // XlsxToLua.DirectoryAllFiles directoryAllFiles = new XlsxToLua.DirectoryAllFiles();
-        //existExcelFilePaths = directoryAllFiles.GetAllFiles(new System.IO.DirectoryInfo(AppValues.ExcelFolderPath), "*.xlsx");
-        existExcelFilePaths = Utils.GetAllFiles(AppValues.ExcelFolderPath, "0", true);
-
-        Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-        foreach (string filePath in existExcelFilePaths)
-        {
-            string strP = Path.GetFileNameWithoutExtension(filePath);
-            if (dic.ContainsKey(strP))//存在该key
-            {
-                dic[strP].Add(filePath);
-            }
-            else
-            {
-                dic.Add(strP, new List<string> { filePath});
-            }
-            existExcelFileNames.Add(strP);//不带扩展名的文件名称，如item
-        }
-        Utils.Log("\n开始检查Excel中是否有同名文件");
-        bool bl = true;
-        foreach (KeyValuePair<string, List<string>> kvp in dic)
-        {
-            if (kvp.Value.Count > 1)
-            {
-                bl = false;
-
-                Utils.LogError("\n存在同名Excel文件：" + kvp.Key + "，位置如下：");
-                foreach (string st in kvp.Value)
-                {
-                    Utils.LogError(st);
-                }
-            }
-        }
-        if (bl)
-        {
-            Utils.Log(string.Format("Excel同名检查完毕，没有发现同名文件\n"), ConsoleColor.Green);
-        }
-        else
-        {
-            Utils.LogError("\n检查Excel同名完毕，但存在上面所列同名文件，必须全部修正后才可以进行表格导出\n");
-            // 将错误信息全部输出保存到txt文件中
-            Utils.SaveErrorInfoToFile();
-            Utils.LogErrorAndExit("\n按任意键继续");
-        }
-        */
-
     }
     /// <summary>
     /// 检查第2个参数（存放导出lua文件的目录）是否正确

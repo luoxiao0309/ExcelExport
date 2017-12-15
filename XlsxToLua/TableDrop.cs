@@ -250,8 +250,13 @@ public class DropTableAnalyzeHelper
             int probability = (int)table.GetFieldInfoByFieldName(table_drop.prob).Data[row];
             table_drop.AddDropID(dropid, probability, table_dropfield);
 
-             //bool b = AppValues.TableDropRewardInfo[table_drop.name + "_reward"].Drop_Group.ContainsKey(table_dropfield.drop_group);
-            bool b = AppValues.TableInfo[table_drop.name + "_reward"].GetFieldInfoByFieldName("drop_group").Data.Contains(table_dropfield.drop_group);
+            //bool b = AppValues.TableDropRewardInfo[table_drop.name + "_reward"].Drop_Group.ContainsKey(table_dropfield.drop_group);
+            bool b = false;
+            try
+            {
+                b = AppValues.TableInfo[table_drop.name + "_reward"].GetFieldInfoByFieldName("drop_group").Data.Contains(table_dropfield.drop_group);
+            }
+            catch { }
             if (b == false)
             {
                 errorStringBuild.AppendFormat("第{0}行{1}列数据：{2}错误，未在{3}表中{4}字段找到对应值\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, Utils.GetExcelColumnName(table.GetFieldInfoByFieldName("drop_group").ColumnSeq + 1), table_dropfield.drop_group, table.TableName + "_reward", "drop_group");

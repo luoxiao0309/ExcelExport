@@ -7,6 +7,8 @@ public class AppValues
     public const string PROGRAM_NAME = "XlsxToLua.exe";
     public const string GUI_PROGRAM_NAME = "XlsxToLuaGUI.exe";
 
+    public const string EXPORT_INCLUDE_SUBFOLDER_PARAM_STRING = "-exportIncludeSubfolder";
+    public const string EXPORT_KEEP_DIRECTORY_STRUCTURE_PARAM_STRING = "-exportKeepDirectoryStructure";
     public const string NEED_COLUMN_INFO_PARAM_STRING = "-columnInfo";
     public const string UNCHECKED_PARAM_STRING = "-unchecked";
     public const string NO_CLIENT_PATH_STRING = "-noClient";
@@ -18,8 +20,6 @@ public class AppValues
     public const string ALLOWED_NULL_NUMBER_PARAM_STRING = "-allowedNullNumber";
     public const string EXPORT_CSV_PARAM_STRING = "-exportCsv";
     public const string EXPORT_CSV_PARAM_PARAM_STRING = "-exportCsvParam";
-    public const string EXPORT_TXT_PARAM_STRING = "-exportTxt";
-    public const string EXPORT_TXT_PARAM_PARAM_STRING = "-exportTxtParam";
     public const string EXPORT_CS_CLASS_PARAM_STRING = "-exportCsClass";
     public const string EXPORT_CS_CLASS_PARAM_PARAM_STRING = "-exportCsClassParam";
     public const string EXPORT_JAVA_CLASS_PARAM_STRING = "-exportJavaClass";
@@ -33,12 +33,6 @@ public class AppValues
     public const string EXPORT_CSV_PARAM_SUBTYPE_SPLIT_STRING = "splitString";
     public const string EXPORT_CSV_PARAM_SUBTYPE_IS_EXPORT_COLUMN_NAME = "isExportColumnName";
     public const string EXPORT_CSV_PARAM_SUBTYPE_IS_EXPORT_COLUMN_DATA_TYPE = "isExportColumnDataType";
-
-    public const string EXPORT_TXT_PARAM_SUBTYPE_EXPORT_PATH = "exportPath";
-    public const string EXPORT_TXT_PARAM_SUBTYPE_EXTENSION = "extension";
-    public const string EXPORT_TXT_PARAM_SUBTYPE_SPLIT_STRING = "splitString";
-    public const string EXPORT_TXT_PARAM_SUBTYPE_IS_EXPORT_COLUMN_NAME = "isExportColumnName";
-    public const string EXPORT_TXT_PARAM_SUBTYPE_IS_EXPORT_COLUMN_DATA_TYPE = "isExportColumnDataType";
 
     public const string EXPORT_CS_CLASS_PARAM_SUBTYPE_EXPORT_PATH = "exportPath";
     public const string EXPORT_CS_CLASS_PARAM_SUBTYPE_NAMESPACE = "namespace";
@@ -81,4 +75,6 @@ public class AppValues
 
     public static string PROGRAM_FOLDER_PATH = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
     public static string PROGRAM_PATH = System.Windows.Forms.Application.ExecutablePath;
+
+    public const string EXCEL_TEMP_FILE_FILE_NAME_START_STRING = "~$";
 }

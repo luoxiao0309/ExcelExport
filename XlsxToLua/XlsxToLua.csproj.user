@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"F:/XZ/client/ZTool/ZXlsxToLua/TestExcel" "F:/XZ/client/XZ/Assets/LuaFramework/Lua/Config" "F:/XZ/client/XZ/Assets" "-noLang" "-columnInfo" "-exportMySQL" "-checkPng%28chekPath=F:/XZ/client/XZ/Assets/Game/Image%29" "-exportTxt%28%24all%29" "-exportTxtParam%28exportPath=TestExcel/txt|extension=txt%29"  "-exportJson%28entry_item|entry_item_weapon%29" "-exportJsonParam%28exportPath=F:/XZ/client/ZTool/ZXlsxToLua/JSON|extension=json|isFormat=true%29"</StartArguments>
+    <StartArguments>"F:/XZ/client/ZTool/ZXlsxToLua/TestExcel" "F:/XZ/client/XZ/Assets/LuaFramework/Lua/Config" "F:/XZ/client/XZ/Assets" "-noLang" "-columnInfo" "-exportMySQL" "-checkPng%28chekPath=F:/XZ/client/XZ/Assets/Game/Image%29" "-exportTxt%28%24all%29"   "-part%28entry_item_drop%29" "-exportIncludeSubfolder"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartArguments>"F:\XZ\client\ZTool\ZXlsxToLua\TestExcel" "F:\XZ\client\XZ\Assets\LuaFramework\Lua\Config" "F:\XZ\client\XZ\Assets" "-noLang" "-columnInfo" "-exportTxt%28%24all%29" "-exportTxtParam%28extension=txt%29"</StartArguments>

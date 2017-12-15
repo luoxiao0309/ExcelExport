@@ -761,7 +761,7 @@ public class Utils
         }
         try
         {
-            string[] everyFilePaths = Utils.GetAllFiles(pathString, @"\S\." + extension + "$", true);
+            string[] everyFilePaths = Utils.GetAllFiles(pathString, @"\S\." + extension + "$",AppValues.IsExportIncludeSubfolder);
             Dictionary<string, List<string>> tempDic = new Dictionary<string, List<string>>();
             foreach (string tempfile in everyFilePaths)
             {

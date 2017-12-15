@@ -34,6 +34,16 @@ public partial class AppValues
     public const string EXCEL_TEMP_FILE_FILE_NAME_START_STRING = "~$";
 
     /// <summary>
+    /// 声明将Excel所在文件夹下属子文件夹中的Excel文件也进行导出的命令参数
+    /// </summary>
+    public const string EXPORT_INCLUDE_SUBFOLDER_PARAM_STRING = "-exportIncludeSubfolder";
+
+    /// <summary>
+    /// 声明将生成的文件按原Excel文件所在的目录结构进行存储的命令参数
+    /// </summary>
+    public const string EXPORT_KEEP_DIRECTORY_STRUCTURE_PARAM_STRING = "-exportKeepDirectoryStructure";
+
+    /// <summary>
     /// 声明不进行表格检查的命令参数
     /// </summary>
     public const string UNCHECKED_PARAM_STRING = "-unchecked";
@@ -141,7 +151,15 @@ public partial class AppValues
     /// </summary>
     public static string AUTO_FIELD_NAME_PREFIX = "未命名字段";
 
+    /// <summary>
+    /// 用户选择的是否要导出Excel文件夹下属子文件夹中的Excel文件（默认为不包含子文件夹）
+    /// </summary>
+    public static bool IsExportIncludeSubfolder = false;
 
+    /// <summary>
+    /// 用户选择的当导出Excel文件夹下属子文件夹中的Excel文件时，是否将生成的文件按原Excel文件所在的目录结构进行存储（默认为直接存储在同级目录下）
+    /// </summary>
+    public static bool IsExportKeepDirectoryStructure = false;
 
     /// <summary>
     /// 用户输入的国际化文件所在路径
