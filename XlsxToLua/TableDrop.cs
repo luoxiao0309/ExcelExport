@@ -229,38 +229,40 @@ public class DropTableAnalyzeHelper
     {
         errorString = null;
         Table_drop table_drop = new Table_drop();
-
+        StringBuilder errorStringBuild = new StringBuilder();
         table_drop.name = table.TableName;
         //数据表的行数
         int rowCount = table.GetKeyColumnFieldInfo().Data.Count;
-
-        StringBuilder errorStringBuild = new StringBuilder();
-        for (int row = 0; row < rowCount; ++row)
+        try
         {
-            Table_dropField table_dropfield = new Table_dropField();
-
-            table_dropfield.row = row + 5;
-            table_dropfield.id = (int)table.GetFieldInfoByFieldName(table_drop.id).Data[row];
-            table_dropfield.prob = (int)table.GetFieldInfoByFieldName(table_drop.prob).Data[row];
-            table_dropfield.min_lv = (int)table.GetFieldInfoByFieldName(table_drop.min_lv).Data[row];
-            table_dropfield.max_lv = (int)table.GetFieldInfoByFieldName(table_drop.max_lv).Data[row];
-            table_dropfield.drop_group = (int)table.GetFieldInfoByFieldName(table_drop.drop_group).Data[row];
-
-            int dropid = (int)table.GetFieldInfoByFieldName(table_drop.drop_id).Data[row];
-            int probability = (int)table.GetFieldInfoByFieldName(table_drop.prob).Data[row];
-            table_drop.AddDropID(dropid, probability, table_dropfield);
-
-            //bool b = AppValues.TableDropRewardInfo[table_drop.name + "_reward"].Drop_Group.ContainsKey(table_dropfield.drop_group);
-            bool b = false;
-            try
+            for (int row = 0; row < rowCount; ++row)
             {
+                Table_dropField table_dropfield = new Table_dropField();
+
+                table_dropfield.row = row + 5;
+                table_dropfield.id = (int)table.GetFieldInfoByFieldName(table_drop.id).Data[row];
+                table_dropfield.prob = (int)table.GetFieldInfoByFieldName(table_drop.prob).Data[row];
+                table_dropfield.min_lv = (int)table.GetFieldInfoByFieldName(table_drop.min_lv).Data[row];
+                table_dropfield.max_lv = (int)table.GetFieldInfoByFieldName(table_drop.max_lv).Data[row];
+                table_dropfield.drop_group = (int)table.GetFieldInfoByFieldName(table_drop.drop_group).Data[row];
+
+                int dropid = (int)table.GetFieldInfoByFieldName(table_drop.drop_id).Data[row];
+                int probability = (int)table.GetFieldInfoByFieldName(table_drop.prob).Data[row];
+                table_drop.AddDropID(dropid, probability, table_dropfield);
+
+                //bool b = AppValues.TableDropRewardInfo[table_drop.name + "_reward"].Drop_Group.ContainsKey(table_dropfield.drop_group);
+                bool b = false;
                 b = AppValues.TableInfo[table_drop.name + "_reward"].GetFieldInfoByFieldName("drop_group").Data.Contains(table_dropfield.drop_group);
+
+                if (b == false)
+                {
+                    errorStringBuild.AppendFormat("第{0}行{1}列数据：{2}错误，未在{3}表中{4}字段找到对应值\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, Utils.GetExcelColumnName(table.GetFieldInfoByFieldName("drop_group").ColumnSeq + 1), table_dropfield.drop_group, table.TableName + "_reward", "drop_group");
+                }
             }
-            catch { }
-            if (b == false)
-            {
-                errorStringBuild.AppendFormat("第{0}行{1}列数据：{2}错误，未在{3}表中{4}字段找到对应值\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, Utils.GetExcelColumnName(table.GetFieldInfoByFieldName("drop_group").ColumnSeq + 1), table_dropfield.drop_group, table.TableName + "_reward", "drop_group");
-            }
+        }
+        catch
+        {
+            errorStringBuild.Append("未知的错误！！！请确保其中有关联的表格都已选中，或者去勾选不对表格进行检查（慎重）");
         }
         if (errorStringBuild.Length > 0)
             errorString = errorStringBuild.ToString();
@@ -269,49 +271,56 @@ public class DropTableAnalyzeHelper
     public static void AnalyzeDroupGroup(TableInfo table,out string errorString)
     {
         errorString = null;
-        Table_drop_reward table_drop_reward = new Table_drop_reward();
+
+            Table_drop_reward table_drop_reward = new Table_drop_reward();
+            StringBuilder errorStringBuild = new StringBuilder();
 
         table_drop_reward.name = table.TableName;
 
         string table_drop = table.TableName.Substring(0, table.TableName.Length - 7);
-       //数据表的行数
-       int rowCount = table.GetKeyColumnFieldInfo().Data.Count;
-
-        StringBuilder errorStringBuild = new StringBuilder();
-        for (int row = 0; row < rowCount; ++row)
+        //数据表的行数
+        int rowCount = table.GetKeyColumnFieldInfo().Data.Count;
+        try
         {
-            table_drop_rewardField table_drop_rewardfield = new table_drop_rewardField();
-
-            int itemtype= (int)table.GetFieldInfoByFieldName(table_drop_reward.itemtype).Data[row];
-            object item_id = table.GetFieldInfoByFieldName(table_drop_reward.item_id).Data[row];
-            int num= (int)table.GetFieldInfoByFieldName(table_drop_reward.num).Data[row];
-
-            table_drop_rewardfield.row = row + AppValues.DATA_FIELD_DATA_START_INDEX + 1;
-            table_drop_rewardfield.id = (int)table.GetFieldInfoByFieldName(table_drop_reward.id).Data[row];
-            table_drop_rewardfield.prob = (int)table.GetFieldInfoByFieldName(table_drop_reward.prob).Data[row];
-            table_drop_rewardfield.item_id = (int)item_id;
-            table_drop_rewardfield.itemtype = itemtype;
-            table_drop_rewardfield.num = num;
-
-
-            object dropid = table.GetFieldInfoByFieldName(table_drop_reward.drop_group).Data[row];
-            table_drop_reward.AddDropGroup((int)dropid, table_drop_rewardfield);
-
-            if(!GetItemNameByID(itemtype, item_id))
+            for (int row = 0; row < rowCount; ++row)
             {
-                errorStringBuild.AppendFormat("第{0}行数据错误，道具类型与ID不匹配，道具类型为{1}，道具ID为{2}\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1,itemtype,(int)item_id);
-            }
-           
-          bool b=  AppValues.TableInfo[table_drop].GetFieldInfoByFieldName("drop_group").Data.Contains(dropid);
-            if(b==false)
-            {
-                errorStringBuild.AppendFormat("第{0}行{1}列数据：{2}错误，未在{3}表中{4}字段找到对应值\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, Utils.GetExcelColumnName(table.GetFieldInfoByFieldName(table_drop_reward.drop_group).ColumnSeq + 1), dropid,table_drop, "drop_group");
-            }
+                table_drop_rewardField table_drop_rewardfield = new table_drop_rewardField();
 
-            if(num <=0)
-            {
-                errorStringBuild.AppendFormat("第{0}行{1}列数据不符合要求，应该大于零，填入值为：{2}\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, Utils.GetExcelColumnName(table.GetFieldInfoByFieldName(table_drop_reward.drop_group).ColumnSeq + 1));
+                int itemtype = (int)table.GetFieldInfoByFieldName(table_drop_reward.itemtype).Data[row];
+                object item_id = table.GetFieldInfoByFieldName(table_drop_reward.item_id).Data[row];
+                int num = (int)table.GetFieldInfoByFieldName(table_drop_reward.num).Data[row];
+
+                table_drop_rewardfield.row = row + AppValues.DATA_FIELD_DATA_START_INDEX + 1;
+                table_drop_rewardfield.id = (int)table.GetFieldInfoByFieldName(table_drop_reward.id).Data[row];
+                table_drop_rewardfield.prob = (int)table.GetFieldInfoByFieldName(table_drop_reward.prob).Data[row];
+                table_drop_rewardfield.item_id = (int)item_id;
+                table_drop_rewardfield.itemtype = itemtype;
+                table_drop_rewardfield.num = num;
+
+
+                object dropid = table.GetFieldInfoByFieldName(table_drop_reward.drop_group).Data[row];
+                table_drop_reward.AddDropGroup((int)dropid, table_drop_rewardfield);
+
+                if (!GetItemNameByID(itemtype, item_id))
+                {
+                    errorStringBuild.AppendFormat("第{0}行数据错误，道具类型与ID不匹配，道具类型为{1}，道具ID为{2}\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, itemtype, (int)item_id);
+                }
+                bool b = false;
+                b = AppValues.TableInfo[table_drop].GetFieldInfoByFieldName("drop_group").Data.Contains(dropid);
+                if (b == false)
+                {
+                    errorStringBuild.AppendFormat("第{0}行{1}列数据：{2}错误，未在{3}表中{4}字段找到对应值\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, Utils.GetExcelColumnName(table.GetFieldInfoByFieldName(table_drop_reward.drop_group).ColumnSeq + 1), dropid, table_drop, "drop_group");
+                }
+
+                if (num <= 0)
+                {
+                    errorStringBuild.AppendFormat("第{0}行{1}列数据不符合要求，应该大于零，填入值为：{2}\n", row + AppValues.DATA_FIELD_DATA_START_INDEX + 1, Utils.GetExcelColumnName(table.GetFieldInfoByFieldName(table_drop_reward.drop_group).ColumnSeq + 1));
+                }
             }
+        }
+        catch
+        {
+            errorStringBuild.Append("未知的错误！！！请确保其中有关联的表格都已选中，或者去勾选不对表格进行检查（慎重）");
         }
         if(errorStringBuild.Length !=0)
             errorString = errorStringBuild.ToString();
