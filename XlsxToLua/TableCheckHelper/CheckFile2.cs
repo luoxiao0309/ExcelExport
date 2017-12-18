@@ -60,7 +60,8 @@ public partial class TableCheckHelper
                         else
                         {
                             //string path = Utils.CombinePath(pathString, inputFileName);
-                            string[] paths = Utils.GetAllFolders(pathString, "", false);
+                           // string[] paths = Utils.GetAllFolders(pathString, "", false);
+                            string[] paths = Directory.GetDirectories(pathString);
                             bool exists = ((System.Collections.IList)paths).Contains(pathString + "\\" + inputFileName);
                             if(!exists)
                             inexistFileInfo.Add(i, inputFileName);
@@ -85,7 +86,7 @@ public partial class TableCheckHelper
                                 }
                             }
                         }
-                            Utils.GetDicFile(extension, pathString, out errorString);
+                        Dictionary<string, List<string>> tempfile = Utils.GetFileInfo(pathString, extension, SearchOption.AllDirectories, out errorString);
                         if (errorString !=null)
                         {
                             return false;
@@ -104,7 +105,7 @@ public partial class TableCheckHelper
                                     illegalFileNames.Add(i);
                                 else
                                 {
-                                    if (!AppValues.FlieNames.ContainsKey(pathString + "（." + extension + "）" + inputFileName))
+                                    if (!tempfile.ContainsKey(inputFileName))
                                         inexistFileInfo.Add(i, inputFileName);
                                 }
                             }

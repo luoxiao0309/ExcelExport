@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Linq;
+//using System.Linq;
 
 public class Utils
 {
@@ -680,6 +680,7 @@ public class Utils
 
         return Path.Combine(path1, path2);
     }
+    /*
     /// <summary>
     /// 获取指定文件下所有【文件的全名称】，
     /// 可以获取子文件夹
@@ -746,66 +747,52 @@ public class Utils
             return System.Text.RegularExpressions.Regex.IsMatch(s, containstext);
         }
     }
+    */
     /// <summary>
-    /// 读取数据到AppValue.DicFile中
+    /// 读取文件到字典
     /// </summary>
+    /// <param name="pathString">指定路径</param>
     /// <param name="extension">扩展名</param>
-    /// <param name="pathString">指定文件路径</param>
+    /// <param name="searchOption">搜索子目录还是不搜索</param>
+    /// <param name="errorString">错误码</param>
     /// <returns></returns>
-    public static bool GetDicFile(string extension, string pathString, out string errorString)
+    public static Dictionary<string,List<string>> GetFileInfo(string pathString,string extension,SearchOption searchOption,out string errorString)
     {
         errorString = null;
-        if (AppValues.FileFolde.Contains(pathString + "（." + extension + "）"))//如果已经存在就返回
+        string fileInFokey = pathString + @"(." + extension + @")" + searchOption.ToString();
+        if (AppValues.AllFileInfos.ContainsKey(fileInFokey))//如果存在就直接返回
         {
-            return true;
+            return AppValues.AllFileInfos[fileInFokey];
         }
-        try
-        {
-            string[] everyFilePaths = Utils.GetAllFiles(pathString, @"\S\." + extension + "$",AppValues.IsExportIncludeSubfolder);
-            Dictionary<string, List<string>> tempDic = new Dictionary<string, List<string>>();
-            foreach (string tempfile in everyFilePaths)
-            {
-                string strP = pathString+"（."+extension +"）"+ Path.GetFileNameWithoutExtension(tempfile);
-                if (AppValues.FlieNames.ContainsKey(strP))//存在该key
-                {
-                    tempDic[strP].Add(tempfile);
-                    AppValues.FlieNames[strP].Add(tempfile);
-                }
-                else
-                {
-                    tempDic.Add(strP, new List<string> { tempfile });
-                    AppValues.FlieNames.Add(strP, new List<string> { tempfile });
-                }
-            }
-            foreach (KeyValuePair<string, List<string>> kvp in tempDic)
-            {
-                if (kvp.Value.Count > 1)
-                {
-                    errorString = errorString + "\n\n存在同名"+extension+"文件：" + kvp.Key + "，位置如下：";
-                    foreach (string st in kvp.Value)
-                    {
-                        errorString = errorString + "\n" + st;
-                    }
-                }
-            }
 
-            AppValues.FileFolde.Add(pathString + "（." + extension + "）");
-            if (errorString != null)
+
+        //如果不存在就进行添加
+        AppValues.AllFileInfos.Add(fileInFokey, new Dictionary<string, List<string>>());
+        string[] filePaths = Directory.GetFiles(pathString, "*." + extension, searchOption);
+        foreach(string filepath in filePaths)
+        {
+            string filename= Path.GetFileNameWithoutExtension(filepath);
+            if(AppValues.AllFileInfos[fileInFokey].ContainsKey(filename))
             {
-                return false;
+                AppValues.AllFileInfos[fileInFokey][filename].Add(filepath);
             }
             else
             {
-                return true;
+                AppValues.AllFileInfos[fileInFokey].Add(filename, new List<string> { filepath });
             }
-
         }
-        catch
+        foreach (KeyValuePair<string, List<string>> kvp in AppValues.AllFileInfos[fileInFokey])
         {
-            errorString = "未知错误！！！";
-            return false;
+            if (kvp.Value.Count > 1)
+            {
+                errorString = errorString + "\n\n存在同名" + extension + "文件：" + kvp.Key + "，位置如下：";
+                foreach (string st in kvp.Value)
+                {
+                    errorString = errorString + "\n" + st;
+                }
+            }
         }
-
+         return AppValues.AllFileInfos[fileInFokey];
     }
 }
 

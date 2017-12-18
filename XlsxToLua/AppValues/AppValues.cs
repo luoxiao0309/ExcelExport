@@ -237,6 +237,11 @@ public partial class AppValues
     public static Dictionary<string, TableInfo> TableInfo = new Dictionary<string, TableInfo>();
 
     /// <summary>
+    /// 存储本次要导出的Excel文件名对应的文件所在路径（key：表名， value：文件所在路径）
+    /// </summary>
+    public static Dictionary<string, List<string>> ExportTableNameAndPath = new Dictionary<string, List<string>>();
+
+    /// <summary>
     /// 存储本次要导出的Excel文件名
     /// </summary>
     public static List<string> ExportTableNames = new List<string>();
@@ -261,6 +266,10 @@ public partial class AppValues
     /// </summary>
     public static Dictionary<string, List<string>> FlieNames = new Dictionary<string, List<string>>();
 
+    /// <summary>
+    /// Dictionary<路径+(.扩展名)TopDirectoryOnly/AllDirectories, Dictionary<文件名, List<该文件对应所有完整文件路径>>>
+    /// </summary>
+    public static Dictionary<string, Dictionary<string, List<string>>> AllFileInfos = new Dictionary<string, Dictionary<string, List<string>>>();
     /// <summary>
     /// 存储_drop掉落表
     /// </summary>
