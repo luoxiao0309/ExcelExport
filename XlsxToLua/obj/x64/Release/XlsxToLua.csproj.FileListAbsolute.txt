@@ -1,0 +1,10 @@
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\x64\Release\XlsxToLua.exe.config
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\x64\Release\XlsxToLua.exe
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\x64\Release\XlsxToLua.pdb
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\x64\Release\LitJson.dll
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\x64\Release\MySql.Data.dll
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\x64\Release\System.Data.SQLite.dll
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\x64\Release\System.Data.SQLite.xml
+E:\my\Source\Code\ExcelExport\XlsxToLua\obj\x64\Release\XlsxToLua.csprojResolveAssemblyReference.cache
+E:\my\Source\Code\ExcelExport\XlsxToLua\obj\x64\Release\XlsxToLua.exe
+E:\my\Source\Code\ExcelExport\XlsxToLua\obj\x64\Release\XlsxToLua.pdb

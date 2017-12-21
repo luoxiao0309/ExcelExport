@@ -96,6 +96,11 @@ public class Program
                 AppValues.IsExportMySQL = true;
                 Utils.LogWarning("你选择了导出表格数据到MySQL数据库");
             }
+            else if (param.Equals(AppValues.EXPORT_SQLITE_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
+            {
+                AppValues.IsExportSQLite = true;
+                Utils.LogWarning("你选择了导出表格数据到SQLite数据库");
+            }
             else if (param.StartsWith(AppValues.EXCEPT_EXPORT_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
             {
                 //解析声明的本次忽略导出的Excel名,如果没有声明则全部不忽略
@@ -1596,10 +1601,31 @@ public class Program
                         Utils.LogErrorAndExit(string.Format("导出失败：{0}\n导出至MySQL数据库被迫中止，请修正错误后重试\n", errorString));
                 }
 
+                Utils.Log("\n导出到MySQL数据库完毕\n");
+            }
+            #endregion
+            #region 导入到SQLite数据库
+            // 进行数据库导出
+            if (AppValues.IsExportSQLite == true)
+            {
+                Utils.Log("\n导出表格数据到SQLite数据库\n");
+
+                string errorString = null;
+                TableExportToSQLiteHelper.ConnectToDatabase(out errorString);
+                if (!string.IsNullOrEmpty(errorString))
+                    Utils.LogErrorAndExit(string.Format("无法连接至SQLite数据库：{0}\n导出至SQLite数据库被迫中止，请修正错误后重试\n", errorString));
+
+                foreach (string tableName in AppValues.ExportTableNames)
+                {
+                    TableInfo tableInfo = AppValues.TableInfo[tableName];
+                    TableExportToSQLiteHelper.ExportTableToDatabase(tableInfo, out errorString);
+                    if (!string.IsNullOrEmpty(errorString))
+                        Utils.LogErrorAndExit(string.Format("导出失败：{0}\n导出至SQLite数据库被迫中止，请修正错误后重试\n", errorString));
+                }
+
                 Utils.Log("\n导出到数据库完毕\n");
             }
             #endregion
-
             string PROGRAM_FOLDER_PATH = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string defaultPath = Utils.CombinePath(PROGRAM_FOLDER_PATH, "svnCommit.bat");
             if (File.Exists(defaultPath))

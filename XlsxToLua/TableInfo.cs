@@ -321,9 +321,21 @@ public struct TableStringFormatDefine
 /// </summary>
 public enum DateFormatType
 {
+    /// <summary>
+    /// 符合C#类库要求的标准时间格式
+    /// </summary>
     FormatString,          // 符合C#类库要求的标准时间格式
+    /// <summary>
+    /// 用距离1970年1月1日的秒数表示
+    /// </summary>
     ReferenceDateSec,      // 用距离1970年1月1日的秒数表示
+    /// <summary>
+    /// 用距离1970年1月1日的毫秒数表示
+    /// </summary>
     ReferenceDateMsec,     // 用距离1970年1月1日的毫秒数表示
+    /// <summary>
+    /// 生成调用lua库函数os.date的代码形式
+    /// </summary>
     DataTable,             // 生成调用lua库函数os.date的代码形式
 }
 

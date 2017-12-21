@@ -13,6 +13,16 @@
     public const string APP_CONFIG_KEY_CREATE_DATABASE_TABLE_EXTRA_PARAM = "createDatabaseTableExtraParam";
 
     /// <summary>
+    /// SQLite连接字符串
+    /// </summary>
+    public const string APP_CONFIG_KEY_SQLITE_CONNECT_STRING = "connectSQLiteString";
+
+    /// <summary>
+    /// 创建SQLite数据库表格时额外指定的参数字符串
+    /// </summary>
+    public const string APP_CONFIG_KEY_CREATE_DATABASE_TABLE_EXTRA_PARAM_SQLITE = "createDatabaseTableExtraParamSQLite";
+
+    /// <summary>
     /// 未声明date型的输入格式时所采用的默认格式
     /// </summary>
     public const string APP_CONFIG_KEY_DEFAULT_DATE_INPUT_FORMAT = "defaultDateInputFormat";

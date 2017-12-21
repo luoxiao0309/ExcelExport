@@ -17,5 +17,7 @@ E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Release\XlsxToLua.exe
 E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Release\XlsxToLua.pdb
 E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Release\LitJson.dll
 E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Release\MySql.Data.dll
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Release\System.Data.SQLite.dll
+E:\my\Source\Code\ExcelExport\XlsxToLua\bin\Release\System.Data.SQLite.xml
 E:\my\Source\Code\ExcelExport\XlsxToLua\obj\Release\XlsxToLua.exe
 E:\my\Source\Code\ExcelExport\XlsxToLua\obj\Release\XlsxToLua.pdb

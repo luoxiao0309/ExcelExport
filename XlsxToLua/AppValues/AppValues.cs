@@ -117,6 +117,12 @@ public partial class AppValues
     // 声明某张表格导出到数据库中时string型字段中的空白单元格导出为数据库中的NULL
     public const string CONFIG_NAME_EXPORT_DATABASE_WRITE_NULL_FOR_EMPTY_STRING = "exportDatabaseWriteNullForEmptyString";
 
+    // 声明某张表格导出到数据库中的表名
+    public const string CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME_SQLITE = "exportDatabaseTableNameSQLite";
+    // 声明某张表格导出到数据库中的说明信息
+    public const string CONFIG_NAME_EXPORT_DATABASE_TABLE_COMMENT_SQLITE = "exportDatabaseTableCommentSQLite";
+    // 声明某张表格导出到数据库中时string型字段中的空白单元格导出为数据库中的NULL
+    public const string CONFIG_NAME_EXPORT_DATABASE_WRITE_NULL_FOR_EMPTY_STRING_SQLITE = "exportDatabaseWriteNullForEmptyStringSQLite";
 
 
     // 以下为TableInfo的ExtraParam所支持的key声明
@@ -185,6 +191,11 @@ public partial class AppValues
     /// 用户输入的是否导出表格数据到MySQL数据库
     /// </summary>
     public static bool IsExportMySQL = false;
+
+    /// <summary>
+    /// 用户输入的是否导出表格数据到SQLite数据库
+    /// </summary>
+    public static bool IsExportSQLite = false;
 
     /// <summary>
     /// 用户输入的是否允许int、float型字段中存在空值
