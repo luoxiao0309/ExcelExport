@@ -21,10 +21,11 @@ public class TableExportToMySQLHelper
 
     public static bool ConnectToDatabase(out string errorString)
     {
-        if (AppValues.ConfigData.ContainsKey(AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING))
-        {
+        //if (AppValues.ConfigData.ContainsKey(AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING))
+        //{
             // 提取MySQL连接字符串中的Schema名
-            string connectString = AppValues.ConfigData[AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING];
+            //string connectString = AppValues.ConfigData[AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING];
+            string connectString = AppValues.ExportMySQLConnectString;
             foreach (string legalSchemaNameParam in _DEFINE_SCHEMA_NAME_PARAM)
             {
                 int defineStartIndex = connectString.IndexOf(legalSchemaNameParam, StringComparison.CurrentCultureIgnoreCase);
@@ -97,17 +98,17 @@ public class TableExportToMySQLHelper
                 errorString = exception.Message;
                 return false;
             }
-        }
-        else
-        {
-            errorString = string.Format("未在config配置文件中以名为\"{0}\"的key声明连接MySQL的字符串", AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING);
-            return false;
-        }
+        //}
+        //else
+        //{
+        //    errorString = string.Format("未在config配置文件中以名为\"{0}\"的key声明连接MySQL的字符串", AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING);
+        //    return false;
+        //}
     }
 
     public static bool ExportTableToDatabase(TableInfo tableInfo, out string errorString)
     {
-        Utils.Log(string.Format("导出表格 \"{0}\"：", tableInfo.TableName), ConsoleColor.Green);
+        Utils.Log(string.Format("导入MySQL数据库 \"{0}\"：", tableInfo.TableName), ConsoleColor.Green);
         if (tableInfo.TableConfig != null && tableInfo.TableConfig.ContainsKey(AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME))
         {
             List<string> inputParams = tableInfo.TableConfig[AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME];
@@ -150,7 +151,7 @@ public class TableExportToMySQLHelper
                 _InsertData(tableName, tableInfo, out errorString);
                 if (string.IsNullOrEmpty(errorString))
                 {
-                    Utils.Log("导出到MySQL数据库,成功");
+                    Utils.Log("成功");
 
                     errorString = null;
                     return true;

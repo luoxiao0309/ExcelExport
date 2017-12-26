@@ -23,117 +23,41 @@ public class TableExportToSQLiteHelper
 
     public static bool ConnectToDatabase(out string errorString)
     {
-        if (AppValues.ConfigData.ContainsKey(AppValues.APP_CONFIG_KEY_SQLITE_CONNECT_STRING))
+        string connectString = AppValues.ExportSQLiteConnectString;
+        try
         {
-            // 提取SQLite连接字符串中的Schema名
-            string connectString = AppValues.ConfigData[AppValues.APP_CONFIG_KEY_SQLITE_CONNECT_STRING];
-			/*
-            foreach (string legalSchemaNameParam in _DEFINE_SCHEMA_NAME_PARAM)
+                _conn = new SQLiteConnection(connectString);
+                _conn.Open();
+
+            if (_conn.State == System.Data.ConnectionState.Open)
             {
-                int defineStartIndex = connectString.IndexOf(legalSchemaNameParam, StringComparison.CurrentCultureIgnoreCase);
-                if (defineStartIndex != -1)
+                // 获取已经存在的表格名
+                DataTable schemaInfo = _conn.GetSchema("TABLES");
+				if (schemaInfo != null && schemaInfo.Rows.Count > 0)
                 {
-                    // 查找后面的等号
-                    int equalSignIndex = -1;
-                    for (int i = defineStartIndex + legalSchemaNameParam.Length; i < connectString.Length; ++i)
-                    {
-                        if (connectString[i] == '=')
-                        {
-                            equalSignIndex = i;
-                            break;
-                        }
-                    }
-                    if (equalSignIndex == -1 || equalSignIndex + 1 == connectString.Length)
-                    {
-                        errorString = string.Format("SQLite数据库连接字符串（\"{0}\"）中\"{1}\"后需要跟\"=\"进行Schema名声明", connectString, legalSchemaNameParam);
-                        return false;
-                    }
-                    else
-                    {
-                        // 查找定义的Schema名，在参数声明的=后面截止到下一个分号或字符串结束
-                        int semicolonIndex = -1;
-                        for (int i = equalSignIndex + 1; i < connectString.Length; ++i)
-                        {
-                            if (connectString[i] == ';')
-                            {
-                                semicolonIndex = i;
-                                break;
-                            }
-                        }
-                        if (semicolonIndex == -1)
-                            _schemaName = connectString.Substring(equalSignIndex + 1).Trim();
-                        else
-                            _schemaName = connectString.Substring(equalSignIndex + 1, semicolonIndex - equalSignIndex - 1).Trim();
-                    }
-
-                    break;
-                }
-            }
-            if (_schemaName == null)
-            {
-                errorString = string.Format("SQLite数据库连接字符串（\"{0}\"）中不包含Schema名的声明，请在{1}中任选一个参数名进行声明", connectString, Utils.CombineString(_DEFINE_SCHEMA_NAME_PARAM, ","));
-                return false;
-            }
-*/
-            try
-            {
-                //string dbFile = @"xz_game.db";
-                //if (!File.Exists(dbFile))
-                //{
-                //    //数据库不存在，则创建
-                //    SQLiteConnection.CreateFile(dbFile);
-                //  //  CommonUtils.SetAccessControlList(dbFile);
-                //    _conn = new SQLiteConnection(string.Format("Data Source={0}", dbFile));
-                //    _conn.Open();
-
-                //   // _conn.ChangePassword("myPassword123456@!?!!");
-                //}
-                //else
-                //{
-                    _conn = new SQLiteConnection(connectString);
-                    _conn.Open();
-               // }
-
-                if (_conn.State == System.Data.ConnectionState.Open)
-                {
-                    // 获取已经存在的表格名
-                    DataTable schemaInfo = _conn.GetSchema("TABLES");
-					if (schemaInfo != null && schemaInfo.Rows.Count > 0)
-                    {
-			                    foreach (DataRow info in schemaInfo.Rows)
-                        _existTableNames.Add(info["TABLE_NAME"].ToString());
+			                foreach (DataRow info in schemaInfo.Rows)
+                    _existTableNames.Add(info["TABLE_NAME"].ToString());
 					
-					}
-                    errorString = null;
-                    return true;
-                    //else
-                    //{
-                    //errorString = "数据库中不存在表";
-                    //               return true;
-                    //}
-                }
-                else
-                {
-                    errorString = "数据库连接失败";
-                    return true;
-                }
+				}
+                errorString = null;
+                return true;
             }
-            catch (SQLiteException exception)
+            else
             {
-                errorString = exception.Message;
-                return false;
+                errorString = "数据库连接失败,请检查连接字符串是否正确";
+                return true;
             }
         }
-        else
+        catch (SQLiteException exception)
         {
-            errorString = string.Format("未在config配置文件中以名为\"{0}\"的key声明连接SQLite的字符串", AppValues.APP_CONFIG_KEY_SQLITE_CONNECT_STRING);
+            errorString = exception.Message;
             return false;
         }
     }
 
     public static bool ExportTableToDatabase(TableInfo tableInfo, out string errorString)
     {
-        Utils.Log(string.Format("导出表格 \"{0}\"：", tableInfo.TableName), ConsoleColor.Green);
+        Utils.Log(string.Format("导入SQLite数据库 \"{0}\"：", tableInfo.TableName), ConsoleColor.Green);
         if (tableInfo.TableConfig != null && tableInfo.TableConfig.ContainsKey(AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME))
         {
             List<string> inputParams = tableInfo.TableConfig[AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME];
@@ -188,7 +112,7 @@ public class TableExportToSQLiteHelper
                 _InsertData(tableName, tableInfo, out errorString);
                 if (string.IsNullOrEmpty(errorString))
                 {
-                    Utils.Log("导出到SQLite数据库,成功");
+                    Utils.Log("成功");
 
                     errorString = null;
                     return true;

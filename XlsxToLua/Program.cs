@@ -91,15 +91,39 @@ public class Program
                 AppValues.IsAllowedNullNumber = true;
                 Utils.LogWarning("警告：你选择了允许int、long、float字段中存在空值，建议为逻辑上不允许为空的数值型字段声明使用notEmpty检查规则");
             }
-            else if (param.Equals(AppValues.EXPORT_MYSQL_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
+            else if (param.StartsWith(AppValues.EXPORT_MYSQL_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
             {
                 AppValues.IsExportMySQL = true;
                 Utils.LogWarning("你选择了导出表格数据到MySQL数据库");
+
+                int leftBracketIndex = param.IndexOf('(');
+                int rightBracketIndex = param.LastIndexOf(')');
+                if (leftBracketIndex == -1 || rightBracketIndex == -1 || leftBracketIndex > rightBracketIndex)
+                {
+                    Utils.LogErrorAndExit(string.Format("错误：MySQL连接字符串声明错误，应声明为：{0}(XXX) 格式，而你声明的为{1}", AppValues.EXPORT_MYSQL_PARAM_STRING,param));
+                }
+                else
+                {
+                    string ConnectString = param.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1).Trim();
+                    AppValues.ExportMySQLConnectString = ConnectString;
+                }
             }
-            else if (param.Equals(AppValues.EXPORT_SQLITE_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
+            else if (param.StartsWith(AppValues.EXPORT_SQLITE_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
             {
                 AppValues.IsExportSQLite = true;
                 Utils.LogWarning("你选择了导出表格数据到SQLite数据库");
+
+                int leftBracketIndex = param.IndexOf('(');
+                int rightBracketIndex = param.LastIndexOf(')');
+                if (leftBracketIndex == -1 || rightBracketIndex == -1 || leftBracketIndex > rightBracketIndex)
+                {
+                    Utils.LogErrorAndExit(string.Format("错误：SQLite连接字符串声明错误，应声明为：{0}(XXX) 格式，而你声明的为{1}", AppValues.EXPORT_SQLITE_PARAM_STRING, param));
+                }
+                else
+                {
+                    string ConnectString = param.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1).Trim();
+                    AppValues.ExportSQLiteConnectString = ConnectString;
+                }
             }
             else if (param.StartsWith(AppValues.EXCEPT_EXPORT_PARAM_STRING, StringComparison.CurrentCultureIgnoreCase))
             {
