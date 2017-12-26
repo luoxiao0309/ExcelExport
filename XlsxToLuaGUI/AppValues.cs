@@ -15,6 +15,7 @@ public class AppValues
     public const string NO_LANG_PARAM_STRING = "-noLang";
     public const string LANG_NOT_MATCHING_PRINT_PARAM_STRING = "-printEmptyStringWhenLangNotMatching";
     public const string EXPORT_MYSQL_PARAM_STRING = "-exportMySQL";
+    public const string EXPORT_SQLITE_PARAM_STRING = "-exportSQLite";
     public const string PART_EXPORT_PARAM_STRING = "-part";
     public const string EXCEPT_EXPORT_PARAM_STRING = "-except";
     public const string ALLOWED_NULL_NUMBER_PARAM_STRING = "-allowedNullNumber";
@@ -62,6 +63,8 @@ public class AppValues
     public const string SAVE_CONFIG_KEY_CLIENT_FOLDER_PATH = "clientFolderPath";
     public const string SAVE_CONFIG_KEY_LANG_FILE_PATH = "langFilePath";
 
+    public const string SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT_MYSQL = "isCheckedExportMySQL";
+    public const string SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT_SQLITE = "isCheckedExportSQLite";
     public const string SAVE_CONFIG_KEY_IS_CHECKED_PART = "isCheckedPart";
     public const string SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT = "isCheckedExcept";
     public const string SAVE_CONFIG_KEY_IS_CHECKED_EXPORT_CSV = "isCheckedExportCsv";

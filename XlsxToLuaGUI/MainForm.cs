@@ -318,6 +318,14 @@ namespace XlsxToLuaGUI
                     configStringBuilder.Append(AppValues.SAVE_CONFIG_KEY_CLIENT_FOLDER_PATH).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(clientFolderPath);
                     configStringBuilder.Append(AppValues.SAVE_CONFIG_KEY_LANG_FILE_PATH).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(langFilePath);
 
+                    string connectMySQLString = tbExportconnectMySQLString.Text.Trim();
+                    if (!string.IsNullOrEmpty(connectMySQLString))
+                        configStringBuilder.Append(AppValues.EXPORT_MYSQL_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(connectMySQLString);
+
+                    string connectSQLiteString = tbExportconnectSQLiteString.Text.Trim();
+                    if (!string.IsNullOrEmpty(connectSQLiteString))
+                        configStringBuilder.Append(AppValues.EXPORT_SQLITE_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(connectSQLiteString);
+
                     string partExcelNames = tbPartExcelNames.Text.Trim();
                     if (!string.IsNullOrEmpty(partExcelNames))
                         configStringBuilder.Append(AppValues.PART_EXPORT_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(partExcelNames);
@@ -425,11 +433,15 @@ namespace XlsxToLuaGUI
                         configStringBuilder.Append(AppValues.UNCHECKED_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
                     if (cbPrintEmptyStringWhenLangNotMatching.Checked == true)
                         configStringBuilder.Append(AppValues.LANG_NOT_MATCHING_PRINT_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
-                    if (cbExportMySQL.Checked == true)
-                        configStringBuilder.Append(AppValues.EXPORT_MYSQL_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
+                    //if (cbExportMySQL.Checked == true)
+                    //    configStringBuilder.Append(AppValues.EXPORT_MYSQL_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
                     if (cbAllowedNullNumber.Checked == true)
                         configStringBuilder.Append(AppValues.ALLOWED_NULL_NUMBER_PARAM_STRING).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
 
+                    if (cbExportMySQL.Checked==true)
+                        configStringBuilder.Append(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT_MYSQL).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
+                    if (cbExportSQLite.Checked == true)
+                        configStringBuilder.Append(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT_SQLITE).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
                     if (cbPart.Checked == true)
                         configStringBuilder.Append(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_PART).Append(AppValues.SAVE_CONFIG_KEY_VALUE_SEPARATOR).AppendLine(TRUE_STRING);
                     if (cbExcept.Checked == true)
@@ -508,7 +520,15 @@ namespace XlsxToLuaGUI
                 if (config.ContainsKey(AppValues.LANG_NOT_MATCHING_PRINT_PARAM_STRING))
                     cbPrintEmptyStringWhenLangNotMatching.Checked = true;
                 if (config.ContainsKey(AppValues.EXPORT_MYSQL_PARAM_STRING))
-                    cbExportMySQL.Checked = true;
+                {
+                   // cbExportMySQL.Checked = true;
+                    tbExportconnectMySQLString.Text= config[AppValues.EXPORT_MYSQL_PARAM_STRING];
+                }
+                if (config.ContainsKey(AppValues.EXPORT_SQLITE_PARAM_STRING))
+                {
+                   // cbExportSQLite.Checked = true;
+                    tbExportconnectSQLiteString.Text = config[AppValues.EXPORT_SQLITE_PARAM_STRING];
+                }
                 if (config.ContainsKey(AppValues.ALLOWED_NULL_NUMBER_PARAM_STRING))
                     cbAllowedNullNumber.Checked = true;
                 if (config.ContainsKey(AppValues.PART_EXPORT_PARAM_STRING))
@@ -576,6 +596,8 @@ namespace XlsxToLuaGUI
                 if (config.ContainsKey(jsonFileExtensionKey))
                     tbJsonFileExtension.Text = config[jsonFileExtensionKey];
 
+                cbExportMySQL.Checked= config.ContainsKey(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT_MYSQL);
+                cbExportSQLite.Checked = config.ContainsKey(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT_SQLITE);
                 cbPart.Checked = config.ContainsKey(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_PART);
                 cbExcept.Checked = config.ContainsKey(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_EXCEPT);
                 cbExportCsv.Checked = config.ContainsKey(AppValues.SAVE_CONFIG_KEY_IS_CHECKED_EXPORT_CSV);
@@ -731,6 +753,27 @@ namespace XlsxToLuaGUI
                 if (!File.Exists(langFilePath))
                 {
                     MessageBox.Show("指定的lang文件所在路径不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            // 若设置导出MySQL，检查连接字符串声明是否正确
+            if (cbExportMySQL.Checked == true)
+            {
+                string MySQLString = tbExportconnectMySQLString.Text.Trim();
+                if (string.IsNullOrEmpty(MySQLString))
+                {
+                    MessageBox.Show("勾选了导出MySQL的选项，就必须在文本框中填写要MySQL连接字符串", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            // 若设置导出SQLite，检查连接字符串声明是否正确
+            if (cbExportSQLite.Checked == true)
+            {
+                string SQLiteString = tbExportconnectSQLiteString.Text.Trim();
+                if (string.IsNullOrEmpty(SQLiteString))
+                {
+                    MessageBox.Show("勾选了导出SQLite的选项，就必须在文本框中填写要SQLite连接字符串", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -1030,7 +1073,17 @@ namespace XlsxToLuaGUI
             if (cbPrintEmptyStringWhenLangNotMatching.Checked == true)
                 stringBuilder.AppendFormat("\"{0}\" ", AppValues.LANG_NOT_MATCHING_PRINT_PARAM_STRING);
             if (cbExportMySQL.Checked == true)
-                stringBuilder.AppendFormat("\"{0}\" ", AppValues.EXPORT_MYSQL_PARAM_STRING);
+            {
+                string exportconnectMySQLString = tbExportconnectMySQLString.Text.Trim();
+                stringBuilder.AppendFormat("\"{0}({1})\" ", AppValues.EXPORT_MYSQL_PARAM_STRING, exportconnectMySQLString);
+               // stringBuilder.AppendFormat("\"{0}\" ", AppValues.EXPORT_MYSQL_PARAM_STRING);
+            }
+            if (cbExportSQLite.Checked == true)
+            {
+                string exportconnectSQLiteString = tbExportconnectSQLiteString.Text.Trim();
+                stringBuilder.AppendFormat("\"{0}({1})\" ", AppValues.EXPORT_SQLITE_PARAM_STRING, exportconnectSQLiteString);
+                // stringBuilder.AppendFormat("\"{0}\" ", AppValues.EXPORT_MYSQL_PARAM_STRING);
+            }
             if (cbAllowedNullNumber.Checked == true)
                 stringBuilder.AppendFormat("\"{0}\" ", AppValues.ALLOWED_NULL_NUMBER_PARAM_STRING);
             if (cbPart.Checked == true)

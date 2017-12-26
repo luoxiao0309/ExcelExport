@@ -116,6 +116,9 @@
             this.cbIsExportJsonMapIncludeKeyColumnValue = new System.Windows.Forms.CheckBox();
             this.cbExportIncludeSubfolder = new System.Windows.Forms.CheckBox();
             this.cbExportKeepDirectoryStructure = new System.Windows.Forms.CheckBox();
+            this.cbExportSQLite = new System.Windows.Forms.CheckBox();
+            this.tbExportconnectMySQLString = new System.Windows.Forms.TextBox();
+            this.tbExportconnectSQLiteString = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbExcelFolderPath
@@ -247,7 +250,7 @@
             // cbColumnInfo
             // 
             this.cbColumnInfo.AutoSize = true;
-            this.cbColumnInfo.Location = new System.Drawing.Point(20, 348);
+            this.cbColumnInfo.Location = new System.Drawing.Point(20, 356);
             this.cbColumnInfo.Margin = new System.Windows.Forms.Padding(4);
             this.cbColumnInfo.Name = "cbColumnInfo";
             this.cbColumnInfo.Size = new System.Drawing.Size(546, 19);
@@ -258,7 +261,7 @@
             // cbUnchecked
             // 
             this.cbUnchecked.AutoSize = true;
-            this.cbUnchecked.Location = new System.Drawing.Point(20, 376);
+            this.cbUnchecked.Location = new System.Drawing.Point(20, 388);
             this.cbUnchecked.Margin = new System.Windows.Forms.Padding(4);
             this.cbUnchecked.Name = "cbUnchecked";
             this.cbUnchecked.Size = new System.Drawing.Size(349, 19);
@@ -269,7 +272,7 @@
             // 
             // cbPrintEmptyStringWhenLangNotMatching
             // 
-            this.cbPrintEmptyStringWhenLangNotMatching.Location = new System.Drawing.Point(20, 403);
+            this.cbPrintEmptyStringWhenLangNotMatching.Location = new System.Drawing.Point(20, 420);
             this.cbPrintEmptyStringWhenLangNotMatching.Margin = new System.Windows.Forms.Padding(4);
             this.cbPrintEmptyStringWhenLangNotMatching.Name = "cbPrintEmptyStringWhenLangNotMatching";
             this.cbPrintEmptyStringWhenLangNotMatching.Size = new System.Drawing.Size(680, 39);
@@ -281,36 +284,36 @@
             // cbExportMySQL
             // 
             this.cbExportMySQL.AutoSize = true;
-            this.cbExportMySQL.Location = new System.Drawing.Point(20, 449);
+            this.cbExportMySQL.Location = new System.Drawing.Point(19, 504);
             this.cbExportMySQL.Margin = new System.Windows.Forms.Padding(4);
             this.cbExportMySQL.Name = "cbExportMySQL";
-            this.cbExportMySQL.Size = new System.Drawing.Size(465, 19);
+            this.cbExportMySQL.Size = new System.Drawing.Size(125, 19);
             this.cbExportMySQL.TabIndex = 16;
-            this.cbExportMySQL.Text = "-exportMySQL（将表格数据导出到MySQL数据库中，默认不导出）";
+            this.cbExportMySQL.Text = "-exportMySQL";
             this.cbExportMySQL.UseVisualStyleBackColor = true;
             // 
             // cbPart
             // 
             this.cbPart.AutoSize = true;
-            this.cbPart.Location = new System.Drawing.Point(20, 504);
+            this.cbPart.Location = new System.Drawing.Point(21, 568);
             this.cbPart.Margin = new System.Windows.Forms.Padding(4);
             this.cbPart.Name = "cbPart";
-            this.cbPart.Size = new System.Drawing.Size(717, 19);
+            this.cbPart.Size = new System.Drawing.Size(244, 19);
             this.cbPart.TabIndex = 17;
-            this.cbPart.Text = "-part（后面在英文小括号内声明本次要导出的Excel文件名，用|分隔，未声明的文件将被本工具忽略）";
+            this.cbPart.Text = "-part（仅导出指定Excel文件）";
             this.cbPart.UseVisualStyleBackColor = true;
             // 
             // tbPartExcelNames
             // 
-            this.tbPartExcelNames.Location = new System.Drawing.Point(92, 532);
+            this.tbPartExcelNames.Location = new System.Drawing.Point(273, 565);
             this.tbPartExcelNames.Margin = new System.Windows.Forms.Padding(4);
             this.tbPartExcelNames.Name = "tbPartExcelNames";
-            this.tbPartExcelNames.Size = new System.Drawing.Size(579, 25);
+            this.tbPartExcelNames.Size = new System.Drawing.Size(409, 25);
             this.tbPartExcelNames.TabIndex = 18;
             // 
             // btnChoosePartExcel
             // 
-            this.btnChoosePartExcel.Location = new System.Drawing.Point(692, 529);
+            this.btnChoosePartExcel.Location = new System.Drawing.Point(693, 563);
             this.btnChoosePartExcel.Margin = new System.Windows.Forms.Padding(4);
             this.btnChoosePartExcel.Name = "btnChoosePartExcel";
             this.btnChoosePartExcel.Size = new System.Drawing.Size(100, 29);
@@ -396,7 +399,7 @@
             // cbAllowedNullNumber
             // 
             this.cbAllowedNullNumber.AutoSize = true;
-            this.cbAllowedNullNumber.Location = new System.Drawing.Point(20, 477);
+            this.cbAllowedNullNumber.Location = new System.Drawing.Point(19, 472);
             this.cbAllowedNullNumber.Margin = new System.Windows.Forms.Padding(4);
             this.cbAllowedNullNumber.Name = "cbAllowedNullNumber";
             this.cbAllowedNullNumber.Size = new System.Drawing.Size(522, 19);
@@ -644,28 +647,28 @@
             // cbExcept
             // 
             this.cbExcept.AutoSize = true;
-            this.cbExcept.Location = new System.Drawing.Point(20, 569);
+            this.cbExcept.Location = new System.Drawing.Point(19, 600);
             this.cbExcept.Margin = new System.Windows.Forms.Padding(4);
             this.cbExcept.Name = "cbExcept";
-            this.cbExcept.Size = new System.Drawing.Size(728, 19);
+            this.cbExcept.Size = new System.Drawing.Size(260, 19);
             this.cbExcept.TabIndex = 52;
-            this.cbExcept.Text = "-except（后面在英文小括号内声明本次忽略导出的Excel文件名，用|分隔，注意不能与-part参数冲突）";
+            this.cbExcept.Text = "-except（不导出指定Excel文件）";
             this.cbExcept.UseVisualStyleBackColor = true;
             // 
             // tbExceptExcelNames
             // 
-            this.tbExceptExcelNames.Location = new System.Drawing.Point(92, 597);
+            this.tbExceptExcelNames.Location = new System.Drawing.Point(273, 597);
             this.tbExceptExcelNames.Margin = new System.Windows.Forms.Padding(4);
             this.tbExceptExcelNames.Name = "tbExceptExcelNames";
-            this.tbExceptExcelNames.Size = new System.Drawing.Size(579, 25);
+            this.tbExceptExcelNames.Size = new System.Drawing.Size(410, 25);
             this.tbExceptExcelNames.TabIndex = 53;
             // 
             // btnChooseExceptExcel
             // 
-            this.btnChooseExceptExcel.Location = new System.Drawing.Point(692, 594);
+            this.btnChooseExceptExcel.Location = new System.Drawing.Point(691, 594);
             this.btnChooseExceptExcel.Margin = new System.Windows.Forms.Padding(4);
             this.btnChooseExceptExcel.Name = "btnChooseExceptExcel";
-            this.btnChooseExceptExcel.Size = new System.Drawing.Size(100, 29);
+            this.btnChooseExceptExcel.Size = new System.Drawing.Size(100, 30);
             this.btnChooseExceptExcel.TabIndex = 54;
             this.btnChooseExceptExcel.Text = "选择";
             this.btnChooseExceptExcel.UseVisualStyleBackColor = true;
@@ -991,12 +994,39 @@
             // cbExportKeepDirectoryStructure
             // 
             this.cbExportKeepDirectoryStructure.AutoSize = true;
-            this.cbExportKeepDirectoryStructure.Location = new System.Drawing.Point(20, 320);
+            this.cbExportKeepDirectoryStructure.Location = new System.Drawing.Point(20, 324);
             this.cbExportKeepDirectoryStructure.Name = "cbExportKeepDirectoryStructure";
             this.cbExportKeepDirectoryStructure.Size = new System.Drawing.Size(751, 19);
             this.cbExportKeepDirectoryStructure.TabIndex = 87;
             this.cbExportKeepDirectoryStructure.Text = "-exportKeepDirectoryStructure（进行各种导出时将生成的文件按原Excel文件所在的目录结构进行存储）";
             this.cbExportKeepDirectoryStructure.UseVisualStyleBackColor = true;
+            // 
+            // cbExportSQLite
+            // 
+            this.cbExportSQLite.AutoSize = true;
+            this.cbExportSQLite.Location = new System.Drawing.Point(19, 536);
+            this.cbExportSQLite.Margin = new System.Windows.Forms.Padding(4);
+            this.cbExportSQLite.Name = "cbExportSQLite";
+            this.cbExportSQLite.Size = new System.Drawing.Size(133, 19);
+            this.cbExportSQLite.TabIndex = 16;
+            this.cbExportSQLite.Text = "-exportSQLite";
+            this.cbExportSQLite.UseVisualStyleBackColor = true;
+            // 
+            // tbExportconnectMySQLString
+            // 
+            this.tbExportconnectMySQLString.Location = new System.Drawing.Point(152, 501);
+            this.tbExportconnectMySQLString.Margin = new System.Windows.Forms.Padding(4);
+            this.tbExportconnectMySQLString.Name = "tbExportconnectMySQLString";
+            this.tbExportconnectMySQLString.Size = new System.Drawing.Size(641, 25);
+            this.tbExportconnectMySQLString.TabIndex = 18;
+            // 
+            // tbExportconnectSQLiteString
+            // 
+            this.tbExportconnectSQLiteString.Location = new System.Drawing.Point(152, 533);
+            this.tbExportconnectSQLiteString.Margin = new System.Windows.Forms.Padding(4);
+            this.tbExportconnectSQLiteString.Name = "tbExportconnectSQLiteString";
+            this.tbExportconnectSQLiteString.Size = new System.Drawing.Size(639, 25);
+            this.tbExportconnectSQLiteString.TabIndex = 18;
             // 
             // MainForm
             // 
@@ -1072,8 +1102,11 @@
             this.Controls.Add(this.btnLoadConfig);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.btnChoosePartExcel);
+            this.Controls.Add(this.tbExportconnectSQLiteString);
+            this.Controls.Add(this.tbExportconnectMySQLString);
             this.Controls.Add(this.tbPartExcelNames);
             this.Controls.Add(this.cbPart);
+            this.Controls.Add(this.cbExportSQLite);
             this.Controls.Add(this.cbExportMySQL);
             this.Controls.Add(this.cbPrintEmptyStringWhenLangNotMatching);
             this.Controls.Add(this.cbUnchecked);
@@ -1193,6 +1226,9 @@
         private System.Windows.Forms.CheckBox cbIsExportJsonMapIncludeKeyColumnValue;
         private System.Windows.Forms.CheckBox cbExportIncludeSubfolder;
         private System.Windows.Forms.CheckBox cbExportKeepDirectoryStructure;
+        private System.Windows.Forms.CheckBox cbExportSQLite;
+        private System.Windows.Forms.TextBox tbExportconnectMySQLString;
+        private System.Windows.Forms.TextBox tbExportconnectSQLiteString;
     }
 }
 
