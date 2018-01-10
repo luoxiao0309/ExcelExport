@@ -252,7 +252,7 @@ public class TableExportToTxtHelper
             {
                 tempStringBuilder.Append(AppValues.ExportTxtSplitChar);
                 FieldInfo fieldInfo = allFieldInfoIgnoreSetDataStructure[i];
-                tempStringBuilder.Append(fieldInfo.Desc);
+                tempStringBuilder.Append(fieldInfo.Desc.Replace("\n", "\\n"));
             }
 
             // 去掉开头多加的一个分隔符
@@ -383,6 +383,19 @@ public class TableExportToTxtHelper
             case DataType.Long:
             case DataType.Float:
             case DataType.String:
+                {
+                    for (int row = 0; row < rowCount; ++row)
+                    {
+                        StringBuilder stringBuilder = rowContentList[row];
+                        // 先增加与上一字段间的分隔符
+                        stringBuilder.Append(AppValues.ExportTxtSplitChar);
+                        // 再生成本行对应的内容
+                        if (fieldInfo.Data[row] != null)
+
+                            stringBuilder.Append(fieldInfo.Data[row].ToString().Replace("\n", "\\n"));
+                    }
+                    break;
+                }
             case DataType.Lang:
             case DataType.TableString:
                 {
@@ -393,7 +406,8 @@ public class TableExportToTxtHelper
                         stringBuilder.Append(AppValues.ExportTxtSplitChar);
                         // 再生成本行对应的内容
                         if (fieldInfo.Data[row] != null)
-                            stringBuilder.Append(fieldInfo.Data[row].ToString());
+
+                            stringBuilder.Append(fieldInfo.Data[row].ToString().Replace("\n", "\\n"));
                     }
                     break;
                 }

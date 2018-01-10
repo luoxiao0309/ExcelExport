@@ -40,9 +40,15 @@ namespace XlsxToLuaGUI
             cbPart.Checked = true;
             tbExceptExcelNames.Text = "entry_activity|entry_activity_type|entry_xszm_reward";
 
-
-
-            tbClientFolderPath.Text = @"../../XZ/Assets";
+            if(defaultPath.Contains("test_br"))
+            {
+                tbExportconnectMySQLString.Text = @"server=192.168.18.48;port=32001;uid=root;password=2J89d7*(JDdih&_78$56;database=xz_game_br;Charset=utf8";
+            }
+            else if (defaultPath.Contains("test"))
+            {
+                tbExportconnectMySQLString.Text = @"server=192.168.18.48;port=32001;uid=root;password=2J89d7*(JDdih&_78$56;database=xz_game;Charset=utf8";
+            }
+                tbClientFolderPath.Text = @"../../XZ/Assets";
 
 
         }

@@ -19,6 +19,7 @@ public class TableExportToMySQLHelper
     private const string _DROP_TABLE_SQL = "DROP TABLE {0};";
     private const string _INSERT_DATA_SQL = "INSERT INTO {0} ({1}) VALUES {2};";
 
+    private static string strValue = null;
     public static bool ConnectToDatabase(out string errorString)
     {
         //if (AppValues.ConfigData.ContainsKey(AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING))
@@ -26,6 +27,7 @@ public class TableExportToMySQLHelper
             // 提取MySQL连接字符串中的Schema名
             //string connectString = AppValues.ConfigData[AppValues.APP_CONFIG_KEY_MYSQL_CONNECT_STRING];
             string connectString = AppValues.ExportMySQLConnectString;
+        
             foreach (string legalSchemaNameParam in _DEFINE_SCHEMA_NAME_PARAM)
             {
                 int defineStartIndex = connectString.IndexOf(legalSchemaNameParam, StringComparison.CurrentCultureIgnoreCase);
@@ -73,7 +75,15 @@ public class TableExportToMySQLHelper
                 return false;
             }
 
-            try
+        string[] connectString2 = connectString.Split(';');
+        foreach (string st in connectString2)
+        {
+            if (st.StartsWith("database", StringComparison.CurrentCultureIgnoreCase))
+            {
+                strValue = st.Split(new char[] { '=' })[1];
+            }
+        }
+        try
             {
                 _conn = new MySqlConnection(connectString);
                 _conn.Open();
@@ -108,7 +118,7 @@ public class TableExportToMySQLHelper
 
     public static bool ExportTableToDatabase(TableInfo tableInfo, out string errorString)
     {
-        Utils.Log(string.Format("导入MySQL数据库 \"{0}\"：", tableInfo.TableName), ConsoleColor.Green);
+        Utils.Log(string.Format("导入MySQL数据库:{0} \"{1}\"：", strValue, tableInfo.TableName), ConsoleColor.Green);
         if (tableInfo.TableConfig != null && tableInfo.TableConfig.ContainsKey(AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME))
         {
             List<string> inputParams = tableInfo.TableConfig[AppValues.CONFIG_NAME_EXPORT_DATABASE_TABLE_NAME];
