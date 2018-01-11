@@ -30,7 +30,14 @@ namespace XlsxToLuaGUI
             if (File.Exists(defaultPath))
                 tbProgramPath.Text = defaultPath;
 
-            tbExcelFolderPath.Text = "TestExcel";
+
+
+
+            if (defaultPath.Contains("XZProject"))
+            {
+                tbExportconnectMySQLString.Text = @"server=192.168.18.48;port=32001;uid=root;password=2J89d7*(JDdih&_78$56;database=xz_game;Charset=utf8";
+				tbClientFolderPath.Text = @"../../XZ/Assets";
+				            tbExcelFolderPath.Text = "TestExcel";
             tbExportLuaFolderPath.Text = @"../../XZ/Assets/LuaFramework/Lua/Config";
             tbClientFolderPath.Text = @"../../XZ/Assets";// AppValues.NO_CLIENT_PATH_STRING;
             tbLangFilePath.Text = AppValues.NO_LANG_PARAM_STRING;
@@ -39,16 +46,13 @@ namespace XlsxToLuaGUI
             cbColumnInfo.Checked = true;
             cbPart.Checked = true;
             tbExceptExcelNames.Text = "entry_activity|entry_activity_type|entry_xszm_reward";
-
-            if(defaultPath.Contains("test_br"))
+            cbExportSQLite.Visible = false;
+            tbExportconnectSQLiteString.Visible = false;
+            }
+            if(defaultPath.Contains("XZProject_br"))
             {
                 tbExportconnectMySQLString.Text = @"server=192.168.18.48;port=32001;uid=root;password=2J89d7*(JDdih&_78$56;database=xz_game_br;Charset=utf8";
             }
-            else if (defaultPath.Contains("test"))
-            {
-                tbExportconnectMySQLString.Text = @"server=192.168.18.48;port=32001;uid=root;password=2J89d7*(JDdih&_78$56;database=xz_game;Charset=utf8";
-            }
-                tbClientFolderPath.Text = @"../../XZ/Assets";
 
 
         }
